@@ -58,13 +58,12 @@ public class TestClientSubscriptionWithRestart {
     clients.add(cluster.startClientVM(serversToStart + 1,
         clientCacheRule -> clientCacheRule.withLocatorConnection(port)
             .withPoolSubscription(true)
-            .withCacheSetup(cf -> cf.setPoolSubscriptionRedundancy(1))));
+            .withCacheSetup(cf -> cf.setPoolSubscriptionRedundancy(3))));
     clients.add(cluster.startClientVM(serversToStart + 2,
         clientCacheRule -> clientCacheRule.withLocatorConnection(port)
             .withPoolSubscription(true)
-            .withCacheSetup(cf -> cf.setPoolSubscriptionRedundancy(1))));
+            .withCacheSetup(cf -> cf.setPoolSubscriptionRedundancy(3))));
   }
-
 
   @Test
   public void test() throws InterruptedException {
@@ -100,23 +99,12 @@ public class TestClientSubscriptionWithRestart {
     servers.get(0).stop();
     servers.remove(0);
     servers.add(0, cluster.startServerVM(1, s -> s.withConnectionToLocator(port)));
-    Thread.sleep(5000);
-    servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
     servers.get(0).invoke(() -> {
       ClusterStartupRule.getCache().createRegionFactory(RegionShortcut.PARTITION).create(REGION);
     });
-
-//    clients.get(0).invoke(() -> {
-//      ClusterStartupRule.getClientCache().close();
-//      Thread.sleep(5000);
-//      Region region = ClusterStartupRule.clientCacheRule.createCache().createClientRegionFactory(ClientRegionShortcut.PROXY).create(REGION);
-//
-//      int keyValue = 1;
-//      region.put(keyValue, keyValue);
-//      region.registerInterest(keyValue, false);
-//    });
-
+    Thread.sleep(5000);
     servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
+
   }
 
   public static void checkForCacheClientProxy() {
@@ -126,7 +114,7 @@ public class TestClientSubscriptionWithRestart {
       if (proxies != null) {
         System.out.println("DEBR " + proxies.size());
         for (CacheClientProxy proxy : proxies) {
-          System.out.println("Is primary: " + proxy.isPrimary());
+          System.out.println("Proxy " + proxy.proxyID + (proxy.isPrimary() ? " is primary." : " is secondary.") + " Is active: " + proxy.hasRegisteredInterested());
         }
       } else {
         System.out.println("DEBR Did not find a proxy");
