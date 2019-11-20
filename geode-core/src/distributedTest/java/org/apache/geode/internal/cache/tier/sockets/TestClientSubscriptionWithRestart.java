@@ -58,11 +58,11 @@ public class TestClientSubscriptionWithRestart {
     clients.add(cluster.startClientVM(serversToStart + 1,
         clientCacheRule -> clientCacheRule.withLocatorConnection(port)
             .withPoolSubscription(true)
-            .withCacheSetup(cf -> cf.setPoolSubscriptionRedundancy(3))));
+            .withCacheSetup(cf -> cf.setPoolSubscriptionRedundancy(2))));
     clients.add(cluster.startClientVM(serversToStart + 2,
         clientCacheRule -> clientCacheRule.withLocatorConnection(port)
             .withPoolSubscription(true)
-            .withCacheSetup(cf -> cf.setPoolSubscriptionRedundancy(3))));
+            .withCacheSetup(cf -> cf.setPoolSubscriptionRedundancy(2))));
   }
 
   @Test
@@ -102,7 +102,7 @@ public class TestClientSubscriptionWithRestart {
     servers.get(0).invoke(() -> {
       ClusterStartupRule.getCache().createRegionFactory(RegionShortcut.PARTITION).create(REGION);
     });
-    Thread.sleep(5000);
+    Thread.sleep(10000);
     servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
 
   }
