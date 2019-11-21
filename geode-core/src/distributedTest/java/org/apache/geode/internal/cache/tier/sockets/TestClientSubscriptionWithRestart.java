@@ -39,30 +39,30 @@ public class TestClientSubscriptionWithRestart {
   List<MemberVM> servers = new ArrayList<>();
   List<ClientVM> clients = new ArrayList<>();
 
+  private final int locatorsToStart = 1;
   private final int serversToStart = 5;
-  private final int clientsToStart = 2;
+  private final int clientsToStart = 4;
 
   @Rule
   public final ClusterStartupRule cluster =
-      new ClusterStartupRule(serversToStart + clientsToStart + 1);
+      new ClusterStartupRule(serversToStart + clientsToStart + locatorsToStart);
 
   @Before
   public void setup() throws Exception {
-    locator = cluster.startLocatorVM(0);
+    locator = cluster.startLocatorVM(0, l -> l.withProperty("log-level", "WARN"));
 
     int port = locator.getPort();
     for (int i = 0; i < serversToStart; i++) {
-      servers.add(cluster.startServerVM(i + 1, s -> s.withConnectionToLocator(port)));
+      servers.add(cluster.startServerVM(i + locatorsToStart, s -> s.withConnectionToLocator(port).withProperty("log-level", "WARN")));
     }
 
-    clients.add(cluster.startClientVM(serversToStart + 1,
+    for (int i = 0; i < clientsToStart; ++i) {
+      clients.add(cluster.startClientVM(serversToStart + locatorsToStart + i,
         clientCacheRule -> clientCacheRule.withLocatorConnection(port)
+            .withProperty("log-level", "WARN")
             .withPoolSubscription(true)
             .withCacheSetup(cf -> cf.setPoolSubscriptionRedundancy(2))));
-    clients.add(cluster.startClientVM(serversToStart + 2,
-        clientCacheRule -> clientCacheRule.withLocatorConnection(port)
-            .withPoolSubscription(true)
-            .withCacheSetup(cf -> cf.setPoolSubscriptionRedundancy(2))));
+    }
   }
 
   @Test
@@ -78,17 +78,18 @@ public class TestClientSubscriptionWithRestart {
       region.put(keyValue, keyValue);
       region.registerInterest(keyValue, false);
     }));
-
     servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
+
     servers.forEach(s -> {
       if (!s.getName().contains("1")) {
         s.stop();
       }
     });
+
     int port = locator.getPort();
     for (int i = 1; i < serversToStart; i++) {
       servers.remove(i);
-      servers.add(i, cluster.startServerVM(i + 1, s -> s.withConnectionToLocator(port)));
+      servers.add(i, cluster.startServerVM(i + locatorsToStart, s -> s.withConnectionToLocator(port).withProperty("log-level", "WARN")));
       servers.get(i).invoke(() -> {
         ClusterStartupRule.getCache().createRegionFactory(RegionShortcut.PARTITION).create(REGION);
       });
@@ -96,14 +97,17 @@ public class TestClientSubscriptionWithRestart {
     Thread.sleep(10000);
     servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
 
-    servers.get(0).stop();
-    servers.remove(0);
-    servers.add(0, cluster.startServerVM(1, s -> s.withConnectionToLocator(port)));
-    servers.get(0).invoke(() -> {
-      ClusterStartupRule.getCache().createRegionFactory(RegionShortcut.PARTITION).create(REGION);
-    });
+    servers.get(0).invoke(() -> CacheClientNotifier.getInstance().getClientProxies().forEach(CacheClientProxy::close));
     Thread.sleep(10000);
     servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
+
+//    servers.get(0).stop();
+//    servers.remove(0);
+//    servers.add(0, cluster.startServerVM(1, s -> s.withConnectionToLocator(port)));
+//    servers.get(0).invoke(() -> {
+//      ClusterStartupRule.getCache().createRegionFactory(RegionShortcut.PARTITION).create(REGION);
+//    });
+
 
   }
 
@@ -112,7 +116,7 @@ public class TestClientSubscriptionWithRestart {
     if (notifier != null) {
       Collection<CacheClientProxy> proxies = notifier.getClientProxies();
       if (proxies != null) {
-        System.out.println("DEBR " + proxies.size());
+        System.out.println("DEBR Number of ClientCacheProxies: " + proxies.size());
         for (CacheClientProxy proxy : proxies) {
           System.out.println("Proxy " + proxy.proxyID + (proxy.isPrimary() ? " is primary." : " is secondary.") + " Is active: " + proxy.hasRegisteredInterested());
         }
