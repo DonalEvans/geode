@@ -18,7 +18,10 @@ package org.apache.geode.internal.cache.tier.sockets;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -30,18 +33,19 @@ import org.apache.geode.cache.client.ClientRegionShortcut;
 import org.apache.geode.test.dunit.rules.ClientVM;
 import org.apache.geode.test.dunit.rules.ClusterStartupRule;
 import org.apache.geode.test.dunit.rules.MemberVM;
-import org.apache.geode.test.junit.rules.VMProvider;
 
 public class TestClientSubscriptionWithRestart {
 
   public static final String REGION = "clientRegion";
-  MemberVM locator;
-  List<MemberVM> servers = new ArrayList<>();
-  List<ClientVM> clients = new ArrayList<>();
+  private static final boolean IS_DURABLE = true;
+
+  private MemberVM locator;
+  private List<MemberVM> servers = new ArrayList<>();
+  private List<ClientVM> clients = new ArrayList<>();
 
   private final int locatorsToStart = 1;
   private final int serversToStart = 5;
-  private final int clientsToStart = 4;
+  private final int clientsToStart = 2;
 
   @Rule
   public final ClusterStartupRule cluster =
@@ -56,12 +60,24 @@ public class TestClientSubscriptionWithRestart {
       servers.add(cluster.startServerVM(i + locatorsToStart, s -> s.withConnectionToLocator(port).withProperty("log-level", "WARN")));
     }
 
-    for (int i = 0; i < clientsToStart; ++i) {
-      clients.add(cluster.startClientVM(serversToStart + locatorsToStart + i,
-        clientCacheRule -> clientCacheRule.withLocatorConnection(port)
-            .withProperty("log-level", "WARN")
-            .withPoolSubscription(true)
-            .withCacheSetup(cf -> cf.setPoolSubscriptionRedundancy(2))));
+    if (IS_DURABLE) {
+      for (int i = 0; i < clientsToStart; ++i) {
+        String clientID = String.valueOf(i);
+        clients.add(cluster.startClientVM(serversToStart + locatorsToStart + i,
+            clientCacheRule -> clientCacheRule.withLocatorConnection(port)
+                .withProperty("log-level", "WARN")
+                .withProperty("durable-client-id", clientID)
+                .withPoolSubscription(true)
+                .withCacheSetup(cf -> cf.setPoolSubscriptionRedundancy(2))));
+      }
+    } else {
+      for (int i = 0; i < clientsToStart; ++i) {
+        clients.add(cluster.startClientVM(serversToStart + locatorsToStart + i,
+            clientCacheRule -> clientCacheRule.withLocatorConnection(port)
+                .withProperty("log-level", "WARN")
+                .withPoolSubscription(true)
+                .withCacheSetup(cf -> cf.setPoolSubscriptionRedundancy(2))));
+      }
     }
   }
 
@@ -76,7 +92,7 @@ public class TestClientSubscriptionWithRestart {
           .createClientRegionFactory(ClientRegionShortcut.PROXY).create(REGION);
       int keyValue = c.getVM().getId();
       region.put(keyValue, keyValue);
-      region.registerInterest(keyValue, false);
+      region.registerInterest(keyValue, IS_DURABLE);
     }));
     servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
 
@@ -96,19 +112,16 @@ public class TestClientSubscriptionWithRestart {
     }
     Thread.sleep(10000);
     servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
-
-    servers.get(0).invoke(() -> CacheClientNotifier.getInstance().getClientProxies().forEach(CacheClientProxy::close));
+    if (IS_DURABLE) {
+      servers.get(0).invoke(() -> CacheClientNotifier.getInstance().getClientProxies().forEach(proxy -> {
+        proxy.setKeepAlive(false);
+        System.out.println("DEBR should keep proxy: " + proxy.close(true, true));
+      }));
+    } else {
+      servers.get(0).invoke(() -> CacheClientNotifier.getInstance().getClientProxies().forEach(CacheClientProxy::close));
+    }
     Thread.sleep(10000);
     servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
-
-//    servers.get(0).stop();
-//    servers.remove(0);
-//    servers.add(0, cluster.startServerVM(1, s -> s.withConnectionToLocator(port)));
-//    servers.get(0).invoke(() -> {
-//      ClusterStartupRule.getCache().createRegionFactory(RegionShortcut.PARTITION).create(REGION);
-//    });
-
-
   }
 
   public static void checkForCacheClientProxy() {
