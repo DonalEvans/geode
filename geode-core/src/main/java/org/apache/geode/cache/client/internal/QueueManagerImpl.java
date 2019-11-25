@@ -613,14 +613,12 @@ public class QueueManagerImpl implements QueueManager {
     return queueConnections.getBackups().size();
   }
 
-  public void recoverRedundancyPlus(Set<ServerLocation> excludedServers, boolean recoverInterest) {
-    int originalValue = redundancyLevel;
-    try {
-      redundancyLevel = originalValue+1;
-      recoverRedundancy(excludedServers, recoverInterest);
-    } finally {
-      redundancyLevel = originalValue;
-    }
+  public void incrementRedundancy() {
+    redundancyLevel++;
+  }
+
+  public void decrementRedundancy() {
+    redundancyLevel--;
   }
 
   /**
@@ -628,7 +626,7 @@ public class QueueManagerImpl implements QueueManager {
    *
    * Add any servers we fail to connect to to the excluded servers list.
    */
-  private void recoverRedundancy(Set<ServerLocation> excludedServers, boolean recoverInterest) {
+  public void recoverRedundancy(Set<ServerLocation> excludedServers, boolean recoverInterest) {
     if (pool.getPoolOrCacheCancelInProgress() != null) {
       return;
     }

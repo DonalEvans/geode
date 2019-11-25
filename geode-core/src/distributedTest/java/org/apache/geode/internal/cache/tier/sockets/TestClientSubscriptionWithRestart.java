@@ -79,7 +79,7 @@ public class TestClientSubscriptionWithRestart {
       for (int i = 0; i < clientsToStart; ++i) {
         clients.add(cluster.startClientVM(serversToStart + locatorsToStart + i,
             clientCacheRule -> clientCacheRule.withLocatorConnection(port)
-                .withProperty("log-level", "DEBUG")
+                .withProperty("log-level", "WARN")
                 .withPoolSubscription(true)
                 .withCacheSetup(cf -> cf.setPoolSubscriptionRedundancy(2))));
       }
@@ -130,8 +130,14 @@ public class TestClientSubscriptionWithRestart {
       }));
     }
 
-    clients.get(0).invoke(() -> ((QueueManagerImpl)((PoolImpl)ClusterStartupRule.getClientCache().getDefaultPool()).getQueueManager()).recoverRedundancyPlus(new HashSet<>(), true));
-    Thread.sleep(10000);
+    clients.get(0).invoke(() -> {
+      QueueManagerImpl queueManager = (QueueManagerImpl) ((PoolImpl) ClusterStartupRule.getClientCache().getDefaultPool()).getQueueManager();
+      queueManager.incrementRedundancy();
+      queueManager.recoverRedundancy(new HashSet<>(), true);
+      Thread.sleep(500);
+      queueManager.decrementRedundancy();
+    });
+    Thread.sleep(12000);
     servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
   }
 
