@@ -83,7 +83,7 @@ public class QueueManagerImpl implements QueueManager {
   private final EndpointManager endpointManager;
   private final EndpointManager.EndpointListenerAdapter endpointListener;
   private final ConnectionSource source;
-  private final int redundancyLevel;
+  private int redundancyLevel;
   protected final ConnectionFactory factory;
   @SuppressWarnings("deprecation")
   private final InternalLogWriter securityLogger;
@@ -611,6 +611,16 @@ public class QueueManagerImpl implements QueueManager {
 
   private int getCurrentRedundancy() {
     return queueConnections.getBackups().size();
+  }
+
+  public void recoverRedundancyPlus(Set<ServerLocation> excludedServers, boolean recoverInterest) {
+    int originalValue = redundancyLevel;
+    try {
+      redundancyLevel = originalValue+1;
+      recoverRedundancy(excludedServers, recoverInterest);
+    } finally {
+      redundancyLevel = originalValue;
+    }
   }
 
   /**

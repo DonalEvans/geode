@@ -174,6 +174,10 @@ public class PoolImpl implements InternalPool {
     return usedByGateway;
   }
 
+  public QueueManager getQueueManager() {
+    return queueManager;
+  }
+
   /**
    * @since GemFire 5.7
    */
