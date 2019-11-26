@@ -97,6 +97,7 @@ public class TestClientSubscriptionWithRestart {
           .createClientRegionFactory(ClientRegionShortcut.PROXY).create(REGION);
       int keyValue = c.getVM().getId();
       region.put(keyValue, keyValue);
+      region.get(blah)
       region.registerInterest(keyValue, IS_DURABLE);
     }));
     servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
@@ -117,31 +118,38 @@ public class TestClientSubscriptionWithRestart {
 //    }
 //    Thread.sleep(10000);
 //    servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
-    if (IS_DURABLE) {
-      servers.get(0).invoke(() -> CacheClientNotifier.getInstance().getClientProxies().forEach(proxy -> {
-        proxy.setKeepAlive(false);
-        System.out.println("DEBR should keep proxy: " + proxy.close(true, true));
-      }));
-    } else {
-      servers.get(0).invoke(() -> CacheClientNotifier.getInstance().getClientProxies().forEach(proxy -> {
-        if(proxy.isPrimary()) {
-          proxy.close();
-        }
-      }));
-    }
+//    if (IS_DURABLE) {
+//      servers.get(0).invoke(() -> CacheClientNotifier.getInstance().getClientProxies().forEach(proxy -> {
+//        proxy.setKeepAlive(false);
+//        System.out.println("DEBR should keep proxy: " + proxy.close(true, true));
+//      }));
+//    } else {
+//      servers.get(0).invoke(() -> CacheClientNotifier.getInstance().getClientProxies().forEach(proxy -> {
+//        if(proxy.isPrimary()) {
+//          proxy.close();
+//        }
+//      }));
+//    }
 
-    clients.get(0).invoke(() -> {
-      QueueManagerImpl queueManager = (QueueManagerImpl) ((PoolImpl) ClusterStartupRule.getClientCache().getDefaultPool()).getQueueManager();
-      queueManager.incrementRedundancy();
-      queueManager.recoverRedundancy(new HashSet<>(), true);
-      Thread.sleep(500);
-      queueManager.decrementRedundancy();
-    });
-    Thread.sleep(12000);
+
+//    Thread.sleep(12000);
+
+//    clients.get(0).invoke(() -> {
+//
+//      QueueManagerImpl queueManager = (QueueManagerImpl) ((PoolImpl) ClusterStartupRule.getClientCache().getDefaultPool()).getQueueManager();
+//      queueManager.incrementRedundancy();
+//      queueManager.recoverRedundancy(new HashSet<>(), true);
+      //Thread.sleep(5000);
+      //queueManager.decrementRedundancy();
+//    });
+    clients.get(0).stop();
+    Thread.sleep(10000);
+
     servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
   }
 
   public static void checkForCacheClientProxy() {
+    System.out.println();
     CacheClientNotifier notifier = CacheClientNotifier.getInstance();
     if (notifier != null) {
       Collection<CacheClientProxy> proxies = notifier.getClientProxies();
