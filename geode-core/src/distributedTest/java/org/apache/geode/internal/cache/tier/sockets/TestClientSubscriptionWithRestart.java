@@ -31,9 +31,12 @@ import org.junit.Test;
 import org.apache.geode.cache.Region;
 import org.apache.geode.cache.RegionShortcut;
 import org.apache.geode.cache.client.ClientRegionShortcut;
+import org.apache.geode.cache.client.PoolManager;
+import org.apache.geode.cache.client.internal.InternalPool;
 import org.apache.geode.cache.client.internal.PoolImpl;
 import org.apache.geode.cache.client.internal.QueueManagerImpl;
 import org.apache.geode.distributed.internal.ServerLocation;
+import org.apache.geode.internal.cache.PoolManagerImpl;
 import org.apache.geode.test.dunit.rules.ClientVM;
 import org.apache.geode.test.dunit.rules.ClusterStartupRule;
 import org.apache.geode.test.dunit.rules.MemberVM;
@@ -97,7 +100,6 @@ public class TestClientSubscriptionWithRestart {
           .createClientRegionFactory(ClientRegionShortcut.PROXY).create(REGION);
       int keyValue = c.getVM().getId();
       region.put(keyValue, keyValue);
-      region.get(blah)
       region.registerInterest(keyValue, IS_DURABLE);
     }));
     servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
@@ -142,7 +144,9 @@ public class TestClientSubscriptionWithRestart {
       //Thread.sleep(5000);
       //queueManager.decrementRedundancy();
 //    });
-    clients.get(0).stop();
+    clients.get(0).invoke(() -> {
+      //TODO: Figure out how to close the CacheClientUpdater
+    });
     Thread.sleep(10000);
 
     servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
