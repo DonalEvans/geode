@@ -51,8 +51,9 @@ public class TestClientSubscriptionWithRestart {
   private List<ClientVM> clients = new ArrayList<>();
 
   private final int locatorsToStart = 1;
-  private final int serversToStart = 5;
-  private final int clientsToStart = 2;
+  private final int serversToStart = 4;
+  private final int clientsToStart = 3;
+  public static final int REDUNDANCY = 1;
 
   @Rule
   public final ClusterStartupRule cluster =
@@ -76,7 +77,7 @@ public class TestClientSubscriptionWithRestart {
                 .withProperty("durable-client-id", clientID)
                 .withProperty("durable-client-timeout", "5")
                 .withPoolSubscription(true)
-                .withCacheSetup(cf -> cf.setPoolSubscriptionRedundancy(2))));
+                .withCacheSetup(cf -> cf.setPoolSubscriptionRedundancy(REDUNDANCY))));
       }
     } else {
       for (int i = 0; i < clientsToStart; ++i) {
@@ -84,7 +85,7 @@ public class TestClientSubscriptionWithRestart {
             clientCacheRule -> clientCacheRule.withLocatorConnection(port)
                 .withProperty("log-level", "WARN")
                 .withPoolSubscription(true)
-                .withCacheSetup(cf -> cf.setPoolSubscriptionRedundancy(2))));
+                .withCacheSetup(cf -> cf.setPoolSubscriptionRedundancy(REDUNDANCY))));
       }
     }
   }
@@ -109,7 +110,7 @@ public class TestClientSubscriptionWithRestart {
 //        s.stop();
 //      }
 //    });
-//
+
 //    int port = locator.getPort();
 //    for (int i = 1; i < serversToStart; i++) {
 //      servers.remove(i);
@@ -133,23 +134,28 @@ public class TestClientSubscriptionWithRestart {
 //      }));
 //    }
 
+    servers.get(0).invoke(() -> CacheClientNotifier.getInstance().getClientProxies().forEach(CacheClientProxy::close));
+    Thread.sleep(12000);
+    servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
 
-//    Thread.sleep(12000);
+    servers.get(1).invoke(() -> CacheClientNotifier.getInstance().getClientProxies().forEach(CacheClientProxy::close));
+    Thread.sleep(12000);
+    servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
 
 //    clients.get(0).invoke(() -> {
 //
 //      QueueManagerImpl queueManager = (QueueManagerImpl) ((PoolImpl) ClusterStartupRule.getClientCache().getDefaultPool()).getQueueManager();
 //      queueManager.incrementRedundancy();
 //      queueManager.recoverRedundancy(new HashSet<>(), true);
-      //Thread.sleep(5000);
-      //queueManager.decrementRedundancy();
+//      Thread.sleep(5000);
+//      queueManager.decrementRedundancy();
 //    });
-    clients.get(0).invoke(() -> {
-      //TODO: Figure out how to close the CacheClientUpdater
-    });
-    Thread.sleep(10000);
+//    clients.get(0).invoke(() -> {
+//      //TODO: Figure out how to close the CacheClientUpdater
+//    });
+//    Thread.sleep(10000);
 
-    servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
+//    servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
   }
 
   public static void checkForCacheClientProxy() {
