@@ -150,7 +150,7 @@ public class TestClientSubscriptionWithRestart {
       });
     }
 
-    Thread.sleep(5000);
+    Thread.sleep(11000);
 
     servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
 
