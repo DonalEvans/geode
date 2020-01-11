@@ -174,8 +174,8 @@ public class PoolImpl implements InternalPool {
     return usedByGateway;
   }
 
-  public QueueManager getQueueManager() {
-    return queueManager;
+  public QueueManagerImpl getQueueManager() {
+    return (QueueManagerImpl)queueManager;
   }
 
   /**

@@ -27,7 +27,11 @@ import org.junit.Test;
 
 import org.apache.geode.cache.Region;
 import org.apache.geode.cache.RegionShortcut;
+import org.apache.geode.cache.client.ClientCache;
 import org.apache.geode.cache.client.ClientRegionShortcut;
+import org.apache.geode.cache.client.internal.PoolImpl;
+import org.apache.geode.cache.client.internal.ProxyCache;
+import org.apache.geode.cache.client.internal.QueueManagerImpl;
 import org.apache.geode.logging.internal.log4j.api.LogService;
 import org.apache.geode.test.dunit.rules.ClientVM;
 import org.apache.geode.test.dunit.rules.ClusterStartupRule;
@@ -99,7 +103,7 @@ public class TestClientSubscriptionWithRestart {
       region.put(keyValue, keyValue);
       region.registerInterest(keyValue, IS_DURABLE);
     }));
-//    servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
+    servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
 
     // servers.forEach(s -> {
     // if (!s.getName().contains("1")) {
@@ -134,54 +138,65 @@ public class TestClientSubscriptionWithRestart {
     // }
 
 //    servers.get(0).invoke(() -> CacheClientNotifier.getInstance().getClientProxies().forEach(CacheClientProxy::close));
-     servers.forEach(s -> {
-       if (!s.getName().contains("1")) {
-         s.stop();
-       }
-     });
 
-    int port = locator.getPort();
-    for (int i = 1; i < serversToStart; i++) {
-      servers.remove(i);
-      servers.add(i, cluster.startServerVM(i + locatorsToStart, s ->
-          s.withConnectionToLocator(port).withProperty("log-level", "WARN")));
-      servers.get(i).invoke(() -> {
-        ClusterStartupRule.getCache().createRegionFactory(RegionShortcut.PARTITION).create(REGION);
-      });
-    }
-
-    Thread.sleep(11000);
-
-    servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
-
-    if (balancePrimaries) {
-      servers.forEach(s -> s.invoke(() -> {
-        checkForCacheClientProxy();
-        Collection<CacheClientProxy> primaries =
-            CacheClientNotifier.getInstance().getClientProxies().stream()
-                .filter(CacheClientProxy::basicIsPrimary).collect(Collectors.toSet());
-        while (primaries.size() > balancedPrimariesPerServer) {
-          primaries.stream().findFirst().get().close();
-          Thread.sleep(1000);
-          checkForCacheClientProxy();
-          primaries =
-              CacheClientNotifier.getInstance().getClientProxies().stream()
-                  .filter(CacheClientProxy::basicIsPrimary).collect(Collectors.toSet());
-        }
-      }));
-    }
-    servers.forEach(s -> s.invoke(() -> {
-      checkForCacheClientProxy();
-      Collection<CacheClientProxy> secondaries = CacheClientNotifier.getInstance().getClientProxies().stream().filter(proxy -> !proxy.basicIsPrimary()).collect(
-          Collectors.toSet());
-      while (CacheClientNotifier.getInstance().getClientProxies().size() > balancedProxiesPerServer) {
-        secondaries.stream().findFirst().get().close();
-        Thread.sleep(1000);
-        checkForCacheClientProxy();
-        secondaries = CacheClientNotifier.getInstance().getClientProxies().stream().filter(proxy -> !proxy.basicIsPrimary()).collect(
-            Collectors.toSet());
-      }
+    clients.forEach(c -> c.invoke(() -> {
+      ClientCache cache = ClusterStartupRule.getClientCache();
+      PoolImpl pool = (PoolImpl)cache.getDefaultPool();
+      QueueManagerImpl queueManager = pool.getQueueManager();
+      QueueManagerImpl.ConnectionList connections =
+          (QueueManagerImpl.ConnectionList) queueManager.getAllConnections();
+      LogService.getLogger().warn("DEBR Primary Server = " + connections.getPrimary().getServer().toString());
+      connections.getBackups().forEach(connection -> LogService.getLogger().warn(("DEBR Secondary server = " + connection.getServer().toString())));
     }));
+
+//     servers.forEach(s -> {
+//       if (!s.getName().contains("1")) {
+//         s.stop();
+//       }
+//     });
+//
+//    int port = locator.getPort();
+//    for (int i = 1; i < serversToStart; i++) {
+//      servers.remove(i);
+//      servers.add(i, cluster.startServerVM(i + locatorsToStart, s ->
+//          s.withConnectionToLocator(port).withProperty("log-level", "WARN")));
+//      servers.get(i).invoke(() -> {
+//        ClusterStartupRule.getCache().createRegionFactory(RegionShortcut.PARTITION).create(REGION);
+//      });
+//    }
+//
+//    Thread.sleep(11000);
+//
+//    servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
+//
+//    if (balancePrimaries) {
+//      servers.forEach(s -> s.invoke(() -> {
+//        checkForCacheClientProxy();
+//        Collection<CacheClientProxy> primaries =
+//            CacheClientNotifier.getInstance().getClientProxies().stream()
+//                .filter(CacheClientProxy::basicIsPrimary).collect(Collectors.toSet());
+//        while (primaries.size() > balancedPrimariesPerServer) {
+//          primaries.stream().findFirst().get().close();
+//          Thread.sleep(1000);
+//          checkForCacheClientProxy();
+//          primaries =
+//              CacheClientNotifier.getInstance().getClientProxies().stream()
+//                  .filter(CacheClientProxy::basicIsPrimary).collect(Collectors.toSet());
+//        }
+//      }));
+//    }
+//    servers.forEach(s -> s.invoke(() -> {
+//      checkForCacheClientProxy();
+//      Collection<CacheClientProxy> secondaries = CacheClientNotifier.getInstance().getClientProxies().stream().filter(proxy -> !proxy.basicIsPrimary()).collect(
+//          Collectors.toSet());
+//      while (CacheClientNotifier.getInstance().getClientProxies().size() > balancedProxiesPerServer) {
+//        secondaries.stream().findFirst().get().close();
+//        Thread.sleep(1000);
+//        checkForCacheClientProxy();
+//        secondaries = CacheClientNotifier.getInstance().getClientProxies().stream().filter(proxy -> !proxy.basicIsPrimary()).collect(
+//            Collectors.toSet());
+//      }
+//    }));
     // Thread.sleep(12000);
     // long totalWaitTimeMs = 1000;
     // long currentWaitTimeMs = 0;
