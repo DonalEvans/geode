@@ -16,6 +16,8 @@
 package org.apache.geode.internal.cache.tier.sockets;
 
 
+import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -45,8 +47,6 @@ import org.apache.geode.test.dunit.rules.MemberVM;
 
 public class TestClientSubscriptionWithRestart {
 
-  public static final String REGION = "clientRegion";
-  private static final boolean IS_DURABLE = false;
 
   private MemberVM locator;
   private List<MemberVM> servers = new ArrayList<>();
@@ -54,11 +54,14 @@ public class TestClientSubscriptionWithRestart {
 
   private final int locatorsToStart = 1;
   private static final int serversToStart = 4;
-  private static final int clientsToStart = 12;
-  private static final int REDUNDANCY = 1;
+  private static final int clientsToStart = 1;
+  private static final int REDUNDANCY = 2;
+  private static final boolean IS_DURABLE = true;
+  public static final long DURABLE_CLIENT_TIMEOUT = 60;
+  public static final String REGION = "clientRegion";
+
   private static final int balancedPrimariesPerServer = clientsToStart / serversToStart;
   private static final int balancedProxiesPerServer = balancedPrimariesPerServer * (REDUNDANCY + 1);
-  private static final boolean balancePrimaries = true;
 
   @Rule
   public final ClusterStartupRule cluster =
@@ -81,7 +84,7 @@ public class TestClientSubscriptionWithRestart {
             clientCacheRule -> clientCacheRule.withLocatorConnection(port)
                 .withProperty("log-level", "WARN")
                 .withProperty("durable-client-id", clientID)
-                .withProperty("durable-client-timeout", "15")
+                .withProperty("durable-client-timeout", String.valueOf(DURABLE_CLIENT_TIMEOUT))
                 .withPoolSubscription(true)
                 .withCacheSetup(cf -> cf.setPoolSubscriptionRedundancy(REDUNDANCY))));
       }
@@ -97,7 +100,7 @@ public class TestClientSubscriptionWithRestart {
   }
 
   @Test
-  public void test() {
+  public void test() throws InterruptedException {
     servers.forEach(s -> s.invoke(() -> {
       ClusterStartupRule.getCache().createRegionFactory(RegionShortcut.PARTITION).create(REGION);
     }));
@@ -115,15 +118,66 @@ public class TestClientSubscriptionWithRestart {
     servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
 
     /**
+     * Restart server 1 while periodically printing out proxies on all servers
+     */
+//    Thread restartServer = new Thread(() -> {
+//      int port = locator.getPort();
+//      servers.get(0).stop();
+//      servers.remove(0);
+//      servers.add(0, cluster.startServerVM(locatorsToStart, s ->
+//          s.withConnectionToLocator(port).withProperty("log-level", "WARN")));
+//      servers.get(0).invoke(() -> {
+//        ClusterStartupRule.getCache().createRegionFactory(RegionShortcut.PARTITION).create(REGION);
+//      });
+//    });
+//
+//    Thread printProxies = new Thread(() -> {
+//      servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
+//      long waitTimeMS = 500;
+//      long maxWaitTimeMS = 5000;
+//      long elapsed = 0;
+//      long startTime = System.currentTimeMillis();
+//      while (elapsed < maxWaitTimeMS) {
+//        try {
+//          Thread.sleep(waitTimeMS);
+//        } catch (InterruptedException e) {
+//          e.printStackTrace();
+//        }
+//        servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
+//        elapsed = System.currentTimeMillis() - startTime;
+//      }
+//    });
+//
+//    restartServer.start();
+//    printProxies.start();
+//
+//    restartServer.join();
+//    printProxies.join();
+
+    /**
+     * Disconnect server 1 then wait for the server to reconnect while printing out proxies periodically
+     */
+//    servers.get(0).forceDisconnect();
+//    servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
+//    long waitTimeMS = 2000;
+//    long maxWaitTimeMS = 10000;
+//    long elapsed = 0;
+//    long startTime = System.currentTimeMillis();
+//    while (elapsed < maxWaitTimeMS) {
+//      Thread.sleep(waitTimeMS);
+//      servers.forEach(s -> s.invoke(TestClientSubscriptionWithRestart::checkForCacheClientProxy));
+//      elapsed = System.currentTimeMillis() - startTime;
+//    }
+
+    /**
      * Close durable proxies on server 1
      */
-//     if (IS_DURABLE) {
 //     servers.get(0).invoke(() ->
 //     CacheClientNotifier.getInstance().getClientProxies().forEach(proxy -> {
 //     proxy.setKeepAlive(false);
 //     System.out.println("DEBR should keep proxy: " + proxy.close(true, true));
 //     }));
-//     }
+
     /**
      * Close primaries on server 1
      */
@@ -134,7 +188,11 @@ public class TestClientSubscriptionWithRestart {
 //     }
 //     }));
 
+    /**
+     * Close all proxies on server 1
+     */
 //    servers.get(0).invoke(() -> CacheClientNotifier.getInstance().getClientProxies().forEach(CacheClientProxy::close));
+
       /**
       *Find all queues in all pools on all clients and print the servers they're associated with.
        */
@@ -150,8 +208,9 @@ public class TestClientSubscriptionWithRestart {
 //            .warn(("DEBR Secondary server = " + connection.getServer().toString())));
 //      });
 //    }));
+
     /**
-     * Restart all servers except server1, wait 11 seconds, then print out proxies on all servers
+     * Restart all servers except server 1, wait 11 seconds, then print out proxies on all servers
      */
 //     servers.forEach(s -> {
 //       if (!s.getName().contains("1")) {
@@ -174,22 +233,20 @@ public class TestClientSubscriptionWithRestart {
     /**
      * Attempt to balance primary queues by closing proxies on servers
      */
-//    if (balancePrimaries) {
-//      servers.forEach(s -> s.invoke(() -> {
+//    servers.forEach(s -> s.invoke(() -> {
+//      checkForCacheClientProxy();
+//      Collection<CacheClientProxy> primaries =
+//          CacheClientNotifier.getInstance().getClientProxies().stream()
+//              .filter(CacheClientProxy::basicIsPrimary).collect(Collectors.toSet());
+//      while (primaries.size() > balancedPrimariesPerServer) {
+//        primaries.stream().findFirst().get().close();
+//        Thread.sleep(1000);
 //        checkForCacheClientProxy();
-//        Collection<CacheClientProxy> primaries =
+//        primaries =
 //            CacheClientNotifier.getInstance().getClientProxies().stream()
 //                .filter(CacheClientProxy::basicIsPrimary).collect(Collectors.toSet());
-//        while (primaries.size() > balancedPrimariesPerServer) {
-//          primaries.stream().findFirst().get().close();
-//          Thread.sleep(1000);
-//          checkForCacheClientProxy();
-//          primaries =
-//              CacheClientNotifier.getInstance().getClientProxies().stream()
-//                  .filter(CacheClientProxy::basicIsPrimary).collect(Collectors.toSet());
-//        }
-//      }));
-//    }
+//      }
+//    }));
 
     /**
      * Attempt to balance secondary queues by closing proxies on servers
