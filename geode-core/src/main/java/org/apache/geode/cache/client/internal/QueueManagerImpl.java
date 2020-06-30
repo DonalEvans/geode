@@ -31,6 +31,7 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.Logger;
 
@@ -298,6 +299,7 @@ public class QueueManagerImpl implements QueueManager {
       DenyListListener denyListListener = new DenyListListenerAdapter() {
         @Override
         public void serverRemoved(ServerLocation location) {
+          logger.warn("DONAL: in serverRemoved() for " + location.getPort());
           QueueManagerImpl.this.scheduleRedundancySatisfierIfNeeded(0);
         }
       };
@@ -375,6 +377,12 @@ public class QueueManagerImpl implements QueueManager {
                   ? (deadConnection.getUpdater().isPrimary() ? "Primary" : "Redundant")
                   : "Queue",
                   endpoint});
+      logger
+          .warn("{} subscription endpoint {} crashed. Scheduling recovery.",
+              new Object[] {deadConnection.getUpdater() != null
+                  ? (deadConnection.getUpdater().isPrimary() ? "Primary" : "Redundant")
+                  : "Queue",
+                  endpoint});
       scheduleRedundancySatisfierIfNeeded(0);
       deadConnection.internalDestroy();
     } else {
@@ -411,6 +419,12 @@ public class QueueManagerImpl implements QueueManager {
 
     logger
         .info("Cache client updater for {} on endpoint {} exiting. Scheduling recovery.",
+            (deadConnection != null && deadConnection.getUpdater() != null)
+                ? (deadConnection.getUpdater().isPrimary() ? "Primary" : "Redundant")
+                : "Queue",
+            endpoint);
+    logger
+        .warn("DONAL: Cache client updater for {} on endpoint {} exiting. Scheduling recovery.",
             (deadConnection != null && deadConnection.getUpdater() != null)
                 ? (deadConnection.getUpdater().isPrimary() ? "Primary" : "Redundant")
                 : "Queue",
@@ -641,6 +655,8 @@ public class QueueManagerImpl implements QueueManager {
             "SubscriptionManager redundancy satisfier - redundant endpoint has been lost. Attempting to recover.");
         printRecoveringRedundant = false;
       }
+      logger.warn(
+          "DONAL: SubscriptionManager redundancy satisfier - redundant endpoint has been lost. Attempting to recover.");
 
       List<ServerLocation> servers = findQueueServers(excludedServers,
           redundancyLevel == -1 ? -1 : additionalBackups, false,
@@ -655,6 +671,9 @@ public class QueueManagerImpl implements QueueManager {
                 "Redundancy level {} is not satisfied, but there are no more servers available. Redundancy is currently {}.",
                 new Object[] {redundancyLevel, getCurrentRedundancy()});
           }
+          logger.warn(
+              "DONAL: Redundancy level {} is not satisfied, but there are no more servers available. Redundancy is currently {}.",
+              new Object[] {redundancyLevel, getCurrentRedundancy()});
         }
         printRedundancyNotSatisfiedError = false;// printed above
         return;
@@ -672,6 +691,7 @@ public class QueueManagerImpl implements QueueManager {
           if (isDebugEnabled) {
             logger.debug("SubscriptionManager - Error connecting to server: ()", server, e);
           }
+          logger.warn("DONAL: SubscriptionManager - Error connecting to server: {}", server, e);
         }
         if (connection == null) {
           continue;
@@ -717,6 +737,9 @@ public class QueueManagerImpl implements QueueManager {
                     "SubscriptionManager redundancy satisfier - created a queue on server {}",
                     queueConnection.getEndpoint());
               }
+              logger.warn(
+                  "DONAL: SubscriptionManager redundancy satisfier - created a queue on server {}",
+                  queueConnection.getEndpoint());
               // Even though the new redundant queue will usually recover
               // subscription information (see bug #39014) from its initial
               // image provider, in bug #42280 we found that this is not always
@@ -734,12 +757,14 @@ public class QueueManagerImpl implements QueueManager {
 
   private QueueConnectionImpl promoteBackupToPrimary(List backups) {
     QueueConnectionImpl primary = null;
+    LogService.getLogger().warn("DONAL: Promoting backup from list: " + backups);
     for (int i = 0; primary == null && i < backups.size(); i++) {
       QueueConnectionImpl lastConnection = (QueueConnectionImpl) backups.get(i);
       if (promoteBackupCnxToPrimary(lastConnection)) {
         primary = lastConnection;
       }
     }
+    LogService.getLogger().warn("DONAL: Promoted new primary: " + primary);
     return primary;
   }
 
@@ -861,6 +886,7 @@ public class QueueManagerImpl implements QueueManager {
       if (isDebugEnabled) {
         logger.debug("Primary recovery not needed");
       }
+      logger.warn("DONAL: Primary recovery not needed");
       return;
     }
 
@@ -868,6 +894,8 @@ public class QueueManagerImpl implements QueueManager {
       logger.debug(
           "SubscriptionManager redundancy satisfier - primary endpoint has been lost. Attempting to recover");
     }
+    logger.warn(
+        "DONAL: SubscriptionManager redundancy satisfier - primary endpoint has been lost. Attempting to recover");
 
     if (printRecoveringPrimary) {
       logger.info(
@@ -900,6 +928,9 @@ public class QueueManagerImpl implements QueueManager {
             "SubscriptionManager redundancy satisfier - Switched backup server to primary: {}",
             newPrimary.getEndpoint());
       }
+      logger.warn(
+          "DONAL: SubscriptionManager redundancy satisfier - Switched backup server to primary: {}",
+          newPrimary.getEndpoint());
       if (PoolImpl.AFTER_PRIMARY_RECOVERED_CALLBACK_FLAG) {
         ClientServerObserver bo = ClientServerObserverHolder.getInstance();
         bo.afterPrimaryRecovered(newPrimary.getServer());
@@ -929,6 +960,9 @@ public class QueueManagerImpl implements QueueManager {
               "SubscriptionManager redundancy satisfier - Non backup server was made primary. Recovering interest {}",
               newPrimary.getEndpoint());
         }
+        logger.warn(
+            "DONAL: SubscriptionManager redundancy satisfier - Non backup server was made primary. Recovering interest {}",
+            newPrimary.getEndpoint());
 
         if (!recoverInterest(newPrimary, true)) {
           excludedServers.add(newPrimary.getServer());
@@ -1447,10 +1481,12 @@ public class QueueManagerImpl implements QueueManager {
           }
         }
         Set<ServerLocation> excludedServers = queueConnections.getAllLocations();
+//        Set<ServerLocation> excludedServers = new HashSet<>();
         excludedServers.addAll(denyList.getBadServers());
         excludedServers.addAll(factory.getDenyList().getBadServers());
         recoverPrimary(excludedServers);
         recoverRedundancy(excludedServers, true);
+        //DONAL Would need to rebalance primaries here
       } catch (VirtualMachineError err) {
         SystemFailure.initiateFailure(err);
         // If this ever returns, rethrow the error. We're poisoned
