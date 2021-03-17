@@ -175,7 +175,7 @@ public class PoolImpl implements InternalPool {
   }
 
   public QueueManagerImpl getQueueManager() {
-    return (QueueManagerImpl)queueManager;
+    return (QueueManagerImpl) queueManager;
   }
 
   /**

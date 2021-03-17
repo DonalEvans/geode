@@ -31,7 +31,6 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.Logger;
 
@@ -1481,12 +1480,12 @@ public class QueueManagerImpl implements QueueManager {
           }
         }
         Set<ServerLocation> excludedServers = queueConnections.getAllLocations();
-//        Set<ServerLocation> excludedServers = new HashSet<>();
+        // Set<ServerLocation> excludedServers = new HashSet<>();
         excludedServers.addAll(denyList.getBadServers());
         excludedServers.addAll(factory.getDenyList().getBadServers());
         recoverPrimary(excludedServers);
         recoverRedundancy(excludedServers, true);
-        //DONAL Would need to rebalance primaries here
+        // DONAL Would need to rebalance primaries here
       } catch (VirtualMachineError err) {
         SystemFailure.initiateFailure(err);
         // If this ever returns, rethrow the error. We're poisoned

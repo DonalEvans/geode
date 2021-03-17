@@ -16,8 +16,6 @@
 package org.apache.geode.internal.cache.tier.sockets;
 
 
-import static org.apache.geode.test.awaitility.GeodeAwaitility.await;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,13 +44,13 @@ import org.apache.geode.test.dunit.rules.ClientVM;
 import org.apache.geode.test.dunit.rules.ClusterStartupRule;
 import org.apache.geode.test.dunit.rules.MemberVM;
 
+@SuppressWarnings("unused")
 public class DonalTestClientSubscriptionWithRestart implements Serializable {
 
   private static final long serialVersionUID = 8957359388026935609L;
-  private MemberVM locator;
   private int port;
-  private Set<MemberVM> servers = new HashSet<>();
-  private List<ClientVM> clients = new ArrayList<>();
+  private final Set<MemberVM> servers = new HashSet<>();
+  private final List<ClientVM> clients = new ArrayList<>();
 
   private final int locatorsToStart = 1;
   private static final int serversToStart = 5;
@@ -73,7 +71,7 @@ public class DonalTestClientSubscriptionWithRestart implements Serializable {
 
   @Before
   public void setup() throws Exception {
-    locator = cluster.startLocatorVM(0, l -> l.withProperty("log-level", "WARN"));
+    MemberVM locator = cluster.startLocatorVM(0, l -> l.withProperty("log-level", "WARN"));
 
     port = locator.getPort();
     for (int i = 0; i < serversToStart; i++) {
@@ -82,33 +80,17 @@ public class DonalTestClientSubscriptionWithRestart implements Serializable {
       servers.add(server);
     }
 
-    if (IS_DURABLE) {
-      for (int i = 0; i < clientsToStart; ++i) {
-        String clientID = String.valueOf(i);
-        clients.add(cluster.startClientVM(serversToStart + locatorsToStart + i,
-            clientCacheRule -> clientCacheRule.withLocatorConnection(port)
-                .withProperty("log-level", "WARN")
-                .withProperty("durable-client-id", clientID)
-                .withProperty("durable-client-timeout", String.valueOf(DURABLE_CLIENT_TIMEOUT))
-                .withPoolSubscription(true)
-                .withCacheSetup(cf -> cf.setPoolSubscriptionRedundancy(REDUNDANCY))));
-      }
-    } else {
-      for (int i = 0; i < clientsToStart; ++i) {
-        clients.add(cluster.startClientVM(serversToStart + locatorsToStart + i,
-            clientCacheRule -> clientCacheRule.withLocatorConnection(port)
-                .withProperty("log-level", "WARN")
-                .withPoolSubscription(true)
-                .withCacheSetup(cf -> cf.setPoolSubscriptionRedundancy(REDUNDANCY))));
-      }
+    for (int i = 0; i < clientsToStart; ++i) {
+      clients.add(startClient(i));
     }
+
     Map<String, Integer> serversAndPorts = new HashMap<>();
     servers.forEach(server -> serversAndPorts.put(server.getName(), server.getPort()));
     LogService.getLogger().warn("DONAL: servers and ports= " + serversAndPorts);
   }
 
   @Test
-  public void test() throws InterruptedException {
+  public void test() throws Exception {
     servers.forEach(s -> s.invoke(() -> {
       ClusterStartupRule.getCache().createRegionFactory(RegionShortcut.PARTITION_REDUNDANT)
           .create(REGION_NAME);
@@ -117,10 +99,10 @@ public class DonalTestClientSubscriptionWithRestart implements Serializable {
     createClientRegionsAndRegisterInterest(false);
 
     AsyncInvocation<?> doOperations = cluster.getMember(locatorsToStart).invokeAsync(() -> {
-      Region region = ClusterStartupRule.getCache().getRegion(REGION_NAME);
+      Region<Object, Object> region = ClusterStartupRule.getCache().getRegion(REGION_NAME);
       boolean flip = true;
-//      Timer queueSizeTimer = new Timer();
-//      queueSizeTimer.schedule(new PrintQueueSize(), 0, 1000);
+      // Timer queueSizeTimer = new Timer();
+      // queueSizeTimer.schedule(new PrintQueueSize(), 0, 1000);
       int nonClientVMs = locatorsToStart + serversToStart;
       while (true) {
         Thread.sleep(200);
@@ -137,13 +119,29 @@ public class DonalTestClientSubscriptionWithRestart implements Serializable {
 
     Thread.sleep(5000);
 
-    rollingRestartAllButServer1(5000, true);
+    rollingRestartAllButServer1(2000, true);
+
+    restartClients(2000, 2, true);
 
     Thread.sleep(5000);
 
     servers.forEach(s -> s.invoke(() -> checkForCacheClientProxy(false)));
 
     doOperations.cancel(true);
+  }
+
+  private ClientVM startClient(int clientIndex) throws Exception {
+    String clientID = String.valueOf(clientIndex);
+    return cluster.startClientVM(serversToStart + locatorsToStart + clientIndex,
+        clientCacheRule -> {
+          clientCacheRule.withLocatorConnection(port).withProperty("log-level", "WARN")
+              .withPoolSubscription(true)
+              .withCacheSetup(cf -> cf.setPoolSubscriptionRedundancy(REDUNDANCY));
+          if (IS_DURABLE) {
+            clientCacheRule.withProperty("durable-client-id", clientID)
+                .withProperty("durable-client-timeout", String.valueOf(DURABLE_CLIENT_TIMEOUT));
+          }
+        });
   }
 
   /**
@@ -153,8 +151,9 @@ public class DonalTestClientSubscriptionWithRestart implements Serializable {
   private void bumpRedundancyOnClient1AndForceRecovery() throws InterruptedException {
     clients.get(0).invoke(() -> {
 
-      QueueManagerImpl queueManager = (QueueManagerImpl) ((PoolImpl)
-          ClusterStartupRule.getClientCache().getDefaultPool()).getQueueManager();
+      QueueManagerImpl queueManager =
+          (QueueManagerImpl) ((PoolImpl) ClusterStartupRule.getClientCache().getDefaultPool())
+              .getQueueManager();
       queueManager.incrementRedundancy();
       queueManager.recoverRedundancy(new HashSet<>(), true);
       Thread.sleep(5000);
@@ -166,12 +165,13 @@ public class DonalTestClientSubscriptionWithRestart implements Serializable {
    * Close a random proxy on server 2
    */
   private void closeRandomProxyOnServer2() throws InterruptedException {
-    cluster.getMember(locatorsToStart + 1).invoke(() ->
-        CacheClientNotifier.getInstance().getClientProxies().stream().findAny().get().close());
+    cluster.getMember(locatorsToStart + 1).invoke(() -> CacheClientNotifier.getInstance()
+        .getClientProxies().stream().findAny().get().close());
   }
 
   /**
    * Check status of proxies every 'proxyCheckInterval' for 'totalWaitTimeMs' on each server
+   *
    * @param totalWaitTimeMs the duration over which to print out proxy information
    * @param proxyCheckInterval the interval to wait between each check
    */
@@ -193,6 +193,7 @@ public class DonalTestClientSubscriptionWithRestart implements Serializable {
   /**
    * Asynchronously check status of proxies every 'proxyCheckInterval' for 'totalWaitTimeMs' on each
    * server. Output can get a bit messy due to async logging
+   *
    * @param totalWaitTimeMs the duration over which to print out proxy information
    * @param proxyCheckInterval the interval to wait between each check
    */
@@ -211,7 +212,7 @@ public class DonalTestClientSubscriptionWithRestart implements Serializable {
       try {
         asyncInvocation.await();
       } catch (Exception e) {
-        //do nothing
+        // do nothing
       }
     });
   }
@@ -222,20 +223,19 @@ public class DonalTestClientSubscriptionWithRestart implements Serializable {
   private void closeSecondaryQueuesOnOverloadedServers() {
     servers.forEach(s -> s.invoke(() -> {
       checkForCacheClientProxy(false);
-      Collection<CacheClientProxy>
-          secondaries =
+      Collection<CacheClientProxy> secondaries =
           CacheClientNotifier.getInstance().getClientProxies().stream()
               .filter(proxy -> !proxy.basicIsPrimary()).collect(
-              Collectors.toSet());
-      while (CacheClientNotifier.getInstance().getClientProxies().size()
-          > balancedProxiesPerServer) {
+                  Collectors.toSet());
+      while (CacheClientNotifier.getInstance().getClientProxies()
+          .size() > balancedProxiesPerServer) {
         secondaries.stream().findFirst().get().close();
         Thread.sleep(1000);
         checkForCacheClientProxy(false);
         secondaries =
             CacheClientNotifier.getInstance().getClientProxies().stream()
                 .filter(proxy -> !proxy.basicIsPrimary()).collect(
-                Collectors.toSet());
+                    Collectors.toSet());
       }
     }));
   }
@@ -262,11 +262,9 @@ public class DonalTestClientSubscriptionWithRestart implements Serializable {
 
   /**
    * Rolling restart all servers except server 1
-   * @param timeToWaitBetweenRestarts
-   * @param logProxiesAfterEachRestart
    */
   private void rollingRestartAllButServer1(long timeToWaitBetweenRestarts,
-                                           boolean logProxiesAfterEachRestart) throws InterruptedException {
+      boolean logProxiesAfterEachRestart) throws InterruptedException {
     for (int i = 0; i < servers.size(); i++) {
       if (i != 0) {
         Thread.sleep(timeToWaitBetweenRestarts);
@@ -278,8 +276,7 @@ public class DonalTestClientSubscriptionWithRestart implements Serializable {
         server.stop();
         servers.remove(server);
         LogService.getLogger().warn("DONAL: Stopped and removed " + serverName);
-        MemberVM
-            newServer =
+        MemberVM newServer =
             cluster.startServerVM(i + locatorsToStart,
                 s -> s.withConnectionToLocator(port).withProperty("log-level", "WARN"));
         servers.add(newServer);
@@ -290,6 +287,33 @@ public class DonalTestClientSubscriptionWithRestart implements Serializable {
               .create(REGION_NAME);
         });
       }
+      if (logProxiesAfterEachRestart) {
+        servers.forEach(s -> s.invoke(() -> checkForCacheClientProxy(false)));
+      }
+    }
+  }
+
+  private void restartClients(long timeToWaitBetweenRestarts, int numberOfClientsToRestart,
+      boolean logProxiesAfterEachRestart) throws Exception {
+    for (int i = 0; i < numberOfClientsToRestart; ++i) {
+      if (i != 0) {
+        Thread.sleep(timeToWaitBetweenRestarts);
+      }
+      LogService.getLogger().warn("DONAL: Stopping client " + i);
+
+      cluster.stop(serversToStart + locatorsToStart + i);
+
+      LogService.getLogger().warn("DONAL: Stopped client" + i);
+
+      clients.set(i, startClient(i));
+
+      LogService.getLogger().warn("DONAL: Restarted client" + i);
+
+      int clientID = clients.get(i).getVM().getId();
+      clients.get(i).invoke(() -> createRegionAndRegisterInterestOnOneClient(clientID));
+
+      LogService.getLogger().warn("DONAL: Created region and registered interest on client" + i);
+
       if (logProxiesAfterEachRestart) {
         servers.forEach(s -> s.invoke(() -> checkForCacheClientProxy(false)));
       }
@@ -327,8 +351,8 @@ public class DonalTestClientSubscriptionWithRestart implements Serializable {
    * Close primaries on server 1
    */
   private void closePrimariesOnServer1() {
-    cluster.getMember(locatorsToStart).invoke(() ->
-        CacheClientNotifier.getInstance().getClientProxies().forEach(proxy -> {
+    cluster.getMember(locatorsToStart)
+        .invoke(() -> CacheClientNotifier.getInstance().getClientProxies().forEach(proxy -> {
           if (proxy.isPrimary()) {
             proxy.close();
           }
@@ -339,8 +363,8 @@ public class DonalTestClientSubscriptionWithRestart implements Serializable {
    * Close durable proxies on server 1
    */
   private void closeDurableProxiesOnServer1() {
-    cluster.getMember(locatorsToStart).invoke(() ->
-        CacheClientNotifier.getInstance().getClientProxies().forEach(proxy -> {
+    cluster.getMember(locatorsToStart)
+        .invoke(() -> CacheClientNotifier.getInstance().getClientProxies().forEach(proxy -> {
           proxy.setKeepAlive(false);
           LogService.getLogger().warn("DONAL: should keep proxy: " + proxy.close(true, true));
         }));
@@ -361,8 +385,8 @@ public class DonalTestClientSubscriptionWithRestart implements Serializable {
       MemberVM server1 = cluster.getMember(locatorsToStart);
       server1.stop();
       servers.remove(server1);
-      MemberVM newServer1 = cluster.startServerVM(locatorsToStart, s ->
-          s.withConnectionToLocator(port).withProperty("log-level", "WARN"));
+      MemberVM newServer1 = cluster.startServerVM(locatorsToStart,
+          s -> s.withConnectionToLocator(port).withProperty("log-level", "WARN"));
       servers.add(newServer1);
       newServer1.invoke(() -> {
         ClusterStartupRule.getCache().createRegionFactory(RegionShortcut.PARTITION)
@@ -382,30 +406,30 @@ public class DonalTestClientSubscriptionWithRestart implements Serializable {
   /**
    * On each client, create a proxy region, do a put and register interest in the key, then print
    * out proxies on every server
-   * @param logProxiesAfterRegisteringInterest
    */
   private void createClientRegionsAndRegisterInterest(boolean logProxiesAfterRegisteringInterest) {
-    clients.forEach(c -> c.invoke(() -> {
-      Region<Object, Object> region = ClusterStartupRule.getClientCache()
-          .createClientRegionFactory(ClientRegionShortcut.PROXY).create(REGION_NAME);
-      int keyValue = c.getVM().getId();
-      region.put(keyValue, keyValue);
-      region.registerInterest(keyValue, IS_DURABLE);
-    }));
-    servers.forEach(s -> s.invoke(() -> checkForCacheClientProxy(false)));
+    clients.forEach(c -> c.invoke(() -> createRegionAndRegisterInterestOnOneClient(c.getVM().getId())));
+    if (logProxiesAfterRegisteringInterest) {
+      servers.forEach(s -> s.invoke(() -> checkForCacheClientProxy(false)));
+    }
+  }
+
+  private void createRegionAndRegisterInterestOnOneClient(int keyValue) {
+    Region<Object, Object> region = ClusterStartupRule.getClientCache()
+        .createClientRegionFactory(ClientRegionShortcut.PROXY).create(REGION_NAME);
+    region.put(keyValue, keyValue);
+    region.registerInterest(keyValue, IS_DURABLE);
   }
 
   /**
    * Log information about proxies on a server
-   * @param verbose
    */
   public static void checkForCacheClientProxy(boolean verbose) {
     CacheClientNotifier notifier = CacheClientNotifier.getInstance();
     if (notifier != null) {
       Collection<CacheClientProxy> proxies = notifier.getClientProxies();
       if (proxies != null) {
-        StringBuilder
-            output =
+        StringBuilder output =
             new StringBuilder("DONAL: Number of ClientCacheProxies: " + proxies.size());
         if (verbose) {
           for (CacheClientProxy proxy : proxies) {
