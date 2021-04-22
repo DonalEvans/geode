@@ -22,6 +22,7 @@ import java.nio.channels.SocketChannel;
 
 import org.apache.geode.annotations.internal.MakeImmutable;
 import org.apache.geode.internal.Assert;
+import org.apache.geode.logging.internal.log4j.api.LogService;
 
 /**
  * A pass-through implementation of NioFilter. Use this if you don't need
@@ -100,9 +101,20 @@ public class NioPlainEngine implements NioFilter {
     buffer.position(lastReadPosition);
 
     while (buffer.position() < (lastProcessedPosition + bytes)) {
-      int amountRead = channel.read(buffer);
+      int amountRead;
+      try {
+        amountRead = channel.read(buffer);
+      } catch (Exception ex) {
+        LogService.getLogger().warn(
+            "DONAL: hit exception in SocketChannel.read() for channel {}, buffer position = {}, lastProcessedPosition = {}, bytes = {}",
+            channel, buffer.position(), lastProcessedPosition, bytes);
+        throw ex;
+      }
       if (amountRead < 0) {
-        throw new EOFException();
+        LogService.getLogger().warn(
+            "DONAL: throwing from NioPlainEngine for channel {}, buffer position = {}, lastProcessedPosition = {}, bytes = {}, amountRead = {}",
+            channel, buffer.position(), lastProcessedPosition, bytes, amountRead);
+        throw new EOFException("DONAL");
       }
     }
 

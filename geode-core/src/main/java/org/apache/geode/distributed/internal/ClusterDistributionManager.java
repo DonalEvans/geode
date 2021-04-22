@@ -1894,7 +1894,7 @@ public class ClusterDistributionManager implements DistributionManager {
           "Member at {} gracefully left the distributed cache: {}";
       addMemberEvent(new MemberDepartedEvent(theId, reason));
     }
-    logger.info(msg, new Object[] {theId, prettifyReason(reason)});
+    logger.warn(msg, new Object[] {theId, prettifyReason(reason)});
     executors.handleManagerDeparture(theId);
   }
 

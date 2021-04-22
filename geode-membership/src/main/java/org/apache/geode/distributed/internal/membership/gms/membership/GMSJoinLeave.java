@@ -628,7 +628,7 @@ public class GMSJoinLeave<ID extends MemberIdentifier> implements JoinLeave<ID> 
       return;
     }
 
-    logger.info("received leave request from {} for {}", incomingRequest.getSender(),
+    logger.warn("received leave request from {} for {}", incomingRequest.getSender(),
         incomingRequest.getMemberID());
 
     GMSMembershipView<ID> v = currentView;
@@ -639,7 +639,7 @@ public class GMSJoinLeave<ID extends MemberIdentifier> implements JoinLeave<ID> 
 
     ID mbr = incomingRequest.getMemberID();
 
-    logger.info(
+    logger.warn(
         () -> "JoinLeave.processLeaveRequestMessage(LeaveRequestMessage) invoked.  isCoordinator="
             + isCoordinator
             + "; isStopping=" + isStopping + "; cancelInProgress="
@@ -651,14 +651,14 @@ public class GMSJoinLeave<ID extends MemberIdentifier> implements JoinLeave<ID> 
     }
 
     if (incomingRequest.getMemberID().equals(this.localAddress)) {
-      logger.info("I am being told to leave the distributed system by {}",
+      logger.warn("I am being told to leave the distributed system by {}",
           incomingRequest.getSender());
       forceDisconnect(incomingRequest.getReason());
       return;
     }
 
     if (!isCoordinator && !isStopping && !services.getCancelCriterion().isCancelInProgress()) {
-      logger.info("Checking to see if I should become coordinator.  My address is {}",
+      logger.warn("Checking to see if I should become coordinator.  My address is {}",
           localAddress);
       GMSMembershipView<ID> check = new GMSMembershipView<>(v, v.getViewId() + 1);
       check.remove(mbr);
@@ -671,7 +671,7 @@ public class GMSJoinLeave<ID extends MemberIdentifier> implements JoinLeave<ID> 
         check.removeAll(leftMembers);
       }
       ID coordinator = check.getCoordinator();
-      logger.info("View with removed and left members removed is {} and coordinator would be {}",
+      logger.warn("View with removed and left members removed is {} and coordinator would be {}",
           check, coordinator);
       if (coordinator.equals(localAddress)) {
         synchronized (viewInstallationLock) {

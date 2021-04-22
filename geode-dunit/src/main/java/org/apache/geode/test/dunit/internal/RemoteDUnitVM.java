@@ -49,7 +49,7 @@ class RemoteDUnitVM extends UnicastRemoteObject implements RemoteDUnitVMIF {
   }
 
   protected long start(String name) {
-    logger.info("Received method: {}", name);
+    logger.warn("Received method: {}", name);
     return System.nanoTime();
   }
 

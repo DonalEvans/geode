@@ -383,6 +383,8 @@ public class PutMessage extends PartitionMessageWithDirectReply implements NewVa
 
     Set failures = r.getDistributionManager().putOutgoing(m);
     if (failures != null && failures.size() > 0) {
+      logger.warn("DONAL: failed put for key={}, recipient={}, failed recipients={}",
+          event.getKey(), recipient, failures.toArray());
       throw new ForceReattemptException(
           String.format("Failed sending < %s >", m));
     }

@@ -2968,6 +2968,7 @@ public class PartitionedRegion extends LocalRegion
           // Didn't time out. Sleep a bit and then continue
           boolean interrupted = Thread.interrupted();
           try {
+            logger.warn("DONAL: sleeping for 100 ms for key {}", event.getKey());
             Thread.sleep(PartitionedRegionHelper.DEFAULT_WAIT_PER_RETRY_ITERATION);
           } catch (InterruptedException ignore) {
             interrupted = true;
@@ -3077,6 +3078,11 @@ public class PartitionedRegion extends LocalRegion
               this, this.getMyId(), currentTarget, getPRId(), BUCKET_ID_SEPARATOR, bucketId, prce);
           logger.debug("putInBucket: count={}", count);
         }
+        logger.warn(
+            "DONAL: for key=" + event.getKey()
+                + " putInBucket: Got ForceReattemptException for {} on VM {} for node {}{}{} for bucket = {}",
+            this, this.getMyId(), currentTarget, getPRId(), BUCKET_ID_SEPARATOR, bucketId, prce);
+        logger.warn("DONAL: putInBucket: count={}", count);
         checkReadiness();
         InternalDistributedMember lastTarget = currentTarget;
         if (retryTime == null) {
@@ -3116,6 +3122,7 @@ public class PartitionedRegion extends LocalRegion
         if (ifNew) {
           this.prStats.incCreateOpsRetried();
         } else {
+          logger.warn("DONAL: Put op for key {} retried", event.getKey());
           this.prStats.incPutOpsRetried();
         }
       }
@@ -3131,6 +3138,11 @@ public class PartitionedRegion extends LocalRegion
             bucketStringForLogs(bucketId), count, (timeOut - System.currentTimeMillis()),
             currentTarget);
       }
+      logger.warn(
+          "DONAL: for key=" + event.getKey()
+              + " putInBucket for bucketId = {} failed (attempt # {} ({} ms left), retrying with node {}",
+          bucketStringForLogs(bucketId), count, (timeOut - System.currentTimeMillis()),
+          currentTarget);
     } // for
 
     // NOTREACHED
@@ -3158,6 +3170,8 @@ public class PartitionedRegion extends LocalRegion
     retryTime.waitForBucketsRecovery();
     newNode = getNodeForBucketWrite(bucketId, retryTime);
     if (newNode == null) {
+      logger.warn("DONAL: calling createBucket() for event with key={} and bucketId={}",
+          event.getKey(), bucketId);
       newNode = createBucket(bucketId, getEntrySize(event), retryTime);
     }
 
@@ -3234,6 +3248,8 @@ public class PartitionedRegion extends LocalRegion
       }
 
       if (!localSnoozer.overMaximum()) {
+        logger.warn("DONAL: calling waitForBucketsRecovery in getNodeForBucketWrite for bucket {}",
+            bucketId);
         localSnoozer.waitForBucketsRecovery();
       } else {
         int red = getRegionAdvisor().getBucketRedundancy(bucketId);
