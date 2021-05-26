@@ -24,7 +24,6 @@ import javax.transaction.UserTransaction;
 
 import org.junit.Test;
 
-import org.apache.geode.cache.CacheTransactionManager;
 import org.apache.geode.cache.CommitConflictException;
 import org.apache.geode.cache.SynchronizationCommitConflictException;
 import org.apache.geode.cache.TransactionEvent;
@@ -41,7 +40,7 @@ public class TXWriterJUnitTest extends TXWriterTestCase {
   public void testNoCallbacksOnTransactionWriterThrow() throws Exception {
     installCacheListenerAndWriter();
 
-    ((CacheTransactionManager) this.txMgr).setWriter(new TransactionWriter() {
+    this.txMgr.setWriter(new TransactionWriter() {
       @Override
       public void beforeCommit(TransactionEvent event) throws TransactionWriterException {
         throw new TransactionWriterException("Rollback now!");
@@ -147,7 +146,7 @@ public class TXWriterJUnitTest extends TXWriterTestCase {
   public void testAfterCommitFailedOnTransactionWriterThrow() throws Exception {
     installCacheListenerAndWriter();
 
-    ((CacheTransactionManager) this.txMgr).setWriter(new TransactionWriter() {
+    this.txMgr.setWriter(new TransactionWriter() {
       @Override
       public void beforeCommit(TransactionEvent event) throws TransactionWriterException {
         throw new TransactionWriterException("Rollback now!");
@@ -183,7 +182,7 @@ public class TXWriterJUnitTest extends TXWriterTestCase {
   public void testAfterCommitFailedOnTransactionWriterThrowWithJTA() throws Exception {
     installCacheListenerAndWriter();
 
-    ((CacheTransactionManager) this.txMgr).setWriter(new TransactionWriter() {
+    this.txMgr.setWriter(new TransactionWriter() {
       @Override
       public void beforeCommit(TransactionEvent event) throws TransactionWriterException {
         throw new TransactionWriterException("Rollback now!");
@@ -219,7 +218,7 @@ public class TXWriterJUnitTest extends TXWriterTestCase {
   public void testAfterCommitFailedOnThrowNPE() throws Exception {
     installCacheListenerAndWriter();
 
-    ((CacheTransactionManager) this.txMgr).setWriter(new TransactionWriter() {
+    this.txMgr.setWriter(new TransactionWriter() {
       @Override
       public void beforeCommit(TransactionEvent event) throws TransactionWriterException {
         throw new NullPointerException("this is expected!");

@@ -68,7 +68,7 @@ public class RegionStatisticsResponse extends AdminResponse {
   public void fromData(DataInput in,
       DeserializationContext context) throws IOException, ClassNotFoundException {
     super.fromData(in, context);
-    this.regionStatistics = (RemoteCacheStatistics) DataSerializer.readObject(in);
+    this.regionStatistics = DataSerializer.readObject(in);
   }
 
   @Override

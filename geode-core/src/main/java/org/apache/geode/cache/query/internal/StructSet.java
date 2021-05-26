@@ -460,7 +460,7 @@ public class StructSet /* extends ObjectOpenCustomHashSet */ implements Set, Sel
       DeserializationContext context) throws IOException, ClassNotFoundException {
     this.contents = new ObjectOpenCustomHashSet(new ObjectArrayHashingStrategy());
     int size = in.readInt();
-    this.structType = (StructTypeImpl) context.getDeserializer().readObject(in);
+    this.structType = context.getDeserializer().readObject(in);
     for (int j = size; j > 0; j--) {
       this.add(context.getDeserializer().readObject(in));
     }

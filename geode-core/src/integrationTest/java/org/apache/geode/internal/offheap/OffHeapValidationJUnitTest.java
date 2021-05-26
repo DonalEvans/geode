@@ -213,7 +213,7 @@ public class OffHeapValidationJUnitTest {
           Object obj = block.getDataValue();
           assertNotNull(block.toString(), obj);
           assertTrue(obj instanceof String);
-          assertEquals("this is a string", (String) obj);
+          assertEquals("this is a string", obj);
         }
         if ((values.dataType.contains("byte [")
             && values.dataType.lastIndexOf('[') == values.dataType.indexOf('['))

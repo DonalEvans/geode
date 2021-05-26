@@ -1724,7 +1724,7 @@ public class LocalRegion extends AbstractRegion implements LoaderHelperFactory,
               }
             }
           } else if (this instanceof DistributedRegion
-              && !((DistributedRegion) this).scope.isDistributedNoAck()
+              && !this.scope.isDistributedNoAck()
               && !((CacheDistributionAdvisee) this).getCacheDistributionAdvisor().adviseCacheOp()
                   .isEmpty()) {
             extractDelta = true;

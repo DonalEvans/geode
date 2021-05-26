@@ -137,7 +137,7 @@ public class RemoteEntrySnapshot implements EntrySnapshot, DataSerializable {
   public void fromData(DataInput in) throws IOException, ClassNotFoundException {
     this.name = DataSerializer.readObject(in);
     this.value = DataSerializer.readObject(in);
-    this.stats = (RemoteCacheStatistics) DataSerializer.readObject(in);
+    this.stats = DataSerializer.readObject(in);
     this.userAttribute = DataSerializer.readObject(in);
   }
 }

@@ -605,7 +605,7 @@ public class QueryUtils {
       StructTypeImpl resultType = (StructTypeImpl) createStructTypeForRuntimeIterators(finalItrs);
       if (useLinkedDataStructure) {
         returnSet = context.isDistinct() ? new LinkedStructSet(resultType)
-            : new SortedResultsBag<Struct>((StructTypeImpl) resultType, nullValuesAtStart);
+            : new SortedResultsBag<Struct>(resultType, nullValuesAtStart);
       } else {
         returnSet = QueryUtils.createStructCollection(context, resultType);
       }

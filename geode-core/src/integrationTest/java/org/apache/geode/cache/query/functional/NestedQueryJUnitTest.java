@@ -386,7 +386,7 @@ public class NestedQueryJUnitTest {
     Region region2 = CacheUtils.createRegion("portfolios2", Portfolio.class);
     for (int i = 0; i <= 1000; i++) {
       Portfolio p = new Portfolio(i);
-      p.createTime = (long) (i);
+      p.createTime = i;
       region1.put(i, p);
       region2.put(i, p);
     }
@@ -416,7 +416,7 @@ public class NestedQueryJUnitTest {
     Region region2 = CacheUtils.createRegion("portfolios2", Portfolio.class);
     for (int i = 0; i <= 1000; i++) {
       Portfolio p = new Portfolio(i);
-      p.createTime = (long) (i);
+      p.createTime = i;
       region1.put(i, p);
       region2.put(i, p);
     }

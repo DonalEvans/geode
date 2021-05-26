@@ -337,8 +337,8 @@ public class DestroyMessage extends PartitionMessageWithDirectReply {
     this.op = Operation.fromOrdinal(in.readByte());
     this.notificationOnly = in.readBoolean();
     this.bridgeContext = ClientProxyMembershipID.readCanonicalized(in);
-    this.originalSender = (InternalDistributedMember) DataSerializer.readObject(in);
-    this.eventId = (EventID) DataSerializer.readObject(in);
+    this.originalSender = DataSerializer.readObject(in);
+    this.eventId = DataSerializer.readObject(in);
     this.expectedOldValue = DataSerializer.readObject(in);
 
     final boolean hasFilterInfo = ((flags & HAS_FILTER_INFO) != 0);

@@ -336,7 +336,7 @@ public class FreeListManager {
       int combinedSize = lowSize + highSize;
       if (isSmallEnough(combinedSize)) {
         // append the highAddr chunk to lowAddr
-        OffHeapStoredObject.setSize(lowAddr, (int) combinedSize);
+        OffHeapStoredObject.setSize(lowAddr, combinedSize);
         return true;
       }
     }

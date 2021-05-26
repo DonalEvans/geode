@@ -1005,7 +1005,7 @@ public abstract class AbstractIndex implements IndexProtocol {
       this.additionalProj = ((FunctionalIndexCreationHelper) helper).additionalProj;
       Object[] params1 = {new QRegion(this.rgn, false)};
       this.initContext = new ExecutionContext(params1, this.cache);
-      this.canonicalIterNames = ((FunctionalIndexCreationHelper) helper).canonicalizedIteratorNames;
+      this.canonicalIterNames = helper.canonicalizedIteratorNames;
       if (this.isFirstItrOnEntry) {
         this.indexInitIterators = this.fromIterators;
       } else {

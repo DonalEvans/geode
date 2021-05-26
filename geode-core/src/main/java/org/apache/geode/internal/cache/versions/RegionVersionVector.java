@@ -799,7 +799,7 @@ public abstract class RegionVersionVector<T extends VersionSource<?>>
       Set<T> result = new HashSet<T>();
       for (RegionVersionHolder<T> h : this.memberToVersion.values()) {
         if (h.isDepartedMember) {
-          result.add((T) h.id);
+          result.add(h.id);
         }
       }
       return result;

@@ -80,7 +80,7 @@ public class AddHealthListenerRequest extends AdminRequest {
   public void fromData(DataInput in,
       DeserializationContext context) throws IOException, ClassNotFoundException {
     super.fromData(in, context);
-    this.cfg = (GemFireHealthConfig) DataSerializer.readObject(in);
+    this.cfg = DataSerializer.readObject(in);
   }
 
   @Override

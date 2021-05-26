@@ -159,7 +159,7 @@ public class DeposeGrantorProcessor extends ReplyProcessor21 {
       super.fromData(in, context);
       this.processorId = in.readInt();
       this.serviceName = DataSerializer.readString(in);
-      this.newGrantor = (InternalDistributedMember) DataSerializer.readObject(in);
+      this.newGrantor = DataSerializer.readObject(in);
       this.newGrantorVersion = in.readLong();
       this.newGrantorSerialNumber = in.readInt();
     }

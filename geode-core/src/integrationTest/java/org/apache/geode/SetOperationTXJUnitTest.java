@@ -39,7 +39,6 @@ import org.apache.geode.cache.CacheTransactionManager;
 import org.apache.geode.cache.Region;
 import org.apache.geode.cache.RegionFactory;
 import org.apache.geode.cache.RegionShortcut;
-import org.apache.geode.internal.cache.GemFireCacheImpl;
 import org.apache.geode.internal.cache.TXManagerImpl;
 import org.apache.geode.internal.cache.TXStateProxyImpl;
 import org.apache.geode.logging.internal.log4j.api.LogService;
@@ -152,7 +151,7 @@ public class SetOperationTXJUnitTest {
       System.setProperty(RESTORE_SET_OPERATION_PROPERTY, "true");
     }
     CacheFactory cf = new CacheFactory().set(MCAST_PORT, "0");
-    this.cache = (GemFireCacheImpl) cf.create();
+    this.cache = cf.create();
     return this.cache;
   }
 

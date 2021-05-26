@@ -444,7 +444,7 @@ public class DLockQueryProcessor extends ReplyProcessor21 {
       this.replyCode = in.readInt();
       if (this.replyCode == OK) {
         InternalDistributedMember lessee =
-            (InternalDistributedMember) DataSerializer.readObject(in);
+            DataSerializer.readObject(in);
         if (lessee != null) {
           this.lesseeThread = new RemoteThread(lessee, in.readInt());
         }

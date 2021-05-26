@@ -72,7 +72,7 @@ public class CacheInfoResponse extends AdminResponse {
   public void fromData(DataInput in,
       DeserializationContext context) throws IOException, ClassNotFoundException {
     super.fromData(in, context);
-    this.info = (RemoteCacheInfo) DataSerializer.readObject(in);
+    this.info = DataSerializer.readObject(in);
   }
 
   @Override

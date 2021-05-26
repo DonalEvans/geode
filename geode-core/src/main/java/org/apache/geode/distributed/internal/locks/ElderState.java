@@ -97,7 +97,7 @@ public class ElderState {
   public GrantorInfo getGrantor(String serviceName, InternalDistributedMember requestor,
       int dlsSerialNumberRequestor) {
     synchronized (this) {
-      GrantorInfo gi = (GrantorInfo) this.nameToInfo.get(serviceName);
+      GrantorInfo gi = this.nameToInfo.get(serviceName);
       if (gi != null) {
         waitWhileInitiatingTransfer(gi);
         InternalDistributedMember currentGrantor = gi.getId();
@@ -140,7 +140,7 @@ public class ElderState {
    */
   public GrantorInfo peekGrantor(String serviceName) {
     synchronized (this) {
-      GrantorInfo gi = (GrantorInfo) this.nameToInfo.get(serviceName);
+      GrantorInfo gi = this.nameToInfo.get(serviceName);
       if (gi != null) {
         waitWhileInitiatingTransfer(gi);
         InternalDistributedMember currentGrantor = gi.getId();
@@ -174,10 +174,10 @@ public class ElderState {
     long newGrantorVersion = -1;
     try {
       synchronized (this) {
-        GrantorInfo gi = (GrantorInfo) this.nameToInfo.get(serviceName);
+        GrantorInfo gi = this.nameToInfo.get(serviceName);
         while (gi != null && gi.isInitiatingTransfer()) {
           waitWhileInitiatingTransfer(gi);
-          gi = (GrantorInfo) this.nameToInfo.get(serviceName);
+          gi = this.nameToInfo.get(serviceName);
         }
         if (gi != null) {
           previousGrantor = gi.getId();
@@ -302,7 +302,7 @@ public class ElderState {
         return;
       }
 
-      GrantorInfo currentGI = (GrantorInfo) this.nameToInfo.get(serviceName);
+      GrantorInfo currentGI = this.nameToInfo.get(serviceName);
       if (currentGI == null) {
         // added null check because becomeGrantor may not have talked to elder before destroy dls
         return;
@@ -315,10 +315,10 @@ public class ElderState {
 
       GrantorInfo gi;
       if (locksHeld) {
-        gi = (GrantorInfo) this.nameToInfo.put(serviceName,
+        gi = this.nameToInfo.put(serviceName,
             new GrantorInfo(null, currentGI.getVersionId(), 0, true));
       } else {
-        gi = (GrantorInfo) this.nameToInfo.remove(serviceName);
+        gi = this.nameToInfo.remove(serviceName);
       }
       if (gi != null) {
         InternalDistributedMember currentGrantor = gi.getId();
@@ -382,7 +382,7 @@ public class ElderState {
   /** Testing method to force grantor recovery state for named service */
   public void forceGrantorRecovery(String serviceName) {
     synchronized (this) {
-      GrantorInfo gi = (GrantorInfo) this.nameToInfo.get(serviceName);
+      GrantorInfo gi = this.nameToInfo.get(serviceName);
       if (gi.isInitiatingTransfer()) {
         throw new IllegalStateException(
             "Cannot force grantor recovery for grantor that is transferring");

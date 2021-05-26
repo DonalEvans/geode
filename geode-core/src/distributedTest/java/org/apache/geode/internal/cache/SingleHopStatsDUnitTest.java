@@ -296,7 +296,7 @@ public class SingleHopStatsDUnitTest extends JUnit4CacheTestCase {
         for (int i = 113; i < 226; i++) {
           region.create(i, "create" + i);
         }
-        cms = ((GemFireCacheImpl) cache).getClientMetadataService();
+        cms = cache.getClientMetadataService();
         // since PR metadata is fetched in a background executor thread
         // we need to wait for it to arrive for a bit
         await().timeout(120, SECONDS).until(() -> regionMetaData.size() == 1);

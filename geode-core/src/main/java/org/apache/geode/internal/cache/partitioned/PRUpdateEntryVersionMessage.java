@@ -173,7 +173,7 @@ public class PRUpdateEntryVersionMessage extends PartitionMessageWithDirectReply
     super.fromData(in, context);
     this.key = context.getDeserializer().readObject(in);
     this.op = Operation.fromOrdinal(in.readByte());
-    this.eventId = (EventID) context.getDeserializer().readObject(in);
+    this.eventId = context.getDeserializer().readObject(in);
     this.versionTag = context.getDeserializer().readObject(in);
   }
 

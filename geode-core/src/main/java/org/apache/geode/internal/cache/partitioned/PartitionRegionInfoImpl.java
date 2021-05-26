@@ -80,13 +80,13 @@ public class PartitionRegionInfoImpl implements InternalPRInfo, Serializable {
 
   @Override
   public Set<PartitionMemberInfo> getPartitionMemberInfo() {
-    return Collections.unmodifiableSet((Set<? extends PartitionMemberInfo>) this.memberDetails);
+    return Collections.unmodifiableSet(this.memberDetails);
   }
 
   @Override
   public Set<InternalPartitionDetails> getInternalPartitionDetails() {
     return Collections
-        .unmodifiableSet((Set<? extends InternalPartitionDetails>) this.memberDetails);
+        .unmodifiableSet(this.memberDetails);
   }
 
 

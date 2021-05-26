@@ -202,7 +202,7 @@ public class DistributedRegionBridge {
       List<String> memberList = new ArrayList<String>();
       while (it.hasNext()) {
         ObjectName tempObjName = it.next();
-        String formatedMemberId = (String) tempObjName.getKeyProperty("member");
+        String formatedMemberId = tempObjName.getKeyProperty("member");
         memberList.add(formatedMemberId);
       }
       String[] members = new String[memberList.size()];

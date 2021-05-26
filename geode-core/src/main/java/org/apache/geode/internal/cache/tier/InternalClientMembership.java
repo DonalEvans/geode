@@ -188,7 +188,7 @@ public class InternalClientMembership {
     List<ClientMembershipListener> l = clientMembershipListeners; // volatile fetch
     // convert to an array
     ClientMembershipListener[] listeners =
-        (ClientMembershipListener[]) l.toArray(new ClientMembershipListener[0]);
+        l.toArray(new ClientMembershipListener[0]);
     return listeners;
   }
 

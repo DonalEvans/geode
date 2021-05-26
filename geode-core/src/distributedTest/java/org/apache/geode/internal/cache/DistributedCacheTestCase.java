@@ -181,7 +181,7 @@ public abstract class DistributedCacheTestCase extends JUnit4DistributedTestCase
     }
 
     InternalDistributedSystem system =
-        (InternalDistributedSystem) ((GemFireCacheImpl) cache).getDistributedSystem();
+        (InternalDistributedSystem) cache.getDistributedSystem();
     return (ClusterDistributionManager) system.getDistributionManager();
   }
 

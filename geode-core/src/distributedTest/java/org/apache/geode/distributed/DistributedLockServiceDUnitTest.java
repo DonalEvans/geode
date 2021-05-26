@@ -1020,7 +1020,7 @@ public final class DistributedLockServiceDUnitTest extends JUnit4DistributedTest
       logger.debug("[testLeaseExpires] succeed lock in other vm");
     }
     // try to lock in another VM - should succeed
-    assertThat(vm.invoke(() -> getLockAndIncrement(serviceName, objName, (long) -1, 0L)))
+    assertThat(vm.invoke(() -> getLockAndIncrement(serviceName, objName, -1, 0L)))
         .isEqualTo(TRUE);
 
     if (logger.isDebugEnabled()) {

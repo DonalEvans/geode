@@ -147,7 +147,7 @@ public class DistTXPrecommitMessage extends TXMessage {
   public void toData(DataOutput out,
       SerializationContext context) throws IOException {
     super.toData(out, context);
-    DataSerializer.writeArrayList((ArrayList<?>) secondaryTransactionalOperations, out);
+    DataSerializer.writeArrayList(secondaryTransactionalOperations, out);
   }
 
   @Override
@@ -260,7 +260,7 @@ public class DistTXPrecommitMessage extends TXMessage {
     public void fromData(DataInput in,
         DeserializationContext context) throws IOException, ClassNotFoundException {
       super.fromData(in, context);
-      this.commitResponse = (DistTxPrecommitResponse) context.getDeserializer().readObject(in);
+      this.commitResponse = context.getDeserializer().readObject(in);
     }
 
     @Override
@@ -431,7 +431,7 @@ public class DistTXPrecommitMessage extends TXMessage {
     }
 
     public Set getRegionDestroyedMembers(String regionFullPath) {
-      Set members = (Set) this.regionExceptions.get(regionFullPath);
+      Set members = this.regionExceptions.get(regionFullPath);
       if (members == null) {
         members = Collections.EMPTY_SET;
       }

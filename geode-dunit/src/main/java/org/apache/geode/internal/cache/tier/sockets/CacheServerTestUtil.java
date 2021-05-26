@@ -53,7 +53,6 @@ import org.apache.geode.cache.server.CacheServer;
 import org.apache.geode.cache.util.CacheListenerAdapter;
 import org.apache.geode.cache.util.CqListenerAdapter;
 import org.apache.geode.distributed.DistributedSystem;
-import org.apache.geode.internal.cache.GemFireCacheImpl;
 import org.apache.geode.internal.cache.PoolFactoryImpl;
 import org.apache.geode.internal.cache.PoolFactoryImpl.PoolAttributes;
 import org.apache.geode.test.dunit.DistributedTestUtils;
@@ -128,7 +127,7 @@ public class CacheServerTestUtil extends JUnit4DistributedTestCase {
     new CacheServerTestUtil().createClientCache(dsProperties, ccf);
     ClientCache cc = (ClientCache) cache;
     cc.createClientRegionFactory(ClientRegionShortcut.CACHING_PROXY).create(regionName);
-    pool = (PoolImpl) ((GemFireCacheImpl) cc).getDefaultPool();
+    pool = (PoolImpl) cc.getDefaultPool();
   }
 
   public static void createPool(PoolAttributes poolAttr) throws Exception {

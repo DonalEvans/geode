@@ -563,7 +563,7 @@ public class ConcurrentIndexUpdateWithoutWLDUnitTest extends JUnit4DistributedTe
           if (index instanceof CompactRangeIndex) {
             // Ignore invalid values.
             if (value != Token.INVALID && value != Token.TOMBSTONE) {
-              LogWriterUtils.getLogWriter().info("Portfolio: " + ((Portfolio) value));
+              LogWriterUtils.getLogWriter().info("Portfolio: " + value);
               Integer ID = ((Portfolio) value).getID();
 
               assertTrue(
@@ -611,7 +611,7 @@ public class ConcurrentIndexUpdateWithoutWLDUnitTest extends JUnit4DistributedTe
               for (Position pos : positions) {
                 if (pos != null) {
                   LogWriterUtils.getLogWriter()
-                      .info("Portfolio: " + ((Portfolio) value) + "Position: " + pos);
+                      .info("Portfolio: " + value + "Position: " + pos);
                   String secId = pos.secId;
                   assertTrue(
                       "Did not find index key for REgionEntry [key: " + internalEntry.getKey()
@@ -628,7 +628,7 @@ public class ConcurrentIndexUpdateWithoutWLDUnitTest extends JUnit4DistributedTe
                         "Did not find index value for REgionEntry [key: " + internalEntry.getKey()
                             + " , value: " + value + " ] in index: " + index.getName()
                             + " For index key: " + secId,
-                        ((RegionEntry) valuesForKey == internalEntry));
+                        (valuesForKey == internalEntry));
                   } else {
                     assertTrue(
                         "Did not find index value for REgionEntry [key: " + internalEntry.getKey()
@@ -758,7 +758,7 @@ public class ConcurrentIndexUpdateWithoutWLDUnitTest extends JUnit4DistributedTe
             if (index instanceof CompactRangeIndex) {
               // Ignore invalid values.
               if (value != Token.INVALID && value != Token.TOMBSTONE) {
-                LogWriterUtils.getLogWriter().info("Portfolio: " + ((Portfolio) value));
+                LogWriterUtils.getLogWriter().info("Portfolio: " + value);
                 Integer ID = ((Portfolio) value).getID();
 
                 assertTrue(
@@ -805,7 +805,7 @@ public class ConcurrentIndexUpdateWithoutWLDUnitTest extends JUnit4DistributedTe
                 for (Position pos : positions) {
                   if (pos != null) {
                     LogWriterUtils.getLogWriter()
-                        .info("Portfolio: " + ((Portfolio) value) + "Position: " + pos);
+                        .info("Portfolio: " + value + "Position: " + pos);
                     String secId = pos.secId;
                     assertTrue(
                         "Did not find index key for REgionEntry [key: " + internalEntry.getKey()
@@ -822,7 +822,7 @@ public class ConcurrentIndexUpdateWithoutWLDUnitTest extends JUnit4DistributedTe
                           "Did not find index value for REgionEntry [key: " + internalEntry.getKey()
                               + " , value: " + value + " ] in index: " + index.getName()
                               + " For index key: " + secId,
-                          ((RegionEntry) valuesForKey == internalEntry));
+                          (valuesForKey == internalEntry));
                     } else {
                       assertTrue(
                           "Did not find index value for REgionEntry [key: " + internalEntry.getKey()

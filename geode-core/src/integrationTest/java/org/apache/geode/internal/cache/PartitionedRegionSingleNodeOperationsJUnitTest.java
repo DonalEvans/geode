@@ -142,7 +142,7 @@ public class PartitionedRegionSingleNodeOperationsJUnitTest {
       } else {
         assertEquals("Failed for key " + num, null, pr.put(key, key));
       }
-      assertEquals((num + 1) * 2, ((GemFireCacheImpl) pr.getCache()).getCachePerfStats().getPuts());
+      assertEquals((num + 1) * 2, pr.getCache().getCachePerfStats().getPuts());
     }
 
     if (!pr.isDestroyed())
@@ -237,11 +237,11 @@ public class PartitionedRegionSingleNodeOperationsJUnitTest {
   }
 
   private long getDestroyCount(PartitionedRegion pr) {
-    return ((GemFireCacheImpl) pr.getCache()).getCachePerfStats().getDestroys();
+    return pr.getCache().getCachePerfStats().getDestroys();
   }
 
   private long getCreateCount(PartitionedRegion pr) {
-    return ((GemFireCacheImpl) pr.getCache()).getCachePerfStats().getCreates();
+    return pr.getCache().getCachePerfStats().getCreates();
   }
 
   /**
@@ -1265,7 +1265,7 @@ public class PartitionedRegionSingleNodeOperationsJUnitTest {
         fail("testInvalidate(): Invalidate throws exception other than EntryNotFoundException");
       }
       assertEquals(num + 1,
-          ((GemFireCacheImpl) pr.getCache()).getCachePerfStats().getInvalidates());
+          pr.getCache().getCachePerfStats().getInvalidates());
 
     }
     if (logWriter.fineEnabled()) {

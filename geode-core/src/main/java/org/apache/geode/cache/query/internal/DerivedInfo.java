@@ -211,14 +211,14 @@ public class DerivedInfo {
       CompiledValue newRightSide, int operator) throws TypeMismatchException,
       FunctionDomainException, NameResolutionException, QueryInvocationTargetException {
     CompiledComparison dcc = createDerivedJoin(context, newLeftSide, newRightSide, operator);
-    IndexInfo[] indexInfos = (IndexInfo[]) dcc.getIndexInfo(context);
+    IndexInfo[] indexInfos = dcc.getIndexInfo(context);
     try {
       if (indexInfos != null && isValidIndexTypeToDerive(indexInfos[0]._getIndex())) {
         populateDerivedResultsFromDerivedJoin(context, dcc, indexInfos[0]);
       }
     } finally {
       if (indexInfos != null) {
-        Index index = (Index) indexInfos[0]._index;
+        Index index = indexInfos[0]._index;
         Index prIndex = ((AbstractIndex) index).getPRIndex();
         if (prIndex != null) {
           ((PartitionedIndex) prIndex).releaseIndexReadLockForRemove();

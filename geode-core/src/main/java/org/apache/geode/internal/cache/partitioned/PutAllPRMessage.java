@@ -796,7 +796,7 @@ public class PutAllPRMessage extends PartitionMessageWithDirectReply {
         DeserializationContext context) throws IOException, ClassNotFoundException {
       super.fromData(in, context);
       this.result = in.readBoolean();
-      this.versions = (VersionedObjectList) DataSerializer.readObject(in);
+      this.versions = DataSerializer.readObject(in);
     }
 
     @Override

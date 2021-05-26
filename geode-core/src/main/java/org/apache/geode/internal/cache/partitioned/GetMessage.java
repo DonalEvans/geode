@@ -464,7 +464,7 @@ public class GetMessage extends PartitionMessageWithDirectReply {
         this.remoteVersion = StaticSerialization.getVersionForDataStreamOrNull(in);
       }
       if (hasVersionTag) {
-        this.versionTag = (VersionTag) DataSerializer.readObject(in);
+        this.versionTag = DataSerializer.readObject(in);
       }
     }
 

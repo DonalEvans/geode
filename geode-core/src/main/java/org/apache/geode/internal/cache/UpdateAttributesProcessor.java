@@ -409,7 +409,7 @@ public class UpdateAttributesProcessor {
     public void fromData(DataInput in,
         DeserializationContext context) throws IOException, ClassNotFoundException {
       super.fromData(in, context);
-      this.profile = (Profile) DataSerializer.readObject(in);
+      this.profile = DataSerializer.readObject(in);
     }
 
     @Override
@@ -490,7 +490,7 @@ public class UpdateAttributesProcessor {
       } else {
         Profile[] array = new Profile[length];
         for (int i = 0; i < length; i++) {
-          array[i] = (Profile) DataSerializer.readObject(in);
+          array[i] = DataSerializer.readObject(in);
         }
         this.profiles = array;
       }

@@ -33,7 +33,6 @@ import org.junit.Test;
 import org.apache.geode.DataSerializer;
 import org.apache.geode.cache.query.QueryService;
 import org.apache.geode.cache.query.types.ObjectType;
-import org.apache.geode.internal.cache.CachePerfStats;
 
 /**
  * Tests the Serialization of the Query related class.
@@ -106,7 +105,7 @@ public class QueryObjectSerializationJUnitTest implements Serializable {
     ResultsBag rbWithoutData = new ResultsBag();
     rbWithoutData.setElementType(elementType); // avoid NPE in equals
     checkRoundTrip(rbWithoutData);
-    ResultsBag rbWithData = new ResultsBag(data, (CachePerfStats) null);
+    ResultsBag rbWithData = new ResultsBag(data, null);
     rbWithData.setElementType(elementType); // avoid NPE in equals
     checkRoundTrip(rbWithData);
     /*

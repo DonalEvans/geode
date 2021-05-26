@@ -194,7 +194,7 @@ public class AgentImpl implements org.apache.geode.admin.jmx.Agent,
       throw new IllegalArgumentException(
           "AgentConfig must not be null");
     }
-    this.agentConfig = (AgentConfigImpl) agentConfig;
+    this.agentConfig = agentConfig;
     this.mbeanName = MBEAN_NAME_PREFIX + MBeanUtils.makeCompliantMBeanNameProperty("Agent");
 
     try {
@@ -460,7 +460,7 @@ public class AgentImpl implements org.apache.geode.admin.jmx.Agent,
         if (this.system == null || !this.system.isConnected()) {
           return;
         }
-        ((AdminDistributedSystemJmxImpl) this.system).disconnect();
+        this.system.disconnect();
       } catch (RuntimeException e) {
         logger.warn(e.getMessage(), e);
         throw e;

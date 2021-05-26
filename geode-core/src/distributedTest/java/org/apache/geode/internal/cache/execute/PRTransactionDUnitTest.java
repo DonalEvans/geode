@@ -51,7 +51,6 @@ import org.apache.geode.distributed.DistributedMember;
 import org.apache.geode.distributed.internal.membership.InternalDistributedMember;
 import org.apache.geode.internal.NanoTimer;
 import org.apache.geode.internal.cache.ForceReattemptException;
-import org.apache.geode.internal.cache.GemFireCacheImpl;
 import org.apache.geode.internal.cache.PartitionedRegion;
 import org.apache.geode.internal.cache.TXManagerImpl;
 import org.apache.geode.internal.cache.execute.data.CustId;
@@ -344,19 +343,19 @@ public class PRTransactionDUnitTest extends PRColocationDUnitTest {
 
     // for VM0 DataStore check the number of buckets created and the size of
     // bucket for all partitionedRegion
-    Integer totalBucketsInDataStore1 = (Integer) dataStore1
+    Integer totalBucketsInDataStore1 = dataStore1
         .invoke(() -> PRColocationDUnitTest.validateDataStore(CustomerPartitionedRegionName,
             OrderPartitionedRegionName, ShipmentPartitionedRegionName));
 
     // for VM1 DataStore check the number of buckets created and the size of
     // bucket for all partitionedRegion
-    Integer totalBucketsInDataStore2 = (Integer) dataStore2
+    Integer totalBucketsInDataStore2 = dataStore2
         .invoke(() -> PRColocationDUnitTest.validateDataStore(CustomerPartitionedRegionName,
             OrderPartitionedRegionName, ShipmentPartitionedRegionName));
 
     // for VM3 Datastore check the number of buckets created and the size of
     // bucket for all partitionedRegion
-    Integer totalBucketsInDataStore3 = (Integer) dataStore3
+    Integer totalBucketsInDataStore3 = dataStore3
         .invoke(() -> PRColocationDUnitTest.validateDataStore(CustomerPartitionedRegionName,
             OrderPartitionedRegionName, ShipmentPartitionedRegionName));
 
@@ -510,7 +509,7 @@ public class PRTransactionDUnitTest extends PRColocationDUnitTest {
     int bucketId1 = pr.getKeyInfo(cust1).getBucketId();
     List<Integer> localPrimaryBucketList = pr.getLocalPrimaryBucketsListTestOnly();
     assertTrue(localPrimaryBucketList.size() == 1);
-    return (Integer) localPrimaryBucketList.get(0) == bucketId1;
+    return localPrimaryBucketList.get(0) == bucketId1;
   }
 
   private void getTx(boolean doCust1First, CacheTransactionManager mgr, PartitionedRegion pr,
@@ -557,7 +556,7 @@ public class PRTransactionDUnitTest extends PRColocationDUnitTest {
     return new SerializableCallable("getDM") {
       @Override
       public Object call() {
-        return ((GemFireCacheImpl) basicGetCache()).getMyId();
+        return basicGetCache().getMyId();
       }
     };
   }
@@ -699,7 +698,7 @@ public class PRTransactionDUnitTest extends PRColocationDUnitTest {
   @SuppressWarnings("unchecked")
   private boolean isCust1LocalSingleBucket(PartitionedRegion pr, CustId cust1) {
     List<Integer> localPrimaryBucketList = pr.getLocalPrimaryBucketsListTestOnly();
-    return (Integer) localPrimaryBucketList.size() == 1;
+    return localPrimaryBucketList.size() == 1;
   }
 
   @SuppressWarnings("unchecked")

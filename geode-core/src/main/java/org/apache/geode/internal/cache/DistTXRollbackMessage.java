@@ -426,7 +426,7 @@ public class DistTXRollbackMessage extends TXMessage {
     }
 
     public Set getRegionDestroyedMembers(String regionFullPath) {
-      Set members = (Set) this.regionExceptions.get(regionFullPath);
+      Set members = this.regionExceptions.get(regionFullPath);
       if (members == null) {
         members = Collections.emptySet();
       }

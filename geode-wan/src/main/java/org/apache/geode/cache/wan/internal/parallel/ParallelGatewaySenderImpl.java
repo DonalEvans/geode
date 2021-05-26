@@ -16,7 +16,6 @@ package org.apache.geode.cache.wan.internal.parallel;
 
 import org.apache.logging.log4j.Logger;
 
-import org.apache.geode.cache.EntryOperation;
 import org.apache.geode.cache.asyncqueue.AsyncEventListener;
 import org.apache.geode.cache.wan.GatewayEventFilter;
 import org.apache.geode.cache.wan.GatewayTransportFilter;
@@ -191,7 +190,7 @@ public class ParallelGatewaySenderImpl extends AbstractRemoteGatewaySender {
       bucketId = PartitionedRegionHelper.getHashKey(clonedEvent.getKey(),
           getMaxParallelismForReplicatedRegion());
     } else {
-      bucketId = PartitionedRegionHelper.getHashKey((EntryOperation) clonedEvent);
+      bucketId = PartitionedRegionHelper.getHashKey(clonedEvent);
     }
     EventID originalEventId = clonedEvent.getEventId();
     long originatingThreadId = ThreadIdentifier.getRealThreadID(originalEventId.getThreadID());

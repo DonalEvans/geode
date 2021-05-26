@@ -135,7 +135,7 @@ public class TXLockIdImpl implements TXLockId, DataSerializableFixedID {
   @Override
   public void fromData(DataInput in,
       DeserializationContext context) throws IOException, ClassNotFoundException {
-    this.memberId = (InternalDistributedMember) context.getDeserializer().readObject(in);
+    this.memberId = context.getDeserializer().readObject(in);
     this.id = in.readInt();
   }
 

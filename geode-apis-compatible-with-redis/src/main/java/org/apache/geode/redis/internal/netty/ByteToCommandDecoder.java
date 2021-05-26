@@ -180,7 +180,7 @@ public class ByteToCommandDecoder extends ByteToMessageDecoder {
       }
       b = buffer.readByte();
       if (Character.isDigit(b)) {
-        number = number * 10 + (int) (b - '0');
+        number = number * 10 + (b - '0');
         readerIndex++;
       } else {
         buffer.readerIndex(readerIndex);

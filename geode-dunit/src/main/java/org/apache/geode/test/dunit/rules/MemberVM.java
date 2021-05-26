@@ -117,7 +117,7 @@ public class MemberVM extends VMProvider implements Member {
             @Override
             public void reconnecting(InternalDistributedSystem oldSystem) {
               await().atMost(timeout, timeUnit)
-                  .until(() -> (boolean) server1BB.getMailbox(reconnectBBKey));
+                  .until(() -> server1BB.getMailbox(reconnectBBKey));
             }
 
             @Override

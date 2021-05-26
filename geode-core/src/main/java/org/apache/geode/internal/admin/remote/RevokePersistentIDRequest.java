@@ -22,7 +22,6 @@ import java.util.Set;
 import org.apache.logging.log4j.Logger;
 
 import org.apache.geode.CancelException;
-import org.apache.geode.distributed.internal.ClusterDistributionManager;
 import org.apache.geode.distributed.internal.DistributionManager;
 import org.apache.geode.distributed.internal.ReplyException;
 import org.apache.geode.internal.InternalDataSerializer;
@@ -71,7 +70,7 @@ public class RevokePersistentIDRequest extends CliLegacyMessage {
     } catch (InterruptedException e) {
       logger.warn(e);
     }
-    request.createResponse((ClusterDistributionManager) dm);
+    request.createResponse(dm);
   }
 
   @Override

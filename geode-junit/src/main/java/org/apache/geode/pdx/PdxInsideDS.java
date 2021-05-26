@@ -49,7 +49,7 @@ class PdxInsideDS implements DataSerializable {
   public void fromData(DataInput in) throws IOException, ClassNotFoundException {
     this.myString1 = DataSerializer.readString(in);
     this.myLong = DataSerializer.readPrimitiveLong(in);
-    this.myPdx = (PdxSerializable) DataSerializer.readObject(in);
+    this.myPdx = DataSerializer.readObject(in);
     this.myString2 = DataSerializer.readString(in);
   }
 

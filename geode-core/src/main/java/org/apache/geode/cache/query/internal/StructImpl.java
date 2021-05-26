@@ -104,7 +104,7 @@ public class StructImpl implements Struct, DataSerializableFixedID, Serializable
       if (this.values[i] instanceof PdxInstance) {
         fValues[i] = ((PdxInstance) this.values[i]).getObject();
       } else if (this.values[i] instanceof PdxString) {
-        fValues[i] = ((PdxString) this.values[i]).toString();
+        fValues[i] = this.values[i].toString();
       } else {
         fValues[i] = this.values[i];
       }

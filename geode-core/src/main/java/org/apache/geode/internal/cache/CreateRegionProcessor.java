@@ -751,7 +751,7 @@ public class CreateRegionProcessor implements ProfileExchangeProcessor {
         DeserializationContext context) throws IOException, ClassNotFoundException {
       super.fromData(in, context);
       this.regionPath = DataSerializer.readString(in);
-      this.profile = (CacheProfile) DataSerializer.readObject(in);
+      this.profile = DataSerializer.readObject(in);
       this.processorId = in.readInt();
       this.concurrencyChecksEnabled = in.readBoolean();
     }
@@ -814,7 +814,7 @@ public class CreateRegionProcessor implements ProfileExchangeProcessor {
         DeserializationContext context) throws IOException, ClassNotFoundException {
       super.fromData(in, context);
       if (in.readBoolean()) {
-        this.profile = (CacheProfile) DataSerializer.readObject(in);
+        this.profile = DataSerializer.readObject(in);
       }
       int size = in.readInt();
       if (size == 0) {

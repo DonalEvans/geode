@@ -265,7 +265,7 @@ public class FederationComponent
 
     DataSerializer.writePrimitiveBoolean(this.notificationEmitter, out);
     DataSerializer.writeString(this.interfaceClassName, out);
-    DataSerializer.writeHashMap((HashMap<?, ?>) objectState, out);
+    DataSerializer.writeHashMap(objectState, out);
     DataSerializer.writeString(this.objectName, out);
   }
 

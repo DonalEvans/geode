@@ -547,7 +547,7 @@ public class GrantorRequestProcessor extends ReplyProcessor21 {
       this.processorId = in.readInt();
       this.opCode = in.readByte();
       if (this.opCode == BECOME_OP) {
-        this.oldTurk = (InternalDistributedMember) DataSerializer.readObject(in);
+        this.oldTurk = DataSerializer.readObject(in);
       }
     }
 
@@ -634,7 +634,7 @@ public class GrantorRequestProcessor extends ReplyProcessor21 {
     public void fromData(DataInput in,
         DeserializationContext context) throws IOException, ClassNotFoundException {
       super.fromData(in, context);
-      this.grantor = (InternalDistributedMember) DataSerializer.readObject(in);
+      this.grantor = DataSerializer.readObject(in);
       this.elderVersionId = in.readLong();
       this.grantorSerialNumber = in.readInt();
       this.needsRecovery = in.readBoolean();

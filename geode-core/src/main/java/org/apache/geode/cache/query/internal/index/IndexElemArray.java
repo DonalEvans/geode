@@ -152,7 +152,7 @@ public class IndexElemArray implements Iterable, Collection {
     synchronized (lock) {
       rangeCheck(index);
 
-      Object oldValue = (Object) elementData[index];
+      Object oldValue = elementData[index];
       elementData[index] = element;
       return oldValue;
     }

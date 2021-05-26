@@ -48,7 +48,6 @@ import org.apache.geode.cache.execute.Function;
 import org.apache.geode.cache.execute.FunctionContext;
 import org.apache.geode.cache.execute.FunctionService;
 import org.apache.geode.distributed.DistributedMember;
-import org.apache.geode.internal.cache.GemFireCacheImpl;
 import org.apache.geode.internal.cache.TXManagerImpl;
 import org.apache.geode.internal.cache.TXStateProxyImpl;
 import org.apache.geode.logging.internal.log4j.api.LogService;
@@ -180,7 +179,7 @@ public class SetOperationJTAJUnitTest {
       System.setProperty(RESTORE_SET_OPERATION_PROPERTY, "true");
     }
     CacheFactory cf = new CacheFactory().set(MCAST_PORT, "0");
-    this.cache = (GemFireCacheImpl) cf.create();
+    this.cache = cf.create();
     return this.cache;
   }
 

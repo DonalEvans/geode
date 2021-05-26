@@ -735,7 +735,7 @@ public class QueryIndexUpdateRIDUnitTest extends JUnit4CacheTestCase {
                   getCache().getRegion(SEPARATOR + "root" + SEPARATOR + region)) != null) {
                 assertEquals(rSize, reg.size());
                 for (Object value : reg.values()) {
-                  if (!((SelectResults) r).asSet().contains((Portfolio) value)) {
+                  if (!((SelectResults) r).asSet().contains(value)) {
                     fail("Query resultset mismatch with region values for value: " + value);
                   }
                 }

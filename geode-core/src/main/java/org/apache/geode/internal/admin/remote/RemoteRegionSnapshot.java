@@ -161,8 +161,8 @@ public class RemoteRegionSnapshot implements RegionSnapshot, DataSerializable {
   @Override
   public void fromData(DataInput in) throws IOException, ClassNotFoundException {
     this.name = DataSerializer.readString(in);
-    this.stats = (RemoteCacheStatistics) DataSerializer.readObject(in);
-    this.attributes = (RemoteRegionAttributes) DataSerializer.readObject(in);
+    this.stats = DataSerializer.readObject(in);
+    this.attributes = DataSerializer.readObject(in);
     this.entryCount = in.readInt();
     this.subregionCount = in.readInt();
     this.userAttribute = DataSerializer.readObject(in);

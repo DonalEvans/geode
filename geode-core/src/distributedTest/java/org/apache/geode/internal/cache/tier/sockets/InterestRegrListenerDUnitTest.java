@@ -269,7 +269,7 @@ public class InterestRegrListenerDUnitTest extends JUnit4DistributedTestCase {
     serverVM.invoke(() -> InterestRegrListenerDUnitTest.setUpServerVMTask());
     serverVM.invoke(() -> InterestRegrListenerDUnitTest.createServerTask());
 
-    Object array[] = (Object[]) serverVM
+    Object array[] = serverVM
         .invoke(() -> InterestRegrListenerDUnitTest.getCacheServerEndPointTask());
     String hostName = (String) array[0];
     int port = (Integer) array[1];
@@ -313,7 +313,7 @@ public class InterestRegrListenerDUnitTest extends JUnit4DistributedTestCase {
     clientVM_2.invoke(() -> InterestRegrListenerDUnitTest.closeClientCacheTask(true));
     clientVM_3.invoke(() -> InterestRegrListenerDUnitTest.closeClientCacheTask(true));
     Thread.sleep(2);
-    Map<String, Integer> listnerMap = (Map<String, Integer>) serverVM
+    Map<String, Integer> listnerMap = serverVM
         .invoke(() -> InterestRegrListenerDUnitTest.getListenerMapTask());
     LogWriterUtils.getLogWriter().info("Listener Map " + listnerMap);
     int registerCount = getMapValueForKey(listnerMap, REGISTER_INTEREST);
@@ -323,7 +323,7 @@ public class InterestRegrListenerDUnitTest extends JUnit4DistributedTestCase {
     LogWriterUtils.getLogWriter().info(
         "Sleeping till durable client queue are expired and unregister event is called on to listener");
     Thread.sleep((DURABLE_CLIENT_TIMEOUT_TEST + 5) * 1000);
-    listnerMap = (Map<String, Integer>) serverVM
+    listnerMap = serverVM
         .invoke(() -> InterestRegrListenerDUnitTest.getListenerMapTask());
     LogWriterUtils.getLogWriter().info("Listener Map after sleeping " + listnerMap);
     registerCount = getMapValueForKey(listnerMap, REGISTER_INTEREST);
@@ -344,7 +344,7 @@ public class InterestRegrListenerDUnitTest extends JUnit4DistributedTestCase {
     serverVM.invoke(() -> InterestRegrListenerDUnitTest.setUpServerVMTask());
     serverVM.invoke(() -> InterestRegrListenerDUnitTest.createServerTask());
 
-    Object array[] = (Object[]) serverVM
+    Object array[] = serverVM
         .invoke(() -> InterestRegrListenerDUnitTest.getCacheServerEndPointTask());
     String hostName = (String) array[0];
     int port = (Integer) array[1];
@@ -382,7 +382,7 @@ public class InterestRegrListenerDUnitTest extends JUnit4DistributedTestCase {
     clientVM_2.invoke(() -> InterestRegrListenerDUnitTest.closeClientCacheTask(true));
     clientVM_3.invoke(() -> InterestRegrListenerDUnitTest.closeClientCacheTask(true));
     Thread.sleep(2);
-    Map<String, Integer> listnerMap = (Map<String, Integer>) serverVM
+    Map<String, Integer> listnerMap = serverVM
         .invoke(() -> InterestRegrListenerDUnitTest.getListenerMapTask());
     LogWriterUtils.getLogWriter().info("Listener Map " + listnerMap);
     int registerCount = getMapValueForKey(listnerMap, REGISTER_INTEREST);
@@ -392,7 +392,7 @@ public class InterestRegrListenerDUnitTest extends JUnit4DistributedTestCase {
     LogWriterUtils.getLogWriter().info(
         "Sleeping till durable client queue are expired and unregister event is called on to listener");
     Thread.sleep((DURABLE_CLIENT_TIMEOUT_TEST + 5) * 1000);
-    listnerMap = (Map<String, Integer>) serverVM
+    listnerMap = serverVM
         .invoke(() -> InterestRegrListenerDUnitTest.getListenerMapTask());
     LogWriterUtils.getLogWriter().info("Listener Map after sleeping " + listnerMap);
     registerCount = getMapValueForKey(listnerMap, REGISTER_INTEREST);
@@ -413,7 +413,7 @@ public class InterestRegrListenerDUnitTest extends JUnit4DistributedTestCase {
     serverVM.invoke(() -> setUpServerVMTask());
     serverVM.invoke(() -> createServerTask());
 
-    Object array[] = (Object[]) serverVM
+    Object array[] = serverVM
         .invoke(() -> getCacheServerEndPointTask());
     String hostName = (String) array[0];
     int port = (Integer) array[1];
@@ -460,7 +460,7 @@ public class InterestRegrListenerDUnitTest extends JUnit4DistributedTestCase {
 
       @Override
       public boolean done() {
-        Map<String, Integer> listnerMap = (Map<String, Integer>) serverVM
+        Map<String, Integer> listnerMap = serverVM
             .invoke(() -> getListenerMapTask());
         getLogWriter().info("Listener Map " + listnerMap);
         registerCount = getMapValueForKey(listnerMap, REGISTER_INTEREST);

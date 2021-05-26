@@ -289,7 +289,7 @@ public class CompiledOperation extends AbstractCompiledValue {
         throw new QueryInvocationTargetException(ex);
       }
     } else if (receiver instanceof PdxString) {
-      receiver = ((PdxString) receiver).toString();
+      receiver = receiver.toString();
     }
 
     return methodDispatch.invoke(receiver, args, context);

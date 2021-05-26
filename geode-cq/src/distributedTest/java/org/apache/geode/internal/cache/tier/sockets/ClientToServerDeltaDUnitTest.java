@@ -164,11 +164,11 @@ public class ClientToServerDeltaDUnitTest extends JUnit4DistributedTestCase {
 
   public void initialise(Boolean clone, String[] queries, Boolean cq, Boolean RI,
       Boolean enableDelta) {
-    Integer PORT1 = ((Integer) server.invoke(() -> ClientToServerDeltaDUnitTest
-        .createServerCache(Boolean.TRUE, Boolean.FALSE, clone, enableDelta))).intValue();
+    Integer PORT1 = server.invoke(() -> ClientToServerDeltaDUnitTest
+        .createServerCache(Boolean.TRUE, Boolean.FALSE, clone, enableDelta)).intValue();
 
-    Integer PORT2 = ((Integer) server2.invoke(() -> ClientToServerDeltaDUnitTest
-        .createServerCache(Boolean.TRUE, Boolean.FALSE, clone, enableDelta))).intValue();
+    Integer PORT2 = server2.invoke(() -> ClientToServerDeltaDUnitTest
+        .createServerCache(Boolean.TRUE, Boolean.FALSE, clone, enableDelta)).intValue();
 
     client.invoke(() -> ClientToServerDeltaDUnitTest.createClientCache(
         NetworkUtils.getServerHostName(server.getHost()), new Integer(PORT1), Boolean.FALSE,
@@ -182,11 +182,11 @@ public class ClientToServerDeltaDUnitTest extends JUnit4DistributedTestCase {
   // Same as initialise() except listener flag is false.
   public void initialise2(Boolean clone, String[] queries, Boolean cq, Boolean RI,
       Boolean enableDelta) {
-    Integer PORT1 = ((Integer) server.invoke(() -> ClientToServerDeltaDUnitTest
-        .createServerCache(Boolean.FALSE, Boolean.FALSE, clone, enableDelta))).intValue();
+    Integer PORT1 = server.invoke(() -> ClientToServerDeltaDUnitTest
+        .createServerCache(Boolean.FALSE, Boolean.FALSE, clone, enableDelta)).intValue();
 
-    Integer PORT2 = ((Integer) server2.invoke(() -> ClientToServerDeltaDUnitTest
-        .createServerCache(Boolean.FALSE, Boolean.FALSE, clone, enableDelta))).intValue();
+    Integer PORT2 = server2.invoke(() -> ClientToServerDeltaDUnitTest
+        .createServerCache(Boolean.FALSE, Boolean.FALSE, clone, enableDelta)).intValue();
 
     client.invoke(() -> ClientToServerDeltaDUnitTest.createClientCache(
         NetworkUtils.getServerHostName(server.getHost()), new Integer(PORT1), Boolean.FALSE,
@@ -207,21 +207,21 @@ public class ClientToServerDeltaDUnitTest extends JUnit4DistributedTestCase {
     initialise(false);
     // set expected value on server
     server.invoke(() -> ClientToServerDeltaDUnitTest.setFirstSecondUpdate(putDelta[1],
-        (Integer) putDelta[2]));
+        putDelta[2]));
     client.invoke(() -> ClientToServerDeltaDUnitTest.putWithFromDeltaERR(KEY1));
 
     assertTrue("to Delta Propagation feature NOT used.",
-        ((Boolean) client.invoke(() -> DeltaTestImpl.toDeltaFeatureUsed())).booleanValue());
+        client.invoke(() -> DeltaTestImpl.toDeltaFeatureUsed()).booleanValue());
     assertTrue("from Delta Propagation feature NOT used.",
-        ((Boolean) server.invoke(() -> DeltaTestImpl.fromDeltaFeatureUsed())).booleanValue());
+        server.invoke(() -> DeltaTestImpl.fromDeltaFeatureUsed()).booleanValue());
 
     assertFalse("Delta Propagation toDeltaFailed",
-        ((Boolean) client.invoke(() -> DeltaTestImpl.isToDeltaFailure())).booleanValue());
+        client.invoke(() -> DeltaTestImpl.isToDeltaFailure()).booleanValue());
     assertTrue("Delta Propagation fromDelta not Failed",
-        ((Boolean) server.invoke(() -> DeltaTestImpl.isFromDeltaFailure())).booleanValue());
+        server.invoke(() -> DeltaTestImpl.isFromDeltaFailure()).booleanValue());
 
     boolean err =
-        ((Boolean) server.invoke(() -> ClientToServerDeltaDUnitTest.getError())).booleanValue();
+        server.invoke(() -> ClientToServerDeltaDUnitTest.getError()).booleanValue();
     assertFalse("validation fails", err);
   }
 
@@ -234,20 +234,20 @@ public class ClientToServerDeltaDUnitTest extends JUnit4DistributedTestCase {
     initialise(false);
     // set expected value on server
     server.invoke(() -> ClientToServerDeltaDUnitTest.setFirstSecondUpdate(putDelta[0],
-        (Integer) putDelta[2]));
+        putDelta[2]));
 
     client.invoke(() -> ClientToServerDeltaDUnitTest.put(KEY1));
 
     assertTrue("to Delta Propagation feature NOT used.",
-        ((Boolean) client.invoke(() -> DeltaTestImpl.toDeltaFeatureUsed())).booleanValue());
+        client.invoke(() -> DeltaTestImpl.toDeltaFeatureUsed()).booleanValue());
     assertTrue("from Delta Propagation feature NOT used.",
-        ((Boolean) server.invoke(() -> DeltaTestImpl.fromDeltaFeatureUsed())).booleanValue());
+        server.invoke(() -> DeltaTestImpl.fromDeltaFeatureUsed()).booleanValue());
     assertFalse("Delta Propagation toDeltaFailed",
-        ((Boolean) client.invoke(() -> DeltaTestImpl.isToDeltaFailure())).booleanValue());
+        client.invoke(() -> DeltaTestImpl.isToDeltaFailure()).booleanValue());
     assertFalse("Delta Propagation fromDeltaFailed",
-        ((Boolean) server.invoke(() -> DeltaTestImpl.isFromDeltaFailure())).booleanValue());
+        server.invoke(() -> DeltaTestImpl.isFromDeltaFailure()).booleanValue());
     boolean err =
-        ((Boolean) server.invoke(() -> ClientToServerDeltaDUnitTest.getError())).booleanValue();
+        server.invoke(() -> ClientToServerDeltaDUnitTest.getError()).booleanValue();
     assertFalse("validation fails", err);
   }
 
@@ -260,35 +260,35 @@ public class ClientToServerDeltaDUnitTest extends JUnit4DistributedTestCase {
     initialise(false);
     // set expected value on s1,s1 and c2
     server.invoke(() -> ClientToServerDeltaDUnitTest.setFirstSecondUpdate(putDelta[0],
-        (Integer) putDelta[2]));
+        putDelta[2]));
     server2.invoke(() -> ClientToServerDeltaDUnitTest.setFirstSecondUpdate(putDelta[0],
-        (Integer) putDelta[2]));
+        putDelta[2]));
     client2.invoke(() -> ClientToServerDeltaDUnitTest.setFirstSecondUpdate(putDelta[0],
-        (Integer) putDelta[2]));
+        putDelta[2]));
 
     client.invoke(() -> ClientToServerDeltaDUnitTest.putDelta(KEY1));
 
     Thread.sleep(5000);
 
     assertTrue("To Delta Propagation feature NOT used.",
-        ((Boolean) client.invoke(() -> DeltaTestImpl.toDeltaFeatureUsed())).booleanValue());
+        client.invoke(() -> DeltaTestImpl.toDeltaFeatureUsed()).booleanValue());
     assertTrue("From Delta Propagation feature NOT used.",
-        ((Boolean) server.invoke(() -> DeltaTestImpl.fromDeltaFeatureUsed())).booleanValue());
+        server.invoke(() -> DeltaTestImpl.fromDeltaFeatureUsed()).booleanValue());
     // toDelta() should not be invoked
     assertFalse("To Delta Propagation feature used.",
-        ((Boolean) server.invoke(() -> DeltaTestImpl.toDeltaFeatureUsed())).booleanValue());
+        server.invoke(() -> DeltaTestImpl.toDeltaFeatureUsed()).booleanValue());
     assertTrue("From Delta Propagation feature NOT used.",
-        ((Boolean) server2.invoke(() -> DeltaTestImpl.fromDeltaFeatureUsed())).booleanValue());
+        server2.invoke(() -> DeltaTestImpl.fromDeltaFeatureUsed()).booleanValue());
     // toDelta() should not be invoked
     assertFalse("To Delta Propagation feature used.",
-        ((Boolean) server2.invoke(() -> DeltaTestImpl.toDeltaFeatureUsed())).booleanValue());
+        server2.invoke(() -> DeltaTestImpl.toDeltaFeatureUsed()).booleanValue());
     assertTrue("from Delta Propagation feature NOT used.",
-        ((Boolean) client2.invoke(() -> DeltaTestImpl.fromDeltaFeatureUsed())).booleanValue());
+        client2.invoke(() -> DeltaTestImpl.fromDeltaFeatureUsed()).booleanValue());
 
     boolean err =
-        ((Boolean) server.invoke(() -> ClientToServerDeltaDUnitTest.getError())).booleanValue();
-    err = ((Boolean) server2.invoke(() -> ClientToServerDeltaDUnitTest.getError())).booleanValue();
-    err = ((Boolean) client2.invoke(() -> ClientToServerDeltaDUnitTest.getError())).booleanValue();
+        server.invoke(() -> ClientToServerDeltaDUnitTest.getError()).booleanValue();
+    err = server2.invoke(() -> ClientToServerDeltaDUnitTest.getError()).booleanValue();
+    err = client2.invoke(() -> ClientToServerDeltaDUnitTest.getError()).booleanValue();
     assertFalse("validation fails", err);
   }
 
@@ -296,8 +296,8 @@ public class ClientToServerDeltaDUnitTest extends JUnit4DistributedTestCase {
   public void testClientDeltaPropogationPutFetchesTheLatestValueWhenClientVersionIsOlder()
       throws Exception {
     // client did not register interest
-    Integer PORT1 = ((Integer) server.invoke(() -> ClientToServerDeltaDUnitTest
-        .createServerCache(Boolean.TRUE, Boolean.FALSE, Boolean.TRUE, Boolean.TRUE))).intValue();
+    Integer PORT1 = server.invoke(() -> ClientToServerDeltaDUnitTest
+        .createServerCache(Boolean.TRUE, Boolean.FALSE, Boolean.TRUE, Boolean.TRUE)).intValue();
 
     ClientToServerDeltaDUnitTest.createClientCache(
         NetworkUtils.getServerHostName(server.getHost()), new Integer(PORT1), Boolean.FALSE,
@@ -801,7 +801,7 @@ public class ClientToServerDeltaDUnitTest extends JUnit4DistributedTestCase {
   private static void validateUpdates(EntryEvent event, Object obj, String str) {
     if (obj instanceof String)
       assertTrue(str + " update missed ",
-          ((DeltaTestImpl) event.getNewValue()).getStr().equals((String) obj));
+          ((DeltaTestImpl) event.getNewValue()).getStr().equals(obj));
     else if (obj instanceof Integer)
       assertTrue(str + " update missed ",
           ((DeltaTestImpl) event.getNewValue()).getIntVar() == (Integer) obj);
@@ -826,9 +826,9 @@ public class ClientToServerDeltaDUnitTest extends JUnit4DistributedTestCase {
    */
   @Test
   public void testEmptyClientAsFeederToServer() {
-    Integer PORT1 = ((Integer) server
-        .invoke(() -> ClientToServerDeltaDUnitTest.createServerCache(Boolean.FALSE, Boolean.FALSE)))
-            .intValue();
+    Integer PORT1 = server
+        .invoke(() -> ClientToServerDeltaDUnitTest.createServerCache(Boolean.FALSE, Boolean.FALSE))
+        .intValue();
 
     server2
         .invoke(() -> ClientToServerDeltaDUnitTest.createServerCache(Boolean.FALSE, Boolean.FALSE));
@@ -858,9 +858,9 @@ public class ClientToServerDeltaDUnitTest extends JUnit4DistributedTestCase {
    */
   @Test
   public void testEmptyServerAsFeederToPeer() {
-    Integer PORT1 = ((Integer) server
-        .invoke(() -> ClientToServerDeltaDUnitTest.createServerCache(Boolean.FALSE, Boolean.TRUE)))
-            .intValue();
+    Integer PORT1 = server
+        .invoke(() -> ClientToServerDeltaDUnitTest.createServerCache(Boolean.FALSE, Boolean.TRUE))
+        .intValue();
 
     server2
         .invoke(() -> ClientToServerDeltaDUnitTest.createServerCache(Boolean.FALSE, Boolean.FALSE));
@@ -885,9 +885,9 @@ public class ClientToServerDeltaDUnitTest extends JUnit4DistributedTestCase {
    */
   @Test
   public void testClientsConnectedToEmptyServer() {
-    Integer PORT1 = ((Integer) server
-        .invoke(() -> ClientToServerDeltaDUnitTest.createServerCache(Boolean.FALSE, Boolean.TRUE)))
-            .intValue();
+    Integer PORT1 = server
+        .invoke(() -> ClientToServerDeltaDUnitTest.createServerCache(Boolean.FALSE, Boolean.TRUE))
+        .intValue();
 
     server2
         .invoke(() -> ClientToServerDeltaDUnitTest.createServerCache(Boolean.FALSE, Boolean.FALSE));
@@ -901,7 +901,7 @@ public class ClientToServerDeltaDUnitTest extends JUnit4DistributedTestCase {
         Boolean.FALSE, Boolean.FALSE));
 
     int deltaSent =
-        (Integer) server2.invoke(() -> ClientToServerDeltaDUnitTest.putsWhichReturnsDeltaSent());
+        server2.invoke(() -> ClientToServerDeltaDUnitTest.putsWhichReturnsDeltaSent());
 
     client.invoke(() -> ClientToServerDeltaDUnitTest.waitForLastKey());
     client.invoke(() -> ClientToServerDeltaDUnitTest.checkForDelta());
@@ -916,9 +916,9 @@ public class ClientToServerDeltaDUnitTest extends JUnit4DistributedTestCase {
    */
   @Test
   public void testClientNonEmptyEmptyServerAsFeederToPeer() {
-    Integer PORT1 = ((Integer) server
-        .invoke(() -> ClientToServerDeltaDUnitTest.createServerCache(Boolean.FALSE, Boolean.TRUE)))
-            .intValue();
+    Integer PORT1 = server
+        .invoke(() -> ClientToServerDeltaDUnitTest.createServerCache(Boolean.FALSE, Boolean.TRUE))
+        .intValue();
 
     server2
         .invoke(() -> ClientToServerDeltaDUnitTest.createServerCache(Boolean.FALSE, Boolean.FALSE));
@@ -986,26 +986,26 @@ public class ClientToServerDeltaDUnitTest extends JUnit4DistributedTestCase {
         false/* enable delta */);
     // set expected value on server
     server.invoke(() -> ClientToServerDeltaDUnitTest.setFirstSecondUpdate(putDelta[0],
-        (Integer) putDelta[2]));
+        putDelta[2]));
 
     client.invoke(() -> ClientToServerDeltaDUnitTest.putDelta(DELTA_KEY));
 
     assertFalse("Delta Propagation feature used at client.",
-        (Boolean) client.invoke(() -> DeltaTestImpl.toDeltaFeatureUsed()));
+        client.invoke(() -> DeltaTestImpl.toDeltaFeatureUsed()));
     assertFalse("Delta Propagation feature used at server.",
-        (Boolean) server.invoke(() -> DeltaTestImpl.fromDeltaFeatureUsed()));
+        server.invoke(() -> DeltaTestImpl.fromDeltaFeatureUsed()));
     assertFalse(
         "Failures at client while calculating delta. But delta-propagation is false at server.",
-        ((Boolean) client.invoke(() -> DeltaTestImpl.isToDeltaFailure())).booleanValue());
+        client.invoke(() -> DeltaTestImpl.isToDeltaFailure()).booleanValue());
     assertFalse(
         "Failures at server while applying delta. But delta-propagation is false at server.",
-        (Boolean) server.invoke(() -> DeltaTestImpl.isFromDeltaFailure()));
+        server.invoke(() -> DeltaTestImpl.isFromDeltaFailure()));
   }
 
   @Test
   public void testC2SDeltaPropagationWithOldValueInvalidatedAtServer() throws Exception {
     String key = "DELTA_KEY";
-    Integer port1 = (Integer) server
+    Integer port1 = server
         .invoke(() -> ClientToServerDeltaDUnitTest.createServerCache(false, false, false, true));
     createClientCache("localhost", port1, false, false, false, null, false, false);
 

@@ -1230,7 +1230,7 @@ public class TXDistributedDUnitTest extends JUnit4CacheTestCase {
     vm0.invoke(() -> TXDistributedDUnitTest.setPostTXSystemIds(txMembers));
 
     // Don't include the tx host in the batch member set(s)
-    Serializable vm1HostId = (Serializable) vm1.invoke(() -> TXDistributedDUnitTest.getSystemId());
+    Serializable vm1HostId = vm1.invoke(() -> TXDistributedDUnitTest.getSystemId());
     vm0.invoke(() -> TXDistributedDUnitTest.setTXHostSystemId(vm1HostId));
 
     // Create a TX on VM1 (such that it will ask for locks on VM0) that uses the callbacks

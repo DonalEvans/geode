@@ -115,7 +115,7 @@ public class LinkedResultSet extends java.util.LinkedHashSet
   public void fromData(DataInput in,
       DeserializationContext context) throws IOException, ClassNotFoundException {
     int size = in.readInt();
-    this.elementType = (ObjectType) context.getDeserializer().readObject(in);
+    this.elementType = context.getDeserializer().readObject(in);
     for (int j = size; j > 0; j--) {
       this.add(context.getDeserializer().readObject(in));
     }

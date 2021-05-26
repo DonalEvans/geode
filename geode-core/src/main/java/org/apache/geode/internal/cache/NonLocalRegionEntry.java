@@ -156,7 +156,7 @@ public class NonLocalRegionEntry implements RegionEntry, VersionStamp {
     this.value = DataSerializer.readObject(in);
     this.lastModified = in.readLong();
     this.isRemoved = in.readBoolean();
-    this.versionTag = (VersionTag) DataSerializer.readObject(in);
+    this.versionTag = DataSerializer.readObject(in);
   }
 
   @Override

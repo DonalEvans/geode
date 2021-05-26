@@ -1034,7 +1034,7 @@ public abstract class ClientAuthorizationTestCase extends JUnit4DistributedTestC
         boolean foundKey = false;
 
         for (Iterator<CqEvent> eventIter = this.eventList.iterator(); eventIter.hasNext();) {
-          CqEvent event = (CqEvent) eventIter.next();
+          CqEvent event = eventIter.next();
           if (KEYS[index].equals(event.getKey())) {
             assertEquals(vals[index], event.getNewValue());
             foundKey = true;

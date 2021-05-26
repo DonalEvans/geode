@@ -77,7 +77,7 @@ public class DescribeClientCommand extends GfshCommand {
     for (ObjectName objName : cacheServers) {
       CacheServerMXBean serverMbean = service.getMBeanInstance(objName, CacheServerMXBean.class);
       List<String> listOfClient =
-          new ArrayList<>(Arrays.asList((String[]) serverMbean.getClientIds()));
+          new ArrayList<>(Arrays.asList(serverMbean.getClientIds()));
       if (listOfClient.contains(clientId)) {
         if (clientHealthStatus == null) {
           try {

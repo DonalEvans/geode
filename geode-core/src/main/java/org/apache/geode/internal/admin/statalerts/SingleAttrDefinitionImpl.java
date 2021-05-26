@@ -228,6 +228,6 @@ public class SingleAttrDefinitionImpl implements StatAlertDefinition {
   public void fromData(DataInput in) throws IOException, ClassNotFoundException {
     this.name = DataSerializer.readString(in);
     this._id = DataSerializer.readPrimitiveInt(in);
-    this.statisticInfo = (StatisticInfo) DataSerializer.readObject(in);
+    this.statisticInfo = DataSerializer.readObject(in);
   }
 }

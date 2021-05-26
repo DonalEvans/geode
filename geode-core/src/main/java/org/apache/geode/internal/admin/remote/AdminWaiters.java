@@ -126,7 +126,7 @@ public class AdminWaiters {
    */
   public static void sendResponse(AdminResponse msg) {
     int id = msg.getMsgId();
-    ReplyProcessor21 processor = (ReplyProcessor21) ReplyProcessor21.getProcessor(id);
+    ReplyProcessor21 processor = ReplyProcessor21.getProcessor(id);
 
     if (processor == null) {
       return; // must've been cancelled

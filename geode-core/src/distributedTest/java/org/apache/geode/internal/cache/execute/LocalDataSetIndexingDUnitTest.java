@@ -191,7 +191,7 @@ public class LocalDataSetIndexingDUnitTest extends JUnit4CacheTestCase {
                   Assert.assertTrue(observer.isIndexesUsed);
                   pr1.getCache().getLogger().fine("Index Used: " + observer.numIndexesUsed());
                   Assert.assertTrue(2 == observer.numIndexesUsed());
-                  context.getResultSender().lastResult((Serializable) r.asList());
+                  context.getResultSender().lastResult(r.asList());
                 } catch (Exception e) {
                   context.getResultSender().lastResult(Boolean.TRUE);
                 }

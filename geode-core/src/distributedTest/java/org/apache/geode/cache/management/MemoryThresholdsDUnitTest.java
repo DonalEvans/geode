@@ -434,7 +434,7 @@ public class MemoryThresholdsDUnitTest extends ClientServerTestCase {
     server2.invoke(new SerializableCallable() {
       @Override
       public Object call() throws Exception {
-        InternalResourceManager irm = ((GemFireCacheImpl) getCache()).getInternalResourceManager();
+        InternalResourceManager irm = getCache().getInternalResourceManager();
         assertEquals(0, irm.getStats().getEvictionStartEvents());
         assertEquals(0, irm.getStats().getHeapCriticalEvents());
         assertEquals(0, irm.getStats().getCriticalThreshold());
@@ -696,7 +696,7 @@ public class MemoryThresholdsDUnitTest extends ClientServerTestCase {
     SerializableCallable getMyId = new SerializableCallable() {
       @Override
       public Object call() throws Exception {
-        return ((GemFireCacheImpl) getCache()).getMyId();
+        return getCache().getMyId();
       }
     };
 
@@ -858,7 +858,7 @@ public class MemoryThresholdsDUnitTest extends ClientServerTestCase {
     SerializableCallable getMyId = new SerializableCallable() {
       @Override
       public Object call() throws Exception {
-        return ((GemFireCacheImpl) getCache()).getMyId();
+        return getCache().getMyId();
       }
     };
 
@@ -1177,7 +1177,7 @@ public class MemoryThresholdsDUnitTest extends ClientServerTestCase {
         (DistributedMember) server2.invoke(new SerializableCallable() {
           @Override
           public Object call() throws Exception {
-            return ((GemFireCacheImpl) getCache()).getMyId();
+            return getCache().getMyId();
           }
         });
 
@@ -1201,7 +1201,7 @@ public class MemoryThresholdsDUnitTest extends ClientServerTestCase {
               Execution e = FunctionService.onRegion(pr);
               try {
                 getCache().getLogger().fine(addExpectedFunctionExString);
-                e.withFilter(s).setArguments((Serializable) s).execute(function);
+                e.withFilter(s).setArguments(s).execute(function);
                 getCache().getLogger().fine(removeExpectedFunctionExString);
                 fail("expected LowMemoryExcception was not thrown");
               } catch (LowMemoryException ex) {
@@ -1215,7 +1215,7 @@ public class MemoryThresholdsDUnitTest extends ClientServerTestCase {
               s.add(sickKey2);
               Execution e = FunctionService.onRegion(pr);
               try {
-                e.withFilter(s).setArguments((Serializable) s).execute(function);
+                e.withFilter(s).setArguments(s).execute(function);
                 fail("expected LowMemoryExcception was not thrown");
               } catch (LowMemoryException ex) {
                 // expected
@@ -1227,7 +1227,7 @@ public class MemoryThresholdsDUnitTest extends ClientServerTestCase {
             Set s = new HashSet();
             s.add(healthyKey);
             Execution e = FunctionService.onRegion(pr);
-            e.withFilter(s).setArguments((Serializable) s).execute(function);
+            e.withFilter(s).setArguments(s).execute(function);
           }
           if (sickKey1 != null && sickKey2 != null && healthyKey != null) {
             break;
@@ -1344,7 +1344,7 @@ public class MemoryThresholdsDUnitTest extends ClientServerTestCase {
   SerializableCallable getDistributedMember = new SerializableCallable() {
     @Override
     public Object call() throws Exception {
-      return ((GemFireCacheImpl) getCache()).getMyId();
+      return getCache().getMyId();
     };
   };
 
@@ -1497,7 +1497,7 @@ public class MemoryThresholdsDUnitTest extends ClientServerTestCase {
       @Override
       public Object call() throws Exception {
         getCache().getLogger().fine(addExpectedExString);
-        ((GemFireCacheImpl) getCache()).getInternalResourceManager().getHeapMonitor()
+        getCache().getInternalResourceManager().getHeapMonitor()
             .updateStateAndSendEvent(950, "test");
         HeapMemoryMonitor.setTestBytesUsedForThresholdSet(950);
         getCache().getLogger().fine(removeExpectedExString);
@@ -1512,7 +1512,7 @@ public class MemoryThresholdsDUnitTest extends ClientServerTestCase {
       public Object call() throws Exception {
         getCache().getLogger().fine(addExpectedBelow);
         HeapMemoryMonitor.setTestBytesUsedForThresholdSet(850);
-        ((GemFireCacheImpl) getCache()).getInternalResourceManager().getHeapMonitor()
+        getCache().getInternalResourceManager().getHeapMonitor()
             .updateStateAndSendEvent(850, "test");
         getCache().getLogger().fine(removeExpectedBelow);
         return null;
@@ -1525,7 +1525,7 @@ public class MemoryThresholdsDUnitTest extends ClientServerTestCase {
       @Override
       public Object call() throws Exception {
         getCache().getLogger().fine(addExpectedBelow);
-        ((GemFireCacheImpl) getCache()).getInternalResourceManager().getHeapMonitor()
+        getCache().getInternalResourceManager().getHeapMonitor()
             .updateStateAndSendEvent(750, "test");
         getCache().getLogger().fine(removeExpectedBelow);
         return null;
@@ -1552,7 +1552,7 @@ public class MemoryThresholdsDUnitTest extends ClientServerTestCase {
       @Override
       public Object call() throws Exception {
         TestMemoryThresholdListener listener = new TestMemoryThresholdListener();
-        InternalResourceManager irm = ((GemFireCacheImpl) getCache()).getInternalResourceManager();
+        InternalResourceManager irm = getCache().getInternalResourceManager();
         irm.addResourceListener(ResourceType.HEAP_MEMORY, listener);
         assertTrue(irm.getResourceListeners(ResourceType.HEAP_MEMORY).contains(listener));
         return null;
@@ -1565,7 +1565,7 @@ public class MemoryThresholdsDUnitTest extends ClientServerTestCase {
       @Override
       public Object call() throws Exception {
         TestMemoryThresholdListener listener = new TestMemoryThresholdListener(true);
-        InternalResourceManager irm = ((GemFireCacheImpl) getCache()).getInternalResourceManager();
+        InternalResourceManager irm = getCache().getInternalResourceManager();
         irm.addResourceListener(ResourceType.HEAP_MEMORY, listener);
         assertTrue(irm.getResourceListeners(ResourceType.HEAP_MEMORY).contains(listener));
         return null;
@@ -1700,7 +1700,7 @@ public class MemoryThresholdsDUnitTest extends ClientServerTestCase {
     vm.invoke(new SerializableCallable() {
       @Override
       public Object call() throws Exception {
-        InternalResourceManager irm = ((GemFireCacheImpl) getCache()).getInternalResourceManager();
+        InternalResourceManager irm = getCache().getInternalResourceManager();
         final ResourceAdvisor ra = irm.getResourceAdvisor();
         WaitCriterion wc = new WaitCriterion() {
           @Override
@@ -1743,7 +1743,7 @@ public class MemoryThresholdsDUnitTest extends ClientServerTestCase {
   private SerializableCallable resetResourceManager = new SerializableCallable() {
     @Override
     public Object call() throws Exception {
-      InternalResourceManager irm = ((GemFireCacheImpl) getCache()).getInternalResourceManager();
+      InternalResourceManager irm = getCache().getInternalResourceManager();
       // Reset CRITICAL_UP by informing all that heap usage is now 1 byte (0 would disable).
       irm.getHeapMonitor().updateStateAndSendEvent(1, "test");
       Set<ResourceListener<?>> listeners = irm.getResourceListeners(ResourceType.HEAP_MEMORY);

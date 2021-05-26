@@ -77,7 +77,7 @@ public class FunctionRemoteContext implements DataSerializable {
       this.isFnSerializationReqd = true;
     }
     this.args = DataSerializer.readObject(in);
-    this.filter = (HashSet) DataSerializer.readHashSet(in);
+    this.filter = DataSerializer.readHashSet(in);
     if (StaticSerialization.getVersionForDataStream(in).isNotOlderThan(KnownVersion.GEODE_1_11_0)) {
       this.bucketArray = DataSerializer.readIntArray(in);
     } else {

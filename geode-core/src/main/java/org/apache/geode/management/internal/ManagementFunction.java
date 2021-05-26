@@ -14,7 +14,6 @@
  */
 package org.apache.geode.management.internal;
 
-import java.io.Serializable;
 
 import javax.management.Attribute;
 import javax.management.InstanceNotFoundException;
@@ -95,22 +94,22 @@ public class ManagementFunction implements InternalFunction {
 
         Attribute attr = new Attribute(methodName.substring(3), args[0]);
         mbeanServer.setAttribute(objectName, attr);
-        fc.getResultSender().lastResult((Serializable) null);
+        fc.getResultSender().lastResult(null);
 
       } else if (methodName.equals("addNotificationListener")) {
         notificationHub.addHubNotificationListener(memberName, objectName);
-        fc.getResultSender().lastResult((Serializable) ManagementConstants.UNDEFINED);
+        fc.getResultSender().lastResult(ManagementConstants.UNDEFINED);
 
       } else if (methodName.equals("removeNotificationListener")) {
         notificationHub.removeHubNotificationListener(memberName, objectName);
-        fc.getResultSender().lastResult((Serializable) ManagementConstants.UNDEFINED);
+        fc.getResultSender().lastResult(ManagementConstants.UNDEFINED);
 
       } else if (methodName.equals("getNotificationInfo")) {
         fc.getResultSender().lastResult(mbeanServer.getMBeanInfo(objectName));
 
       } else {
         returnObj = mbeanServer.invoke(objectName, methodName, args, signature);
-        fc.getResultSender().lastResult((Serializable) returnObj);
+        fc.getResultSender().lastResult(returnObj);
       }
 
       executedSuccessfully = true;

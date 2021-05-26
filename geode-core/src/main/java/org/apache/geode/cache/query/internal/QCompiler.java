@@ -735,7 +735,7 @@ public class QCompiler implements OQLLexerTokenTypes {
 
     @Override
     public List<CompiledValue> getIndexingKeys() {
-      return (List<CompiledValue>) indexList;
+      return indexList;
     }
 
     @Override

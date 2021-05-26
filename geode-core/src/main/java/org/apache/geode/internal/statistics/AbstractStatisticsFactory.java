@@ -104,7 +104,7 @@ public abstract class AbstractStatisticsFactory implements StatisticsFactory, St
   @Override
   public Statistics[] getStatistics() {
     List<Statistics> statsList = this.statsList;
-    return (Statistics[]) statsList.toArray(new Statistics[statsList.size()]);
+    return statsList.toArray(new Statistics[statsList.size()]);
   }
 
   // StatisticsFactory methods
@@ -145,13 +145,13 @@ public abstract class AbstractStatisticsFactory implements StatisticsFactory, St
     List<Statistics> hits = new ArrayList<Statistics>();
     Iterator<Statistics> it = statsList.iterator();
     while (it.hasNext()) {
-      Statistics s = (Statistics) it.next();
+      Statistics s = it.next();
       if (type == s.getType()) {
         hits.add(s);
       }
     }
     Statistics[] result = new Statistics[hits.size()];
-    return (Statistics[]) hits.toArray(result);
+    return hits.toArray(result);
   }
 
   @Override
@@ -159,13 +159,13 @@ public abstract class AbstractStatisticsFactory implements StatisticsFactory, St
     List<Statistics> hits = new ArrayList<Statistics>();
     Iterator<Statistics> it = statsList.iterator();
     while (it.hasNext()) {
-      Statistics s = (Statistics) it.next();
+      Statistics s = it.next();
       if (s.getTextId().equals(textId)) {
         hits.add(s);
       }
     }
     Statistics[] result = new Statistics[hits.size()];
-    return (Statistics[]) hits.toArray(result);
+    return hits.toArray(result);
   }
 
   @Override
@@ -173,20 +173,20 @@ public abstract class AbstractStatisticsFactory implements StatisticsFactory, St
     List<Statistics> hits = new ArrayList<Statistics>();
     Iterator<Statistics> it = statsList.iterator();
     while (it.hasNext()) {
-      Statistics s = (Statistics) it.next();
+      Statistics s = it.next();
       if (numericId == s.getNumericId()) {
         hits.add(s);
       }
     }
     Statistics[] result = new Statistics[hits.size()];
-    return (Statistics[]) hits.toArray(result);
+    return hits.toArray(result);
   }
 
   @Override
   public Statistics findStatisticsByUniqueId(long uniqueId) {
     Iterator<Statistics> it = statsList.iterator();
     while (it.hasNext()) {
-      Statistics s = (Statistics) it.next();
+      Statistics s = it.next();
       if (uniqueId == s.getUniqueId()) {
         return s;
       }

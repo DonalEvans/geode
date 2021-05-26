@@ -649,7 +649,7 @@ public class StateFlushOperation {
       super.fromData(din, context);
       processorId = din.readInt();
       channelState = DataSerializer.readHashMap(din);
-      requestingMember = (DistributedMember) DataSerializer.readObject(din);
+      requestingMember = DataSerializer.readObject(din);
       this.isSingleFlushTo = din.readBoolean();
     }
 
@@ -710,7 +710,7 @@ public class StateFlushOperation {
     public void fromData(DataInput din,
         DeserializationContext context) throws IOException, ClassNotFoundException {
       super.fromData(din, context);
-      sendingMember = (DistributedMember) DataSerializer.readObject(din);
+      sendingMember = DataSerializer.readObject(din);
     }
 
     @Override
@@ -760,7 +760,7 @@ public class StateFlushOperation {
       this.originalCount = initMembers.size();
       this.targetMemberHasLeft = targetMemberHasLeft // bug #43583 - perform an initial membership
           // check
-          || !manager.isCurrentMember((InternalDistributedMember) target);
+          || !manager.isCurrentMember(target);
     }
 
     /** process the failure set from sending the message */

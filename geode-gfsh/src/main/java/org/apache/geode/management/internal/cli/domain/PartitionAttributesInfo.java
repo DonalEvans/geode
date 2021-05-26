@@ -67,7 +67,7 @@ public class PartitionAttributesInfo implements Serializable {
       fpaInfoList = new ArrayList<FixedPartitionAttributesInfo>();
 
       while (iters.hasNext()) {
-        FixedPartitionAttributes fpa = (FixedPartitionAttributes) iters.next();
+        FixedPartitionAttributes fpa = iters.next();
         FixedPartitionAttributesInfo fpaInfo = new FixedPartitionAttributesInfo(fpa);
         fpaInfoList.add(fpaInfo);
       }

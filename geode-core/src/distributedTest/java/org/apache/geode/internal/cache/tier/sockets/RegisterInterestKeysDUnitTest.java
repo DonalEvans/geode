@@ -105,8 +105,8 @@ public class RegisterInterestKeysDUnitTest extends JUnit4DistributedTestCase {
 
     LogWriterUtils.getLogWriter().info("implementation class is " + impl.getClass());
 
-    PORT1 = ((Integer) server1.invoke(() -> impl.createServerCache())).intValue();
-    PORT2 = ((Integer) server2.invoke(() -> impl.createServerCache())).intValue();
+    PORT1 = server1.invoke(() -> impl.createServerCache()).intValue();
+    PORT2 = server2.invoke(() -> impl.createServerCache()).intValue();
 
     client1.invoke(() -> impl.createClientCache(NetworkUtils.getServerHostName(server1.getHost()),
         new Integer(PORT1), new Integer(PORT2)));

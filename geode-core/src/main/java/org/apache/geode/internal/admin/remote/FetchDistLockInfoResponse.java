@@ -88,7 +88,7 @@ public class FetchDistLockInfoResponse extends AdminResponse {
   public void fromData(DataInput in,
       DeserializationContext context) throws IOException, ClassNotFoundException {
     super.fromData(in, context);
-    this.lockInfos = (DLockInfo[]) DataSerializer.readObject(in);
+    this.lockInfos = DataSerializer.readObject(in);
   }
 
   @Override

@@ -174,7 +174,7 @@ public class LinkedStructSet extends LinkedHashSet<Struct>
       DeserializationContext context) throws IOException, ClassNotFoundException {
     this.modifiable = in.readBoolean();
     int size = in.readInt();
-    this.structType = (StructTypeImpl) context.getDeserializer().readObject(in);
+    this.structType = context.getDeserializer().readObject(in);
     for (int j = size; j > 0; j--) {
       Object[] fieldValues = context.getDeserializer().readObject(in);
       this.add(new StructImpl(this.structType, fieldValues));

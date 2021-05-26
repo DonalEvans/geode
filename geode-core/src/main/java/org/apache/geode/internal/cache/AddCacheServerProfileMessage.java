@@ -72,7 +72,7 @@ public class AddCacheServerProfileMessage extends SerialDistributionMessage
     final boolean isDebugEnabled = logger.isDebugEnabled();
 
     for (DistributedRegion r : getDistributedRegions(cache)) {
-      CacheDistributionAdvisor cda = (CacheDistributionAdvisor) r.getDistributionAdvisor();
+      CacheDistributionAdvisor cda = r.getDistributionAdvisor();
       CacheDistributionAdvisor.CacheProfile cp =
           (CacheDistributionAdvisor.CacheProfile) cda.getProfile(getSender());
       if (cp != null) {

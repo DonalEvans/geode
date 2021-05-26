@@ -225,7 +225,7 @@ public class UpdateOperation extends AbstractUpdateOperation {
             updateMsg =
                 new UpdateOperation.UpdateWithContextMessage((UpdateWithContextMessage) this);
           } else {
-            updateMsg = new UpdateOperation.UpdateMessage((UpdateMessage) this);
+            updateMsg = new UpdateOperation.UpdateMessage(this);
           }
           Runnable sendMessage = new Runnable() {
             @Override

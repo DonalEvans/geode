@@ -211,7 +211,7 @@ public class IndexTrackingQueryObserver extends QueryObserverAdapter {
       return Collections.EMPTY_MAP;
     }
     Map newMap = new HashMap();
-    for (Object obj : (Set) map.entrySet()) {
+    for (Object obj : map.entrySet()) {
       Map.Entry<String, IndexInfo> entry = (Map.Entry<String, IndexInfo>) obj;
       if (entry != null && entry.getValue().getRegionIds().contains(fullPath)) {
         newMap.put(entry.getKey(), entry.getValue().getResults().get(fullPath));

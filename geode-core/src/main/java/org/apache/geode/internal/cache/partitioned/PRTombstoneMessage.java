@@ -142,7 +142,7 @@ public class PRTombstoneMessage extends PartitionMessageWithDirectReply
     for (int i = 0; i < numKeys; i++) {
       this.keys.add(DataSerializer.readObject(in));
     }
-    this.eventID = (EventID) DataSerializer.readObject(in);
+    this.eventID = DataSerializer.readObject(in);
   }
 
   @Override

@@ -57,13 +57,13 @@ public class StreamingOperationOneDUnitTest extends JUnit4DistributedTestCase {
 
     class IDGetter implements Serializable {
       InternalDistributedMember getMemberId() {
-        return (InternalDistributedMember) getSystem().getDistributedMember();
+        return getSystem().getDistributedMember();
       }
     }
 
     // get the other member id that connected
     InternalDistributedMember otherId =
-        (InternalDistributedMember) vm0.invoke(new IDGetter(), "getMemberId");
+        vm0.invoke(new IDGetter(), "getMemberId");
     Set setOfIds = Collections.singleton(otherId);
 
     TestStreamingOperationOneProviderNoExceptions streamOp =

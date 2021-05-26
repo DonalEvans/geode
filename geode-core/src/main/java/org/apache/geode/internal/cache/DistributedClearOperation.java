@@ -144,7 +144,7 @@ public class DistributedClearOperation extends DistributedCacheOperation {
     if (this.event instanceof ClientRegionEventImpl) {
       mssg = new ClearRegionWithContextMessage();
       ((ClearRegionWithContextMessage) mssg).context =
-          ((ClientRegionEventImpl) this.event).getContext();
+          this.event.getContext();
 
     } else {
       mssg = new ClearRegionMessage();
@@ -211,7 +211,7 @@ public class DistributedClearOperation extends DistributedCacheOperation {
       switch (this.clearOp) {
         case OP_CLEAR:
           region.clearRegionLocally((RegionEventImpl) event, false, this.rvv);
-          region.notifyBridgeClients((RegionEventImpl) event);
+          region.notifyBridgeClients(event);
           this.appliedOperation = true;
           break;
         case OP_LOCK_FOR_CLEAR:
@@ -236,9 +236,9 @@ public class DistributedClearOperation extends DistributedCacheOperation {
         DeserializationContext context) throws IOException, ClassNotFoundException {
       super.fromData(in, context);
       this.clearOp = OperationType.values()[in.readByte()];
-      this.eventID = (EventID) DataSerializer.readObject(in);
-      this.rvv = (RegionVersionVector) DataSerializer.readObject(in);
-      this.operationTag = (VersionTag<?>) DataSerializer.readObject(in);
+      this.eventID = DataSerializer.readObject(in);
+      this.rvv = DataSerializer.readObject(in);
+      this.operationTag = DataSerializer.readObject(in);
     }
 
     @Override

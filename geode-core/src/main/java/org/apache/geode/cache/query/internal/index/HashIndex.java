@@ -709,9 +709,9 @@ public class HashIndex extends AbstractIndex {
   private boolean evaluateEntry(IndexInfo indexInfo, ExecutionContext context, Object keyVal)
       throws FunctionDomainException, TypeMismatchException, NameResolutionException,
       QueryInvocationTargetException {
-    CompiledValue path = ((IndexInfo) indexInfo)._path();
+    CompiledValue path = indexInfo._path();
     Object left = path.evaluate(context);
-    CompiledValue key = ((IndexInfo) indexInfo)._key();
+    CompiledValue key = indexInfo._key();
     Object right = null;
 
     // For CompiledUndefined indexInfo has null key.
@@ -1035,7 +1035,7 @@ public class HashIndex extends AbstractIndex {
       this.cache = helper.getCache();
       this.fromIterators = helper.getIterators();
       this.indexedExpr = helper.getCompiledIndexedExpression();
-      this.canonicalIterNames = ((FunctionalIndexCreationHelper) helper).canonicalizedIteratorNames;
+      this.canonicalIterNames = helper.canonicalizedIteratorNames;
       this.rgn = helper.getRegion();
 
       // The modified iterators for optimizing Index creation

@@ -804,7 +804,7 @@ public class HashIndexSet implements Set {
         try {
           if (fieldValue instanceof PdxString) {
             if (indexKey instanceof String) {
-              fieldValue = ((PdxString) fieldValue).toString();
+              fieldValue = fieldValue.toString();
             }
           } else if (indexKey instanceof PdxString) {
             if (fieldValue instanceof String) {

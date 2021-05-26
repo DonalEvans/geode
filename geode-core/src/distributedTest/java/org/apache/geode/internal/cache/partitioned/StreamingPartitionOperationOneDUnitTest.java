@@ -77,7 +77,7 @@ public class StreamingPartitionOperationOneDUnitTest extends JUnit4CacheTestCase
 
   class IDGetter implements Serializable {
     InternalDistributedMember getMemberId() {
-      return (InternalDistributedMember) getSystem().getDistributedMember();
+      return getSystem().getDistributedMember();
     }
   }
 
@@ -97,7 +97,7 @@ public class StreamingPartitionOperationOneDUnitTest extends JUnit4CacheTestCase
 
     // get the other member id that connected
     InternalDistributedMember otherId =
-        (InternalDistributedMember) vm0.invoke(new IDGetter(), "getMemberId");
+        vm0.invoke(new IDGetter(), "getMemberId");
 
     vm0.invoke(createPrRegionWithDS_DACK);
 

@@ -68,7 +68,7 @@ public class LicenseInfoResponse extends AdminResponse {
   public void fromData(DataInput in,
       DeserializationContext context) throws IOException, ClassNotFoundException {
     super.fromData(in, context);
-    this.p = (Properties) DataSerializer.readObject(in);
+    this.p = DataSerializer.readObject(in);
   }
 
   @Override

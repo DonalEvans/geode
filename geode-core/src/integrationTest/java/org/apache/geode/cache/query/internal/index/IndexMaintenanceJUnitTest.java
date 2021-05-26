@@ -1063,7 +1063,7 @@ public class IndexMaintenanceJUnitTest {
     try {
       itr = ri.getIndexStorage().iterator(null);
       while (itr.hasNext()) {
-        IndexStoreEntry reEntry = (IndexStoreEntry) itr.next();
+        IndexStoreEntry reEntry = itr.next();
         Object obj = reEntry.getDeserializedRegionKey();
         assertTrue(obj instanceof String);
         assertTrue(idSet.contains(obj));

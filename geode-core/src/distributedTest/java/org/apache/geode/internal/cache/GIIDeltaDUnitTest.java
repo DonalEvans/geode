@@ -2423,7 +2423,7 @@ public class GIIDeltaDUnitTest extends JUnit4CacheTestCase {
     vm.invoke(new SerializableCallable("force GC") {
       @Override
       public Object call() throws Exception {
-        ((GemFireCacheImpl) getCache()).getTombstoneService().forceBatchExpirationForTests(count);
+        getCache().getTombstoneService().forceBatchExpirationForTests(count);
         return null;
       }
     });
@@ -2433,7 +2433,7 @@ public class GIIDeltaDUnitTest extends JUnit4CacheTestCase {
     vm.invoke(new SerializableCallable("force to add gii count") {
       @Override
       public Object call() throws Exception {
-        ((GemFireCacheImpl) getCache()).getTombstoneService().incrementGCBlockCount();
+        getCache().getTombstoneService().incrementGCBlockCount();
         return null;
       }
     });
@@ -2443,7 +2443,7 @@ public class GIIDeltaDUnitTest extends JUnit4CacheTestCase {
     vm.invoke(new SerializableCallable("assert progressingDeltaGIICount == 0") {
       @Override
       public Object call() throws Exception {
-        int count = ((GemFireCacheImpl) getCache()).getTombstoneService().getGCBlockCount();
+        int count = getCache().getTombstoneService().getGCBlockCount();
         assertEquals(0, count);
         return null;
       }
@@ -2584,7 +2584,7 @@ public class GIIDeltaDUnitTest extends JUnit4CacheTestCase {
         WaitCriterion ev = new WaitCriterion() {
           @Override
           public boolean done() {
-            String value = (String) ((LocalRegion) getCache().getRegion(REGION_NAME)).get(key);
+            String value = (String) getCache().getRegion(REGION_NAME).get(key);
             if (expect_value == null && value == null) {
               return true;
             } else {
@@ -2599,7 +2599,7 @@ public class GIIDeltaDUnitTest extends JUnit4CacheTestCase {
         };
 
         GeodeAwaitility.await().untilAsserted(ev);
-        String value = (String) ((LocalRegion) getCache().getRegion(REGION_NAME)).get(key);
+        String value = (String) getCache().getRegion(REGION_NAME).get(key);
         assertEquals(expect_value, value);
       }
     };

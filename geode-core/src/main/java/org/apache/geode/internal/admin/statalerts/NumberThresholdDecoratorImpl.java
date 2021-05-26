@@ -136,7 +136,7 @@ public class NumberThresholdDecoratorImpl extends BaseDecoratorImpl
   public void fromData(DataInput in,
       DeserializationContext context) throws IOException, ClassNotFoundException {
     super.fromData(in);
-    this.threshold = (Number) context.getDeserializer().readObject(in);
+    this.threshold = context.getDeserializer().readObject(in);
     this.evalForGtThan = DataSerializer.readPrimitiveBoolean(in);
   }
 

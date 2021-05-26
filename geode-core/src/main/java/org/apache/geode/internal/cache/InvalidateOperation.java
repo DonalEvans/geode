@@ -51,7 +51,7 @@ public class InvalidateOperation extends DistributedCacheOperation {
   protected CacheOperationMessage createMessage() {
     if (this.event.hasClientOrigin()) {
       InvalidateWithContextMessage msgwithContxt = new InvalidateWithContextMessage();
-      msgwithContxt.context = ((EntryEventImpl) this.event).getContext();
+      msgwithContxt.context = this.event.getContext();
       return msgwithContxt;
     } else {
       return new InvalidateMessage();
@@ -131,7 +131,7 @@ public class InvalidateOperation extends DistributedCacheOperation {
     public void fromData(DataInput in,
         DeserializationContext context) throws IOException, ClassNotFoundException {
       super.fromData(in, context);
-      this.eventId = (EventID) DataSerializer.readObject(in);
+      this.eventId = DataSerializer.readObject(in);
       this.key = DataSerializer.readObject(in);
     }
 

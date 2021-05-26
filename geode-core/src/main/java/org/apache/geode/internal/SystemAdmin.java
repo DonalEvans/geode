@@ -1818,7 +1818,7 @@ public class SystemAdmin {
   }
 
   protected boolean matchCmdArg(String cmd, String arg) {
-    String[] validArgs = (String[]) cmdOptionsMap.get(cmd.toLowerCase());
+    String[] validArgs = cmdOptionsMap.get(cmd.toLowerCase());
     for (int i = 0; i < validArgs.length; i++) {
       if (validArgs[i].endsWith("=") || validArgs[i].equals("-D") || validArgs[i].equals("-X")) {
         if (arg.toLowerCase().startsWith(validArgs[i]) || arg.startsWith(validArgs[i])) {

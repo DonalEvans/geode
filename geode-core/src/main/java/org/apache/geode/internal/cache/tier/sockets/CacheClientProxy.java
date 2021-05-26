@@ -2016,7 +2016,7 @@ public class CacheClientProxy implements ClientSession {
    * @since GemFire 7.0
    */
   public long getUpTime() {
-    return (long) ((System.currentTimeMillis() - this.creationDate.getTime()) / 1000);
+    return (System.currentTimeMillis() - this.creationDate.getTime()) / 1000;
   }
 
   public interface TestHook {

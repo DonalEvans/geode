@@ -767,7 +767,7 @@ public class ClientMembershipDUnitTest extends ClientServerTestCase {
         () -> ClientMembershipDUnitTest.getTestClientMembershipEventsInClient_port());
     assertTrue(ports[0] != 0);
 
-    DistributedMember serverMember = (DistributedMember) vm0.invoke("get distributed member",
+    DistributedMember serverMember = vm0.invoke("get distributed member",
         () -> getSystem().getDistributedMember());
 
     String serverMemberId = serverMember.toString();

@@ -626,7 +626,7 @@ public abstract class DynamicRegionFactory {
     if (this.config.getRegisterInterest()) {
       ServerRegionProxy proxy = ((InternalRegion) newRegion).getServerProxy();
       if (proxy != null) {
-        if (((Pool) proxy.getPool()).getSubscriptionEnabled()) {
+        if (proxy.getPool().getSubscriptionEnabled()) {
           try {
             newRegion.registerInterest("ALL_KEYS");
           } catch (GemFireSecurityException ex) {

@@ -75,7 +75,7 @@ public class LuceneQueryImplJUnitTest {
     when(region.getCache().getCacheTransactionManager().exists()).thenReturn(false);
     when(execution.setArguments(any())).thenReturn(execution);
     when(execution.withCollector(any())).thenReturn(execution);
-    when(execution.execute(anyString())).thenReturn((ResultCollector) collector);
+    when(execution.execute(anyString())).thenReturn(collector);
     results = mock(PageableLuceneQueryResults.class);
 
     query = new LuceneQueryImpl<Object, Object>("index", region, provider, LIMIT, 20) {

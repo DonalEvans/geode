@@ -2470,7 +2470,7 @@ public class PartitionedRegion extends LocalRegion
     Iterator<Map.Entry<Integer, RemoveAllPRMessage>> itor = prMsgMap.entrySet().iterator();
     while (itor.hasNext()) {
       Map.Entry<Integer, RemoveAllPRMessage> mapEntry = itor.next();
-      Integer bucketId = (Integer) mapEntry.getKey();
+      Integer bucketId = mapEntry.getKey();
       RemoveAllPRMessage prMsg = mapEntry.getValue();
       checkReadiness();
       long then = 0;
@@ -4138,7 +4138,7 @@ public class PartitionedRegion extends LocalRegion
           // TODO: there should be better way than this one
           String name = Thread.currentThread().getName();
           if (name.startsWith("ServerConnection") && !getMyId().equals(retryNode)) {
-            setNetworkHopType(bucketId, (InternalDistributedMember) retryNode);
+            setNetworkHopType(bucketId, retryNode);
           }
         }
         return obj;
@@ -4380,7 +4380,7 @@ public class PartitionedRegion extends LocalRegion
       }
       // Get first entry
       Iterator<InternalDistributedMember> ownersI = owners.iterator();
-      InternalDistributedMember owner = (InternalDistributedMember) ownersI.next();
+      InternalDistributedMember owner = ownersI.next();
       // Remove it from our list
       collected.add(owner);
 
@@ -6170,7 +6170,7 @@ public class PartitionedRegion extends LocalRegion
 
     @Override
     public Object[] toArray() {
-      return toArray((Object[]) null);
+      return toArray(null);
     }
 
     @Override
@@ -6304,7 +6304,7 @@ public class PartitionedRegion extends LocalRegion
 
     ResultCollector rc = null;
     try {
-      rc = FunctionService.onRegion(this).setArguments((Serializable) value)
+      rc = FunctionService.onRegion(this).setArguments(value)
           .execute(PRContainsValueFunction.class.getName());
       List<Boolean> results = ((List<Boolean>) rc.getResult());
       for (Boolean r : results) {

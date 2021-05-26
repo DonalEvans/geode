@@ -611,7 +611,7 @@ public abstract class AbstractGatewaySenderEventProcessor extends LoggingThread
                 && (this.getDispatcher() instanceof GatewaySenderEventCallbackDispatcher)) {
               Iterator<GatewaySenderEventImpl> itr = filteredList.iterator();
               while (itr.hasNext()) {
-                GatewaySenderEventImpl event = (GatewaySenderEventImpl) itr.next();
+                GatewaySenderEventImpl event = itr.next();
                 PartitionedRegion qpr = null;
                 if (this.getQueue() instanceof ConcurrentParallelGatewaySenderQueue) {
                   qpr = ((ConcurrentParallelGatewaySenderQueue) this.getQueue())

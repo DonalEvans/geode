@@ -187,7 +187,7 @@ public class BridgeServerRequest extends AdminRequest {
     super.fromData(in, context);
     this.cacheId = in.readInt();
     this.operation = in.readInt();
-    this.bridgeInfo = (RemoteBridgeServer) DataSerializer.readObject(in);
+    this.bridgeInfo = DataSerializer.readObject(in);
     this.bridgeId = in.readInt();
   }
 

@@ -1135,7 +1135,7 @@ public abstract class InternalDataSerializer extends DataSerializer {
     Object ds = idsToSerializers.get(holder.getId());
     if (ds instanceof Marker) {
       synchronized (ds) {
-        ((Marker) ds).notifyAll();
+        ds.notifyAll();
       }
     }
 

@@ -32,14 +32,12 @@ import org.apache.geode.GemFireException;
 import org.apache.geode.InternalGemFireException;
 import org.apache.geode.cache.CacheException;
 import org.apache.geode.cache.EntryEvent;
-import org.apache.geode.cache.EntryOperation;
 import org.apache.geode.cache.Region;
 import org.apache.geode.cache.wan.GatewayQueueEvent;
 import org.apache.geode.distributed.internal.DistributionManager;
 import org.apache.geode.internal.cache.EntryEventImpl;
 import org.apache.geode.internal.cache.EnumListenerEvent;
 import org.apache.geode.internal.cache.InternalRegion;
-import org.apache.geode.internal.cache.LocalRegion;
 import org.apache.geode.internal.cache.PartitionedRegion;
 import org.apache.geode.internal.cache.PartitionedRegionHelper;
 import org.apache.geode.internal.cache.RegionQueue;
@@ -96,7 +94,7 @@ public class ConcurrentParallelGatewaySenderEventProcessor
     // bucket
     Set<Region> targetRs = new HashSet<Region>();
     for (InternalRegion pr : sender.getCache().getApplicationRegions()) {
-      if (((LocalRegion) pr).getAllGatewaySenderIds().contains(sender.getId())) {
+      if (pr.getAllGatewaySenderIds().contains(sender.getId())) {
         targetRs.add(pr);
       }
     }
@@ -166,7 +164,7 @@ public class ConcurrentParallelGatewaySenderEventProcessor
       }
       return;
     }
-    int bucketId = PartitionedRegionHelper.getHashKey((EntryOperation) droppedEvent);
+    int bucketId = PartitionedRegionHelper.getHashKey(droppedEvent);
     long shadowKey = droppedEvent.getTailKey();
 
     ParallelGatewaySenderQueue pgsq = (ParallelGatewaySenderQueue) cpgsq.getQueueByBucket(bucketId);

@@ -159,7 +159,7 @@ public class AutoSerializableJUnitTest {
     // disable pdx instances to make sure we can deserialize without calling PdxInstance.getObject
     PdxInstanceImpl.setPdxReadSerialized(false);
     try {
-      DomainObjectPdxAuto result = (DomainObjectPdxAuto) DataSerializer
+      DomainObjectPdxAuto result = DataSerializer
           .readObject(new DataInputStream(new ByteArrayInputStream(out.toByteArray())));
       assertEquals(99L, result.get("long_0"));
       assertEquals("test string value", result.get("string_0"));
@@ -527,7 +527,7 @@ public class AutoSerializableJUnitTest {
     HeapDataOutputStream out = new HeapDataOutputStream(KnownVersion.CURRENT);
     DataSerializer.writeObject(objOut, out);
 
-    DomainObject objIn = (DomainObject) DataSerializer
+    DomainObject objIn = DataSerializer
         .readObject(new DataInputStream(new ByteArrayInputStream(out.toByteArray())));
     assertEquals(objOut, objIn);
   }
@@ -554,8 +554,8 @@ public class AutoSerializableJUnitTest {
     DataSerializer.writeObject(objOut, out);
 
     DataInputStream dis = new DataInputStream(new ByteArrayInputStream(out.toByteArray()));
-    PdxInstance pi = (PdxInstance) DataSerializer.readObject(dis);
-    PdxInstance pi2 = (PdxInstance) DataSerializer.readObject(dis);
+    PdxInstance pi = DataSerializer.readObject(dis);
+    PdxInstance pi2 = DataSerializer.readObject(dis);
     assertEquals(true, pi.isIdentityField("long_0"));
     assertEquals(false, pi.isIdentityField("string_0"));
     assertEquals(false, pi.isEnum());
@@ -584,7 +584,7 @@ public class AutoSerializableJUnitTest {
     HeapDataOutputStream out = new HeapDataOutputStream(KnownVersion.CURRENT);
     DataSerializer.writeObject(objOut, out);
 
-    PdxInstance pi = (PdxInstance) DataSerializer
+    PdxInstance pi = DataSerializer
         .readObject(new DataInputStream(new ByteArrayInputStream(out.toByteArray())));
     assertEquals(true, pi.hasField("long_0"));
     assertEquals(false, pi.hasField("string_0"));
@@ -614,7 +614,7 @@ public class AutoSerializableJUnitTest {
     HeapDataOutputStream out = new HeapDataOutputStream(KnownVersion.CURRENT);
     DataSerializer.writeObject(objOut, out);
 
-    PdxInstance pi = (PdxInstance) DataSerializer
+    PdxInstance pi = DataSerializer
         .readObject(new DataInputStream(new ByteArrayInputStream(out.toByteArray())));
     System.out.println("fieldNames=" + pi.getFieldNames());
     assertEquals(false, pi.hasField("long_0"));
@@ -771,7 +771,7 @@ public class AutoSerializableJUnitTest {
         }
       } else if (f.getType().equals(Integer.class)) {
         if (originalValue == null) {
-          return (int) 0;
+          return 0;
         } else {
           return originalValue;
         }

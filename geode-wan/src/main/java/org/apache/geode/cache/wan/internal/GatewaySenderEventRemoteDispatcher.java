@@ -810,7 +810,7 @@ public class GatewaySenderEventRemoteDispatcher implements GatewaySenderEventDis
           if (eventsArr != null) {
             List<GatewaySenderEventImpl> filteredEvents = eventsArr[1];
             GatewaySenderEventImpl gsEvent =
-                (GatewaySenderEventImpl) filteredEvents.get(be.getIndex());
+                filteredEvents.get(be.getIndex());
             if (logWarning) {
               logger.warn("The event being processed when the BatchException occurred was:  {}",
                   gsEvent);

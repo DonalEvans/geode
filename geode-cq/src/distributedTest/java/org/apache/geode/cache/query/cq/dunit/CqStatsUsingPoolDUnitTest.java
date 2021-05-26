@@ -112,7 +112,7 @@ public class CqStatsUsingPoolDUnitTest extends JUnit4CacheTestCase {
         CqQueryImpl cQuery = (CqQueryImpl) cqs.iterator().next();
 
         CqStatistics cqStats = cQuery.getStatistics();
-        CqQueryVsdStats cqVsdStats = ((CqQueryImpl) cQuery).getVsdStats();
+        CqQueryVsdStats cqVsdStats = cQuery.getVsdStats();
         if (cqStats == null || cqVsdStats == null) {
           fail("Failed to get CqQuery Stats for CQ : " + cqName);
         }

@@ -91,7 +91,7 @@ public class OffHeapManagementDUnitTest extends CacheTestCase {
   /**
    * Half of expected memory total.
    */
-  private static final int HALF_TOTAL_MEMORY = (int) (TOTAL_MEMORY / 2);
+  private static final int HALF_TOTAL_MEMORY = TOTAL_MEMORY / 2;
 
   /**
    * An arbitrary array size.
@@ -244,7 +244,7 @@ public class OffHeapManagementDUnitTest extends CacheTestCase {
 
     // After allocating large chunk (equal to total memory)
     // we should still have no fragmentation
-    int largeChunk = (int) TOTAL_MEMORY - OffHeapStoredObject.HEADER_SIZE;
+    int largeChunk = TOTAL_MEMORY - OffHeapStoredObject.HEADER_SIZE;
     doPutOnVm(vm, KEY, new byte[largeChunk], OFF_HEAP_REGION_NAME, false);
     // No compaction has run, so fragmentation should be zero
     assertFragmentationStatOnVm(vm, 0, ASSERT_OP.EQUAL);

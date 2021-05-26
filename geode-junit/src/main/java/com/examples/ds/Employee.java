@@ -49,6 +49,6 @@ public class Employee implements DataSerializable {
     this.id = in.readInt();
     this.name = in.readUTF();
     this.birthday = DataSerializer.readDate(in);
-    this.employer = (Company) DataSerializer.readObject(in);
+    this.employer = DataSerializer.readObject(in);
   }
 }

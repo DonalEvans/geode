@@ -102,7 +102,7 @@ public class UpdateVersionDUnitTest extends JUnit4DistributedTestCase {
     final String key = "key-1";
 
     // Site 1
-    Integer lnPort = (Integer) vm0.invoke(() -> this.createFirstLocatorWithDSId(1));
+    Integer lnPort = vm0.invoke(() -> this.createFirstLocatorWithDSId(1));
 
     vm1.invoke(() -> this.createCache(lnPort));
     vm1.invoke(() -> this.createSender("ln1", 2, false, 10, 1, false, false, null, true));
@@ -112,8 +112,8 @@ public class UpdateVersionDUnitTest extends JUnit4DistributedTestCase {
     vm1.invoke(() -> this.waitForSenderRunningState("ln1"));
 
     // Site 2
-    Integer nyPort = (Integer) vm2.invoke(() -> this.createFirstRemoteLocator(2, lnPort));
-    Integer nyRecPort = (Integer) vm3.invoke(() -> this.createReceiver(nyPort));
+    Integer nyPort = vm2.invoke(() -> this.createFirstRemoteLocator(2, lnPort));
+    Integer nyRecPort = vm3.invoke(() -> this.createReceiver(nyPort));
 
     vm3.invoke(() -> this.createPartitionedRegion(regionName, "", 1, 1));
     vm4.invoke(() -> this.createCache(nyPort));
@@ -139,7 +139,7 @@ public class UpdateVersionDUnitTest extends JUnit4DistributedTestCase {
     final String key = "key-1";
 
     // Site 1
-    Integer lnPort = (Integer) vm0.invoke(() -> this.createFirstLocatorWithDSId(1));
+    Integer lnPort = vm0.invoke(() -> this.createFirstLocatorWithDSId(1));
 
     vm1.invoke(() -> this.createCache(lnPort));
     vm1.invoke(() -> this.createSender("ln1", 2, false, 10, 1, false, false, null, true));
@@ -149,8 +149,8 @@ public class UpdateVersionDUnitTest extends JUnit4DistributedTestCase {
     vm1.invoke(() -> this.waitForSenderRunningState("ln1"));
 
     // Site 2
-    Integer nyPort = (Integer) vm2.invoke(() -> this.createFirstRemoteLocator(2, lnPort));
-    Integer nyRecPort = (Integer) vm3.invoke(() -> this.createReceiver(nyPort));
+    Integer nyPort = vm2.invoke(() -> this.createFirstRemoteLocator(2, lnPort));
+    Integer nyRecPort = vm3.invoke(() -> this.createReceiver(nyPort));
 
     vm3.invoke(() -> this.createReplicatedRegion(regionName, ""));
     vm4.invoke(() -> this.createCache(nyPort));
@@ -186,8 +186,8 @@ public class UpdateVersionDUnitTest extends JUnit4DistributedTestCase {
     vm1.invoke(() -> this.waitForSenderRunningState("ln1"));
 
     // Site 2
-    Integer nyPort = (Integer) vm2.invoke(() -> this.createFirstRemoteLocator(2, lnPort));
-    Integer nyRecPort = (Integer) vm3.invoke(() -> this.createReceiver(nyPort));
+    Integer nyPort = vm2.invoke(() -> this.createFirstRemoteLocator(2, lnPort));
+    Integer nyRecPort = vm3.invoke(() -> this.createReceiver(nyPort));
 
     vm3.invoke(() -> this.createPartitionedRegion(regionName, "", 1, 1));
     vm4.invoke(() -> this.createCache(nyPort));
@@ -211,7 +211,7 @@ public class UpdateVersionDUnitTest extends JUnit4DistributedTestCase {
     VM vm4 = host.getVM(4); // server2 site2
 
     // Site 1
-    Integer lnPort = (Integer) vm0.invoke(() -> this.createFirstLocatorWithDSId(1));
+    Integer lnPort = vm0.invoke(() -> this.createFirstLocatorWithDSId(1));
 
     final String key = "key-1";
 
@@ -224,8 +224,8 @@ public class UpdateVersionDUnitTest extends JUnit4DistributedTestCase {
     vm1.invoke(() -> this.waitForSenderRunningState("ln1"));
 
     // Site 2
-    Integer nyPort = (Integer) vm2.invoke(() -> this.createFirstRemoteLocator(2, lnPort));
-    Integer nyRecPort = (Integer) vm3.invoke(() -> this.createReceiver(nyPort));
+    Integer nyPort = vm2.invoke(() -> this.createFirstRemoteLocator(2, lnPort));
+    Integer nyRecPort = vm3.invoke(() -> this.createReceiver(nyPort));
 
     vm3.invoke(() -> this.createPartitionedRegion(regionName, "", 1, 1));
     vm4.invoke(() -> this.createCache(nyPort));
@@ -396,7 +396,7 @@ public class UpdateVersionDUnitTest extends JUnit4DistributedTestCase {
     updateEvent.setOperation(Operation.UPDATE);
     updateEvent.setRegion(region);
     if (region instanceof PartitionedRegion) {
-      updateEvent.setKeyInfo(((PartitionedRegion) region).getKeyInfo(key));
+      updateEvent.setKeyInfo(region.getKeyInfo(key));
     } else {
       updateEvent.setKeyInfo(new KeyInfo(key, value, null));
     }

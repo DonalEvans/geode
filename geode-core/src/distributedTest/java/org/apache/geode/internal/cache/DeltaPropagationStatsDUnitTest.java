@@ -127,7 +127,7 @@ public class DeltaPropagationStatsDUnitTest extends JUnit4DistributedTestCase {
     Object args[] =
         new Object[] {Boolean.TRUE, DataPolicy.REPLICATE, Scope.DISTRIBUTED_ACK, Boolean.TRUE};
     int port =
-        (Integer) vm0.invoke(DeltaPropagationStatsDUnitTest.class, "createServerCache", args);
+        vm0.invoke(DeltaPropagationStatsDUnitTest.class, "createServerCache", args);
 
     createClientCache(NetworkUtils.getServerHostName(vm0.getHost()), port);
 
@@ -154,7 +154,7 @@ public class DeltaPropagationStatsDUnitTest extends JUnit4DistributedTestCase {
     Object args[] =
         new Object[] {Boolean.TRUE, DataPolicy.REPLICATE, Scope.DISTRIBUTED_ACK, Boolean.TRUE};
     int port =
-        (Integer) vm0.invoke(DeltaPropagationStatsDUnitTest.class, "createServerCache", args);
+        vm0.invoke(DeltaPropagationStatsDUnitTest.class, "createServerCache", args);
 
     createClientCache(NetworkUtils.getServerHostName(vm0.getHost()), port);
 
@@ -263,7 +263,7 @@ public class DeltaPropagationStatsDUnitTest extends JUnit4DistributedTestCase {
     Object args[] =
         new Object[] {Boolean.TRUE, DataPolicy.REPLICATE, Scope.DISTRIBUTED_ACK, Boolean.TRUE};
     Integer port =
-        (Integer) vm0.invoke(DeltaPropagationStatsDUnitTest.class, "createServerCache", args);
+        vm0.invoke(DeltaPropagationStatsDUnitTest.class, "createServerCache", args);
     createClientCache(NetworkUtils.getServerHostName(vm0.getHost()), port);
 
     putCleanDelta(numOfKeys, updates);
@@ -295,7 +295,7 @@ public class DeltaPropagationStatsDUnitTest extends JUnit4DistributedTestCase {
     Object args[] =
         new Object[] {Boolean.TRUE, DataPolicy.REPLICATE, Scope.DISTRIBUTED_ACK, Boolean.TRUE};
     Integer port =
-        (Integer) vm0.invoke(DeltaPropagationStatsDUnitTest.class, "createServerCache", args);
+        vm0.invoke(DeltaPropagationStatsDUnitTest.class, "createServerCache", args);
     createClientCache(NetworkUtils.getServerHostName(vm0.getHost()), port);
 
     putErrorDeltaForReceiver(numOfKeys, updates, errors);

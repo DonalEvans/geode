@@ -686,7 +686,7 @@ public class PartitionedRegionQueryEvaluator extends StreamingPartitionOperation
         // In case of select * without where clause the results from remote
         // nodes are sent in serialized form. For non client queries we need to
         // deserialize the value
-        if (!getDeserializedObject && !((DefaultQuery) this.query).isKeepSerialized()) {
+        if (!getDeserializedObject && !this.query.isKeepSerialized()) {
           getDeserializedObject = true;
         }
       }

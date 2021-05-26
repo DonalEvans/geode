@@ -323,7 +323,7 @@ public abstract class AbstractGroupOrRangeJunction extends AbstractCompiledValue
         // Though if the operand evaluates to false,it is permissible case
         // for filterEvaluation.
         Assert.assertTrue(filterResults != null);
-        boolean isDistinct = (DefaultQuery) context.getQuery() != null
+        boolean isDistinct = context.getQuery() != null
             ? ((DefaultQuery) context.getQuery()).getSelect().isDistinct() : false;
         /*
          * Shobhit: Only for distinct query union can be avoided. For non-distinct queries

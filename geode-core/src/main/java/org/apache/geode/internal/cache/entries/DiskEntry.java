@@ -377,7 +377,7 @@ public interface DiskEntry extends RegionEntry {
 
             Object tmp = cd.getValue();
             if (tmp instanceof byte[]) {
-              entry.setValue((byte[]) tmp);
+              entry.setValue(tmp);
               entry.setSerialized(true);
             } else {
               try {
@@ -1101,7 +1101,7 @@ public interface DiskEntry extends RegionEntry {
                   did.setPendingAsync(false);
                 }
               }
-              lruEntryFaultIn((EvictableEntry) entry, (DiskRecoveryStore) region);
+              lruEntryFaultIn((EvictableEntry) entry, region);
               lruFaultedIn = true;
             }
           }
@@ -1111,10 +1111,10 @@ public interface DiskEntry extends RegionEntry {
             v = entry.getValueRetain(region, true);
 
             if (v == null) {
-              v = readValueFromDisk(entry, (DiskRecoveryStore) region);
+              v = readValueFromDisk(entry, region);
               if (entry instanceof EvictableEntry) {
                 if (v != null && !Token.isInvalid(v)) {
-                  lruEntryFaultIn((EvictableEntry) entry, (DiskRecoveryStore) region);
+                  lruEntryFaultIn((EvictableEntry) entry, region);
 
                   lruFaultedIn = true;
                 }
@@ -1135,7 +1135,7 @@ public interface DiskEntry extends RegionEntry {
         entry.setRecentlyUsed(region);
       }
       if (lruFaultedIn) {
-        lruUpdateCallback((DiskRecoveryStore) region);
+        lruUpdateCallback(region);
       }
       return v; // OFFHEAP: the value ends up being returned by RegionEntry.getValue
     }
@@ -1228,9 +1228,9 @@ public interface DiskEntry extends RegionEntry {
     }
 
     private static void lruEntryFaultIn(EvictableEntry entry, DiskRecoveryStore recoveryStore) {
-      RegionMap rm = (RegionMap) recoveryStore.getRegionMap();
+      RegionMap rm = recoveryStore.getRegionMap();
       try {
-        rm.lruEntryFaultIn((EvictableEntry) entry);
+        rm.lruEntryFaultIn(entry);
       } catch (DiskAccessException dae) {
         recoveryStore.handleDiskAccessException(dae);
         throw dae;
@@ -1351,7 +1351,7 @@ public interface DiskEntry extends RegionEntry {
       // Get diskID . If it is null, it implies it is overflow only mode.
       DiskId did = entry.getDiskId();
       if (did == null) {
-        ((EvictableEntry) entry).setDelayedDiskId((DiskRecoveryStore) region);
+        ((EvictableEntry) entry).setDelayedDiskId(region);
         did = entry.getDiskId();
       }
 

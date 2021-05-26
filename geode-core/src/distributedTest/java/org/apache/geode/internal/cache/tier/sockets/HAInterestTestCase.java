@@ -113,9 +113,9 @@ public class HAInterestTestCase extends JUnit4DistributedTestCase {
     server3 = host.getVM(2);
     CacheServerTestUtil.disableShufflingOfEndpoints();
     // start servers first
-    PORT1 = ((Integer) server1.invoke(() -> HAInterestTestCase.createServerCache())).intValue();
-    PORT2 = ((Integer) server2.invoke(() -> HAInterestTestCase.createServerCache())).intValue();
-    PORT3 = ((Integer) server3.invoke(() -> HAInterestTestCase.createServerCache())).intValue();
+    PORT1 = server1.invoke(() -> HAInterestTestCase.createServerCache()).intValue();
+    PORT2 = server2.invoke(() -> HAInterestTestCase.createServerCache()).intValue();
+    PORT3 = server3.invoke(() -> HAInterestTestCase.createServerCache()).intValue();
     exceptionOccurred = false;
     IgnoredException.addIgnoredException("java.net.ConnectException: Connection refused: connect");
   }
@@ -764,7 +764,7 @@ public class HAInterestTestCase extends JUnit4DistributedTestCase {
 
   public static void registerK1AndK2OnPrimaryAndSecondaryAndVerifyResponse() {
     ServerLocation primary = pool.getPrimary();
-    ServerLocation secondary = (ServerLocation) pool.getRedundants().get(0);
+    ServerLocation secondary = pool.getRedundants().get(0);
     LocalRegion r = (LocalRegion) cache.getRegion(SEPARATOR + REGION_NAME);
     assertNotNull(r);
     ServerRegionProxy srp = new ServerRegionProxy(r);
@@ -833,7 +833,7 @@ public class HAInterestTestCase extends JUnit4DistributedTestCase {
       wc = new WaitCriterion() {
         @Override
         public boolean done() {
-          Set keysMap = (Set) ccp.cils[interestListIndex]
+          Set keysMap = ccp.cils[interestListIndex]
               .getProfile(SEPARATOR + REGION_NAME).getKeysOfInterestFor(ccp.getProxyID());
           return keysMap != null && keysMap.size() == 2;
         }
@@ -845,7 +845,7 @@ public class HAInterestTestCase extends JUnit4DistributedTestCase {
       };
       GeodeAwaitility.await().untilAsserted(wc);
 
-      Set keysMap = (Set) ccp.cils[interestListIndex]
+      Set keysMap = ccp.cils[interestListIndex]
           .getProfile(SEPARATOR + REGION_NAME).getKeysOfInterestFor(ccp.getProxyID());
       assertNotNull(keysMap);
       assertEquals(2, keysMap.size());
@@ -894,7 +894,7 @@ public class HAInterestTestCase extends JUnit4DistributedTestCase {
       wc = new WaitCriterion() {
         @Override
         public boolean done() {
-          Set keysMap = (Set) ccp.cils[interestListIndex]
+          Set keysMap = ccp.cils[interestListIndex]
               .getProfile(SEPARATOR + REGION_NAME).getKeysOfInterestFor(ccp.getProxyID());
           return keysMap != null;
         }
@@ -906,7 +906,7 @@ public class HAInterestTestCase extends JUnit4DistributedTestCase {
       };
       GeodeAwaitility.await().untilAsserted(wc);
 
-      Set keysMap = (Set) ccp.cils[interestListIndex]
+      Set keysMap = ccp.cils[interestListIndex]
           .getProfile(SEPARATOR + REGION_NAME).getKeysOfInterestFor(ccp.getProxyID());
       assertNotNull(keysMap);
       assertEquals(1, keysMap.size());

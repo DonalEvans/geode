@@ -3316,7 +3316,7 @@ public class PdxQueryDUnitTest extends PDXQueryTestBase {
         // check if the types registered on server are fetched by the client
         TypeRegistration registration = getCache().getPdxRegistry().getTypeRegistration();
         assertTrue(registration instanceof ClientTypeRegistration);
-        Map<Integer, PdxType> m = ((ClientTypeRegistration) registration).types();
+        Map<Integer, PdxType> m = registration.types();
         assertEquals(2, m.size());
         for (PdxType type : m.values()) {
           assertEquals("PdxPortfolio", type.getClassName());

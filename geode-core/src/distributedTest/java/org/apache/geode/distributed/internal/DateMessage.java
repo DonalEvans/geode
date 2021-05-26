@@ -91,7 +91,7 @@ public class DateMessage extends SerialDistributionMessage {
       DeserializationContext context) throws IOException, ClassNotFoundException {
 
     super.fromData(in, context);
-    this.date = (Date) DataSerializer.readObject(in);
+    this.date = DataSerializer.readObject(in);
   }
 
   public String toString() {

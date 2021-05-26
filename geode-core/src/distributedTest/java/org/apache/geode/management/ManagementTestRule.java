@@ -42,7 +42,6 @@ import org.apache.geode.distributed.DistributedMember;
 import org.apache.geode.distributed.DistributedSystemDisconnectedException;
 import org.apache.geode.distributed.internal.DistributionManager;
 import org.apache.geode.distributed.internal.membership.InternalDistributedMember;
-import org.apache.geode.internal.cache.GemFireCacheImpl;
 import org.apache.geode.internal.cache.InternalCache;
 import org.apache.geode.management.internal.SystemManagementService;
 import org.apache.geode.test.dunit.Invoke;
@@ -252,7 +251,7 @@ public class ManagementTestRule implements MethodRule, Serializable {
   }
 
   private DistributionManager getDistributionManager() {
-    return ((GemFireCacheImpl) getCache()).getDistributionManager();
+    return getCache().getDistributionManager();
   }
 
   private void setPropertyIfNotSet(final Properties properties, final String key,

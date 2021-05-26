@@ -131,7 +131,7 @@ public class ClientTombstoneMessage extends ClientUpdateMessageImpl {
     this.setRegionName(DataSerializer.readString(in));
     this.removalInformation = DataSerializer.readObject(in);
     this._membershipId = ClientProxyMembershipID.readCanonicalized(in);
-    this._eventIdentifier = (EventID) DataSerializer.readObject(in);
+    this._eventIdentifier = DataSerializer.readObject(in);
   }
 
   @Override

@@ -497,7 +497,7 @@ public class PutMessage extends PartitionMessageWithDirectReply implements NewVa
       this.bridgeContext = ClientProxyMembershipID.readCanonicalized(in);
     }
     if ((extraFlags & HAS_ORIGINAL_SENDER) != 0) {
-      this.originalSender = (InternalDistributedMember) DataSerializer.readObject(in);
+      this.originalSender = DataSerializer.readObject(in);
     }
     this.eventId = new EventID();
     InternalDataSerializer.invokeFromData(this.eventId, in);
@@ -937,7 +937,7 @@ public class PutMessage extends PartitionMessageWithDirectReply implements NewVa
       this.result = in.readBoolean();
       this.op = Operation.fromOrdinal(in.readByte());
       this.oldValue = DataSerializer.readObject(in);
-      this.versionTag = (VersionTag) DataSerializer.readObject(in);
+      this.versionTag = DataSerializer.readObject(in);
     }
 
     @Override

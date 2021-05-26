@@ -273,7 +273,7 @@ public class IndexManager {
     this.cache.setPdxReadSerializedOverride(true);
 
     TXStateProxy tx = null;
-    if (!((InternalCache) this.cache).isClient()) {
+    if (!this.cache.isClient()) {
       tx = ((TXManagerImpl) this.cache.getCacheTransactionManager()).pauseTransaction();
     }
 
@@ -371,7 +371,7 @@ public class IndexManager {
           // Initialize index.
           indexFutureTask.run();
           // Set the index.
-          index = (Index) indexFutureTask.get();
+          index = indexFutureTask.get();
         } else {
           // Index with same name or characteristic already exists.
           // Check if index creation is complete.
@@ -459,7 +459,7 @@ public class IndexManager {
     do {
       nodeType = cv.getType();
       if (nodeType == CompiledValue.PATH) {
-        cv = ((CompiledPath) cv).getReceiver();
+        cv = cv.getReceiver();
       }
     } while (nodeType == CompiledValue.PATH);
     // end of path, nodeType at this point should be an Identifier
@@ -921,7 +921,7 @@ public class IndexManager {
               logger.debug("Adding to index :{}{} value :{}", index.getName(),
                   this.region.getFullPath(), entry.getKey());
             }
-            long start = ((AbstractIndex) index).updateIndexUpdateStats();
+            long start = index.updateIndexUpdateStats();
             try {
               index.addIndexMapping(entry);
             } catch (IMQException e) {
@@ -933,7 +933,7 @@ public class IndexManager {
               indexSetIterator.remove();
               throwException = true;
             }
-            ((AbstractIndex) index).updateIndexUpdateStats(start);
+            index.updateIndexUpdateStats(start);
           }
         }
       }
@@ -1682,7 +1682,7 @@ public class IndexManager {
           if (loadEntries) {
             aIndex.setPopulated(true);
             if (this.prIndex != null) {
-              ((AbstractIndex) this.prIndex).setPopulated(true);
+              this.prIndex.setPopulated(true);
             }
           }
           indexes.put(this, index);
@@ -1707,7 +1707,7 @@ public class IndexManager {
           prIndex.addToBucketIndexes(region, index);
         }
         if (this.prIndex != null) {
-          ((AbstractIndex) this.prIndex).setPopulated(true);
+          this.prIndex.setPopulated(true);
         }
       }
       return index;

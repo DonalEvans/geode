@@ -168,7 +168,7 @@ public class Logger {
    * @param msg the actual message to log
    */
   public static void put(String msg) {
-    put(msg, (Throwable) null);
+    put(msg, null);
   }
 
   /**
@@ -178,7 +178,7 @@ public class Logger {
    * @param msg the actual message to log
    */
   public static void put(PrintWriter log, String msg) {
-    put(log, msg, (Throwable) null);
+    put(log, msg, null);
   }
 
   /**
@@ -197,7 +197,7 @@ public class Logger {
    * @param exception the actual Exception to log
    */
   public static void put(PrintWriter log, Throwable exception) {
-    put(log, (String) null, exception);
+    put(log, null, exception);
   }
 
   /**

@@ -159,7 +159,7 @@ public class IndexCreationMsg extends PartitionMessage {
       for (IndexCreationData icd : indexDefinitions) {
         // if the index was successfully created
         if (!failedIndexNames.contains(icd.getIndexName())) {
-          PartitionedIndex prIndex = (PartitionedIndex) pr.getIndex(icd.getIndexName());
+          PartitionedIndex prIndex = pr.getIndex(icd.getIndexName());
           indexBucketsMap.put(icd.getIndexName(), prIndex.getNumberOfIndexedBuckets());
         }
       }

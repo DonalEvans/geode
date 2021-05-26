@@ -98,7 +98,7 @@ public class HAGIIDUnitTest extends JUnit4DistributedTestCase {
     client0 = host.getVM(2);
 
     // start server1
-    int PORT1 = ((Integer) server0.invoke(() -> HAGIIDUnitTest.createServer1Cache())).intValue();
+    int PORT1 = server0.invoke(() -> HAGIIDUnitTest.createServer1Cache()).intValue();
     server0.invoke(() -> ConflationDUnitTestHelper.setIsSlowStart());
     server0.invoke(() -> HAGIIDUnitTest.setSystemProperty());
 

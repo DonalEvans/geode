@@ -68,7 +68,7 @@ public class PartitionOfflineException extends GemFireException {
    * are not online.
    */
   public Set<PersistentID> getOfflineMembers() {
-    return (Set<PersistentID>) offlineMembers;
+    return offlineMembers;
   }
 
 }

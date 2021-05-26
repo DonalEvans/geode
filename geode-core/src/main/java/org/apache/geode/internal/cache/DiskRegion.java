@@ -261,7 +261,7 @@ public class DiskRegion extends AbstractDiskRegion {
       }
 
       writeRVV(null, true);
-      writeRVVGC((LocalRegion) drs);
+      writeRVVGC(drs);
     }
   }
 

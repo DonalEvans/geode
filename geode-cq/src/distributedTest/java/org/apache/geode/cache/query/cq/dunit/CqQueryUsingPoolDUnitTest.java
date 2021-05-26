@@ -3032,7 +3032,7 @@ public class CqQueryUsingPoolDUnitTest extends JUnit4CacheTestCase {
    * @since GemFire 4.0
    */
   protected void stopBridgeServer(Cache cache) {
-    CacheServer bridge = (CacheServer) cache.getCacheServers().iterator().next();
+    CacheServer bridge = cache.getCacheServers().iterator().next();
     bridge.stop();
     assertFalse(bridge.isRunning());
   }

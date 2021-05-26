@@ -208,7 +208,7 @@ public class RegisterInterestOp {
                 }
               } else {
                 // Add the result to the list of results
-                serverKeys.add((List) partObj);
+                serverKeys.add(partObj);
               }
             }
 

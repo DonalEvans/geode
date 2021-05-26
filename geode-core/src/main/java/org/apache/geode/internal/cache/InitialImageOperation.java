@@ -2132,10 +2132,10 @@ public class InitialImageOperation {
       this.keysOnly = in.readBoolean();
       this.targetReinitialized = in.readBoolean();
       this.checkTombstoneVersions = in.readBoolean();
-      this.lostMemberVersionID = (VersionSource) context.getDeserializer().readObject(in);
-      this.versionVector = (RegionVersionVector) context.getDeserializer().readObject(in);
-      this.lostMemberID = (InternalDistributedMember) context.getDeserializer().readObject(in);
-      this.unfinishedKeys = (Set) context.getDeserializer().readObject(in);
+      this.lostMemberVersionID = context.getDeserializer().readObject(in);
+      this.versionVector = context.getDeserializer().readObject(in);
+      this.lostMemberID = context.getDeserializer().readObject(in);
+      this.unfinishedKeys = context.getDeserializer().readObject(in);
     }
 
     @Override
@@ -3382,7 +3382,7 @@ public class InitialImageOperation {
           logger.trace(LogMarker.INITIAL_IMAGE_VERSIONED_VERBOSE, "reading {} keys", size);
         }
         for (int i = 0; i < size; i++) {
-          super.add((Entry) context.getDeserializer().readObject(in));
+          super.add(context.getDeserializer().readObject(in));
         }
       }
 
@@ -3939,7 +3939,7 @@ public class InitialImageOperation {
                   isDurable, updatesAsInvalidates, manageEmptyRegions, 0, false);
             } else if (InterestType.REGULAR_EXPRESSION == interestType) {
               for (Iterator i = ((Set) e.getValue()).iterator(); i.hasNext();) {
-                ccn.registerClientInterest(regionName, (String) i.next(), proxy.getProxyID(),
+                ccn.registerClientInterest(regionName, i.next(), proxy.getProxyID(),
                     interestType, isDurable, updatesAsInvalidates, manageEmptyRegions, 0, false);
               }
             } else {
@@ -4041,30 +4041,30 @@ public class InitialImageOperation {
         SerializationContext context) throws IOException {
       super.toData(dop, context);
       // DataSerializer.writeString(this.haRegion.getName(), dop);
-      DataSerializer.writeHashMap((HashMap) this.emptyRegionMap, dop);
+      DataSerializer.writeHashMap(this.emptyRegionMap, dop);
       // Write interest info.
-      DataSerializer.writeHashMap((HashMap) this.interestMaps[NON_DURABLE].allKeys, dop);
-      DataSerializer.writeHashMap((HashMap) this.interestMaps[NON_DURABLE].allKeysInv, dop);
-      DataSerializer.writeHashMap((HashMap) this.interestMaps[NON_DURABLE].keysOfInterest, dop);
-      DataSerializer.writeHashMap((HashMap) this.interestMaps[NON_DURABLE].keysOfInterestInv, dop);
-      DataSerializer.writeHashMap((HashMap) this.interestMaps[NON_DURABLE].patternsOfInterest, dop);
-      DataSerializer.writeHashMap((HashMap) this.interestMaps[NON_DURABLE].patternsOfInterestInv,
+      DataSerializer.writeHashMap(this.interestMaps[NON_DURABLE].allKeys, dop);
+      DataSerializer.writeHashMap(this.interestMaps[NON_DURABLE].allKeysInv, dop);
+      DataSerializer.writeHashMap(this.interestMaps[NON_DURABLE].keysOfInterest, dop);
+      DataSerializer.writeHashMap(this.interestMaps[NON_DURABLE].keysOfInterestInv, dop);
+      DataSerializer.writeHashMap(this.interestMaps[NON_DURABLE].patternsOfInterest, dop);
+      DataSerializer.writeHashMap(this.interestMaps[NON_DURABLE].patternsOfInterestInv,
           dop);
-      DataSerializer.writeHashMap((HashMap) this.interestMaps[NON_DURABLE].filtersOfInterest, dop);
-      DataSerializer.writeHashMap((HashMap) this.interestMaps[NON_DURABLE].filtersOfInterestInv,
+      DataSerializer.writeHashMap(this.interestMaps[NON_DURABLE].filtersOfInterest, dop);
+      DataSerializer.writeHashMap(this.interestMaps[NON_DURABLE].filtersOfInterestInv,
           dop);
 
-      DataSerializer.writeHashMap((HashMap) this.interestMaps[DURABLE].allKeys, dop);
-      DataSerializer.writeHashMap((HashMap) this.interestMaps[DURABLE].allKeysInv, dop);
-      DataSerializer.writeHashMap((HashMap) this.interestMaps[DURABLE].keysOfInterest, dop);
-      DataSerializer.writeHashMap((HashMap) this.interestMaps[DURABLE].keysOfInterestInv, dop);
-      DataSerializer.writeHashMap((HashMap) this.interestMaps[DURABLE].patternsOfInterest, dop);
-      DataSerializer.writeHashMap((HashMap) this.interestMaps[DURABLE].patternsOfInterestInv, dop);
-      DataSerializer.writeHashMap((HashMap) this.interestMaps[DURABLE].filtersOfInterest, dop);
-      DataSerializer.writeHashMap((HashMap) this.interestMaps[DURABLE].filtersOfInterestInv, dop);
+      DataSerializer.writeHashMap(this.interestMaps[DURABLE].allKeys, dop);
+      DataSerializer.writeHashMap(this.interestMaps[DURABLE].allKeysInv, dop);
+      DataSerializer.writeHashMap(this.interestMaps[DURABLE].keysOfInterest, dop);
+      DataSerializer.writeHashMap(this.interestMaps[DURABLE].keysOfInterestInv, dop);
+      DataSerializer.writeHashMap(this.interestMaps[DURABLE].patternsOfInterest, dop);
+      DataSerializer.writeHashMap(this.interestMaps[DURABLE].patternsOfInterestInv, dop);
+      DataSerializer.writeHashMap(this.interestMaps[DURABLE].filtersOfInterest, dop);
+      DataSerializer.writeHashMap(this.interestMaps[DURABLE].filtersOfInterestInv, dop);
 
       // Write CQ info.
-      DataSerializer.writeHashMap((HashMap) this.cqs, dop);
+      DataSerializer.writeHashMap(this.cqs, dop);
     }
 
     @Override

@@ -80,7 +80,7 @@ public class HealthListenerMessage extends PooledDistributionMessage implements 
       DeserializationContext context) throws IOException, ClassNotFoundException {
     super.fromData(in, context);
     this.listenerId = in.readInt();
-    this.status = (GemFireHealth.Health) DataSerializer.readObject(in);
+    this.status = DataSerializer.readObject(in);
   }
 
   @Override

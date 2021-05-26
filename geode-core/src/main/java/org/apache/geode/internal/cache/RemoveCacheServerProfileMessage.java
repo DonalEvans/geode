@@ -73,7 +73,7 @@ public class RemoveCacheServerProfileMessage extends SerialDistributionMessage
     if (cache.getCacheServers().size() == 0) {
 
       for (DistributedRegion r : getDistributedRegions(cache)) {
-        CacheDistributionAdvisor cda = (CacheDistributionAdvisor) r.getDistributionAdvisor();
+        CacheDistributionAdvisor cda = r.getDistributionAdvisor();
         CacheDistributionAdvisor.CacheProfile cp =
             (CacheDistributionAdvisor.CacheProfile) cda.getProfile(getSender());
         if (cp != null) {

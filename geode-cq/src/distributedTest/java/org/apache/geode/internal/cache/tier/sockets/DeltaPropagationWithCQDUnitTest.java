@@ -121,7 +121,7 @@ public class DeltaPropagationWithCQDUnitTest extends JUnit4DistributedTestCase {
   @Test
   public void testCqWithRI() throws Exception {
     // 1. setup a cache server
-    int port = (Integer) server1.invoke(() -> createCacheServer());
+    int port = server1.invoke(() -> createCacheServer());
     // 2. setup a client
     client1.invoke(() -> createClientCache(getServerHostName(server1.getHost()), port, TRUE));
     // 3. setup another client with cqs and interest in all keys.
@@ -156,7 +156,7 @@ public class DeltaPropagationWithCQDUnitTest extends JUnit4DistributedTestCase {
     int numOfKeys = 10;
     int numOfCQs = 3;
     // 1. setup a cache server
-    int port = (Integer) server1.invoke(() -> DeltaPropagationWithCQDUnitTest.createCacheServer());
+    int port = server1.invoke(() -> DeltaPropagationWithCQDUnitTest.createCacheServer());
     // 2. setup a client with register interest
     client1.invoke(() -> DeltaPropagationWithCQDUnitTest
         .createClientCache(NetworkUtils.getServerHostName(server1.getHost()), port, Boolean.TRUE));

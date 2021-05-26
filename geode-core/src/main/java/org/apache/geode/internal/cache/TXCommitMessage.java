@@ -909,7 +909,7 @@ public class TXCommitMessage extends PooledDistributionMessage
       if (this.regions != null) {
         regionsSize = this.regions.size();
         for (int i = 0; i < this.regions.size(); i++) {
-          RegionCommit rc = (RegionCommit) this.regions.get(i);
+          RegionCommit rc = this.regions.get(i);
           totalMaxSize += rc.maxSize;
         }
       }
@@ -941,7 +941,7 @@ public class TXCommitMessage extends PooledDistributionMessage
     {
       if (regionsSize > 0) {
         for (int i = 0; i < this.regions.size(); i++) {
-          RegionCommit rc = (RegionCommit) this.regions.get(i);
+          RegionCommit rc = this.regions.get(i);
           rc.toData(out, context, useShadowKey);
         }
       }
@@ -1058,7 +1058,7 @@ public class TXCommitMessage extends PooledDistributionMessage
 
     @Override // GemStoneAddition
     public boolean add(RegionCommit o) {
-      RegionCommit rc = (RegionCommit) o;
+      RegionCommit rc = o;
       rc.incRefCount();
       if (!this.needsAck && rc.needsAck()) {
         this.needsAck = true;
@@ -2369,7 +2369,7 @@ public class TXCommitMessage extends PooledDistributionMessage
     }
 
     public Set getRegionDestroyedMembers(String regionFullPath) {
-      Set members = (Set) this.regionExceptions.get(regionFullPath);
+      Set members = this.regionExceptions.get(regionFullPath);
       if (members == null) {
         members = Collections.emptySet();
       }

@@ -173,7 +173,7 @@ public class CompactMapRangeIndex extends AbstractMapIndex {
           indexedExpression, projectionAttributes, this.originalFromClause,
           this.originalIndexedExpression, this.canonicalizedDefinitions, stats);
       rg.instantiateEvaluator(this.ich,
-          ((AbstractIndex.IMQEvaluator) this.evaluator).getIndexResultSetType());
+          this.evaluator.getIndexResultSetType());
       this.mapKeyToValueIndex.put(mapKey, rg);
       if (!isPr) {
         this.internalIndexStats.incNumMapIndexKeys(1);
@@ -221,7 +221,7 @@ public class CompactMapRangeIndex extends AbstractMapIndex {
           indexedExpression, projectionAttributes, this.originalFromClause,
           this.originalIndexedExpression, this.canonicalizedDefinitions, stats);
       rg.instantiateEvaluator(this.ich,
-          ((AbstractIndex.IMQEvaluator) this.evaluator).getIndexResultSetType());
+          this.evaluator.getIndexResultSetType());
       this.mapKeyToValueIndex.put(mapKey, rg);
       if (!isPr) {
         this.internalIndexStats.incNumMapIndexKeys(1);

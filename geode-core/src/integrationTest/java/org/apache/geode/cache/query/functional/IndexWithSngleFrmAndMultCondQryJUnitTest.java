@@ -118,12 +118,12 @@ public class IndexWithSngleFrmAndMultCondQryJUnitTest {
           fail("How could index be present when not created!?");
         }
         // CacheUtils.log(Utils.printResult(r));
-        resType1 = (StructType) ((SelectResults) sr[i][0]).getCollectionType().getElementType();
-        resSize1 = (((SelectResults) sr[i][0]).size());
+        resType1 = (StructType) sr[i][0].getCollectionType().getElementType();
+        resSize1 = (sr[i][0].size());
         CacheUtils.log(resType1);
         strg1 = resType1.getFieldNames();
 
-        set1 = (((SelectResults) sr[i][0]).asSet());
+        set1 = (sr[i][0].asSet());
         Iterator iter = set1.iterator();
         while (iter.hasNext()) {
           Struct stc1 = (Struct) iter.next();
@@ -157,11 +157,11 @@ public class IndexWithSngleFrmAndMultCondQryJUnitTest {
         if (!observer2.isIndexesUsed) {
           fail("FAILED: Index NOT Used");
         }
-        resType2 = (StructType) ((SelectResults) sr[i][1]).getCollectionType().getElementType();
-        resSize2 = (((SelectResults) sr[i][1]).size());
+        resType2 = (StructType) sr[i][1].getCollectionType().getElementType();
+        resSize2 = (sr[i][1].size());
         strg2 = resType2.getFieldNames();
 
-        set2 = (((SelectResults) sr[i][1]).asSet());
+        set2 = (sr[i][1].asSet());
         Iterator iter = set2.iterator();
         while (iter.hasNext()) {
           Struct stc2 = (Struct) iter.next();
@@ -234,12 +234,12 @@ public class IndexWithSngleFrmAndMultCondQryJUnitTest {
           fail("How could index be present when not created!?");
         }
         // CacheUtils.log(Utils.printResult(r));
-        resType1 = (StructType) ((SelectResults) sr[i][0]).getCollectionType().getElementType();
-        resSize1 = (((SelectResults) sr[i][0]).size());
+        resType1 = (StructType) sr[i][0].getCollectionType().getElementType();
+        resSize1 = (sr[i][0].size());
         CacheUtils.log(resType1);
         strg1 = resType1.getFieldNames();
 
-        set1 = (((SelectResults) sr[i][0]).asSet());
+        set1 = (sr[i][0].asSet());
         Iterator iter = set1.iterator();
         while (iter.hasNext()) {
           Struct stc1 = (Struct) iter.next();
@@ -259,7 +259,7 @@ public class IndexWithSngleFrmAndMultCondQryJUnitTest {
     qs = CacheUtils.getQueryService();
     Index index1 =
         qs.createIndex("statusIndex", IndexType.FUNCTIONAL, "pf.status", SEPARATOR + "pos pf");
-    Index index2 = (Index) qs.createIndex("secIdIndex", IndexType.FUNCTIONAL, "pos.secId",
+    Index index2 = qs.createIndex("secIdIndex", IndexType.FUNCTIONAL, "pos.secId",
         SEPARATOR + "pos pf, pf.positions.values pos");
     Index index3 = qs.createIndex("IDIndex", IndexType.FUNCTIONAL, "pf.ID", SEPARATOR + "pos pf");
 
@@ -275,11 +275,11 @@ public class IndexWithSngleFrmAndMultCondQryJUnitTest {
         }
         assertTrue(observer2.indexesUsed.size() < 2);
 
-        resType2 = (StructType) ((SelectResults) sr[i][1]).getCollectionType().getElementType();
-        resSize2 = (((SelectResults) sr[i][1]).size());
+        resType2 = (StructType) sr[i][1].getCollectionType().getElementType();
+        resSize2 = (sr[i][1].size());
         strg2 = resType2.getFieldNames();
 
-        set2 = (((SelectResults) sr[i][1]).asSet());
+        set2 = (sr[i][1].asSet());
         Iterator iter = set2.iterator();
         while (iter.hasNext()) {
           Struct stc2 = (Struct) iter.next();
@@ -353,12 +353,12 @@ public class IndexWithSngleFrmAndMultCondQryJUnitTest {
           fail("How could index be present when not created!?");
         }
         // CacheUtils.log(Utils.printResult(r));
-        resType1 = (StructType) ((SelectResults) sr[i][0]).getCollectionType().getElementType();
-        resSize1 = (((SelectResults) sr[i][0]).size());
+        resType1 = (StructType) sr[i][0].getCollectionType().getElementType();
+        resSize1 = (sr[i][0].size());
         CacheUtils.log(resType1);
         strg1 = resType1.getFieldNames();
 
-        set1 = (((SelectResults) sr[i][0]).asSet());
+        set1 = (sr[i][0].asSet());
         Iterator iter = set1.iterator();
         while (iter.hasNext()) {
           Struct stc1 = (Struct) iter.next();
@@ -378,7 +378,7 @@ public class IndexWithSngleFrmAndMultCondQryJUnitTest {
     qs = CacheUtils.getQueryService();
     Index index1 =
         qs.createIndex("statusIndex", IndexType.FUNCTIONAL, "pf.status", SEPARATOR + "pos pf");
-    Index index2 = (Index) qs.createIndex("secIdIndex", IndexType.FUNCTIONAL, "pos.secId",
+    Index index2 = qs.createIndex("secIdIndex", IndexType.FUNCTIONAL, "pos.secId",
         SEPARATOR + "pos pf, pf.positions.values pos");
     Index index3 = qs.createIndex("IDIndex", IndexType.FUNCTIONAL, "pf.ID", SEPARATOR + "pos pf");
 
@@ -394,12 +394,12 @@ public class IndexWithSngleFrmAndMultCondQryJUnitTest {
         }
         assertEquals(observer2.indexesUsed.size(), 1);
 
-        resType2 = (StructType) ((SelectResults) sr[i][1]).getCollectionType().getElementType();
-        resSize2 = (((SelectResults) sr[i][1]).size());
+        resType2 = (StructType) sr[i][1].getCollectionType().getElementType();
+        resSize2 = (sr[i][1].size());
         CacheUtils.log(resType2);
         strg2 = resType2.getFieldNames();
 
-        set2 = (((SelectResults) sr[i][1]).asSet());
+        set2 = (sr[i][1].asSet());
         Iterator iter = set2.iterator();
         while (iter.hasNext()) {
           Struct stc2 = (Struct) iter.next();
@@ -513,10 +513,10 @@ public class IndexWithSngleFrmAndMultCondQryJUnitTest {
           fail("How did Index get created?");
         }
         // CacheUtils.log(Utils.printResult(r));
-        resType1 = ((SelectResults) sr[i][0]).getCollectionType().getElementType();
-        resSize1 = (((SelectResults) sr[i][0]).size());
+        resType1 = sr[i][0].getCollectionType().getElementType();
+        resSize1 = (sr[i][0].size());
         CacheUtils.log(resType1);
-        set1 = (((SelectResults) sr[i][0]).asSet());
+        set1 = (sr[i][0].asSet());
         Iterator iter = set1.iterator();
         while (iter.hasNext()) {
           valPf1 = iter.next();
@@ -534,7 +534,7 @@ public class IndexWithSngleFrmAndMultCondQryJUnitTest {
     qs = CacheUtils.getQueryService();
     Index index1 =
         qs.createIndex("statusIndex", IndexType.FUNCTIONAL, "pf.status", SEPARATOR + "pos pf");
-    Index index2 = (Index) qs.createIndex("secIdIndex", IndexType.FUNCTIONAL, "pos.secId",
+    Index index2 = qs.createIndex("secIdIndex", IndexType.FUNCTIONAL, "pos.secId",
         SEPARATOR + "pos pf, pf.positions.values pos");
     Index index3 =
         qs.createIndex("descriptionIndex", IndexType.FUNCTIONAL, "pf.description",
@@ -552,12 +552,12 @@ public class IndexWithSngleFrmAndMultCondQryJUnitTest {
         } else {
           fail("FAILED: Index NOT Used");
         }
-        resType2 = ((SelectResults) sr[i][1]).getCollectionType().getElementType();
-        resSize2 = (((SelectResults) sr[i][1]).size());
+        resType2 = sr[i][1].getCollectionType().getElementType();
+        resSize2 = (sr[i][1].size());
         CacheUtils.log(resType2);
         // strg2=resType2.getFieldNames();
 
-        set2 = (((SelectResults) sr[i][1]).asSet());
+        set2 = (sr[i][1].asSet());
         Iterator iter = set2.iterator();
         while (iter.hasNext()) {
           valPf2 = iter.next();
@@ -670,12 +670,12 @@ public class IndexWithSngleFrmAndMultCondQryJUnitTest {
           fail("How did Index get created?");
         }
         // CacheUtils.log(Utils.printResult(r));
-        resType1 = ((SelectResults) sr[i][0]).getCollectionType().getElementType();
-        resSize1 = (((SelectResults) sr[i][0]).size());
+        resType1 = sr[i][0].getCollectionType().getElementType();
+        resSize1 = (sr[i][0].size());
         CacheUtils.log(resType1);
         // strg1=resType1.getFieldNames();
 
-        set1 = (((SelectResults) sr[i][0]).asSet());
+        set1 = (sr[i][0].asSet());
         Iterator iter = set1.iterator();
         while (iter.hasNext()) {
           valPf1 = iter.next();
@@ -696,7 +696,7 @@ public class IndexWithSngleFrmAndMultCondQryJUnitTest {
     Index index1 =
         qs.createIndex("statusIndex", IndexType.FUNCTIONAL, "pf.status", SEPARATOR + "pos pf");
     Index index2 =
-        (Index) qs.createIndex("IdIndex", IndexType.FUNCTIONAL, "pf.iD", SEPARATOR + "pos pf");
+        qs.createIndex("IdIndex", IndexType.FUNCTIONAL, "pf.iD", SEPARATOR + "pos pf");
     Index index3 =
         qs.createIndex("descriptionIndex", IndexType.FUNCTIONAL, "pf.description",
             SEPARATOR + "pos pf");
@@ -713,12 +713,12 @@ public class IndexWithSngleFrmAndMultCondQryJUnitTest {
         } else {
           fail("FAILED: Index NOT Used");
         }
-        resType2 = ((SelectResults) sr[i][1]).getCollectionType().getElementType();
-        resSize2 = (((SelectResults) sr[i][1]).size());
+        resType2 = sr[i][1].getCollectionType().getElementType();
+        resSize2 = (sr[i][1].size());
         CacheUtils.log(resType2);
         // strg2=resType2.getFieldNames();
 
-        set2 = (((SelectResults) sr[i][1]).asSet());
+        set2 = (sr[i][1].asSet());
         Iterator iter = set2.iterator();
         while (iter.hasNext()) {
           valPf2 = iter.next();
@@ -895,11 +895,11 @@ public class IndexWithSngleFrmAndMultCondQryJUnitTest {
           fail("How did Index get created!!1?");
         }
         // CacheUtils.log(Utils.printResult(r));
-        resType1 = ((SelectResults) sr[i][0]).getCollectionType().getElementType();
-        resSize1 = (((SelectResults) sr[i][0]).size());
+        resType1 = sr[i][0].getCollectionType().getElementType();
+        resSize1 = (sr[i][0].size());
         CacheUtils.log(resType1);
         assertEquals(1, resSize1);
-        set1 = (((SelectResults) sr[i][0]).asSet());
+        set1 = (sr[i][0].asSet());
         Iterator iter = set1.iterator();
         while (iter.hasNext()) {
           valPf1 = iter.next();
@@ -936,12 +936,12 @@ public class IndexWithSngleFrmAndMultCondQryJUnitTest {
         } else {
           fail("FAILED: Index NOT Used");
         }
-        resType2 = ((SelectResults) sr[i][1]).getCollectionType().getElementType();
-        resSize2 = (((SelectResults) sr[i][1]).size());
+        resType2 = sr[i][1].getCollectionType().getElementType();
+        resSize2 = (sr[i][1].size());
         CacheUtils.log(resType2);
         // strg2=resType2.getFieldNames();
 
-        set2 = (((SelectResults) sr[i][1]).asSet());
+        set2 = (sr[i][1].asSet());
         Iterator iter = set2.iterator();
         while (iter.hasNext()) {
           valPf2 = iter.next();
@@ -1107,11 +1107,11 @@ public class IndexWithSngleFrmAndMultCondQryJUnitTest {
           CacheUtils.log("NO INDEX USED");
         }
         // CacheUtils.log(Utils.printResult(r));
-        resType1 = ((SelectResults) sr[i][0]).getCollectionType().getElementType();
-        resSize1 = (((SelectResults) sr[i][0]).size());
+        resType1 = sr[i][0].getCollectionType().getElementType();
+        resSize1 = (sr[i][0].size());
         CacheUtils.log(resType1);
         assertEquals(1, resSize1);
-        set1 = (((SelectResults) sr[i][0]).asSet());
+        set1 = (sr[i][0].asSet());
         Iterator iter = set1.iterator();
         while (iter.hasNext()) {
           valPf1 = iter.next();
@@ -1133,7 +1133,7 @@ public class IndexWithSngleFrmAndMultCondQryJUnitTest {
     Index index1 =
         qs.createIndex("statusIndex", IndexType.FUNCTIONAL, "pf.status", SEPARATOR + "pos pf");
     Index index2 =
-        (Index) qs.createIndex("IdIndex", IndexType.FUNCTIONAL, "pf.iD", SEPARATOR + "pos pf");
+        qs.createIndex("IdIndex", IndexType.FUNCTIONAL, "pf.iD", SEPARATOR + "pos pf");
     Index index3 =
         qs.createIndex("descriptionIndex", IndexType.FUNCTIONAL, "pf.description",
             SEPARATOR + "pos pf");
@@ -1150,11 +1150,11 @@ public class IndexWithSngleFrmAndMultCondQryJUnitTest {
         } else {
           fail("FAILED: Index NOT Used");
         }
-        resType2 = ((SelectResults) sr[i][1]).getCollectionType().getElementType();
-        resSize2 = (((SelectResults) sr[i][1]).size());
+        resType2 = sr[i][1].getCollectionType().getElementType();
+        resSize2 = (sr[i][1].size());
         // strg2=resType2.getFieldNames();
 
-        set2 = (((SelectResults) sr[i][1]).asSet());
+        set2 = (sr[i][1].asSet());
         Iterator iter = set2.iterator();
         while (iter.hasNext()) {
           valPf2 = iter.next();

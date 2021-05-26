@@ -2772,7 +2772,7 @@ public class DiskInitFile implements DiskInitFileInterpreter {
 
     // Make sure the combined lru args can still produce a legal eviction attributes
     // before writing them to disk.
-    ((PlaceHolderDiskRegion) drv).getEvictionAttributes();
+    drv.getEvictionAttributes();
     writeRegionConfig(drv);
 
     sb.append("After modification: ");

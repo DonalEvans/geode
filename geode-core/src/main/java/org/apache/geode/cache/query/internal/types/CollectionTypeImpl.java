@@ -126,7 +126,7 @@ public class CollectionTypeImpl extends ObjectTypeImpl implements CollectionType
   public void fromData(DataInput in,
       DeserializationContext context) throws IOException, ClassNotFoundException {
     super.fromData(in, context);
-    this.elementType = (ObjectType) DataSerializer.readObject(in);
+    this.elementType = DataSerializer.readObject(in);
   }
 
   @Override

@@ -2284,7 +2284,7 @@ public abstract class AbstractRegionMap extends BaseRegionMap
    * @param entry the entry to attempt to add to the system
    */
   protected RegionEntry putEntryIfAbsentForTest(RegionEntry entry) {
-    return (RegionEntry) putEntryIfAbsent(entry.getKey(), entry);
+    return putEntryIfAbsent(entry.getKey(), entry);
   }
 
   @Override

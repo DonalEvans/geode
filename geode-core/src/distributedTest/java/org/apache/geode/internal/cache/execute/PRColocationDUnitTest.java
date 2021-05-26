@@ -930,7 +930,7 @@ public class PRColocationDUnitTest extends JUnit4CacheTestCase {
         try {
           Region r = basicGetCache().createRegion(regionName, attr.create());
           r.put("key", "value");
-          assertEquals("value", (String) r.get("key"));
+          assertEquals("value", r.get("key"));
         } catch (Exception NotExpected) {
           NotExpected.printStackTrace();
           LogWriterUtils.getLogWriter()
@@ -1250,19 +1250,19 @@ public class PRColocationDUnitTest extends JUnit4CacheTestCase {
 
     // for VM0 DataStore check the number of buckets created and the size of
     // bucket for all partitionedRegion
-    Integer totalBucketsInDataStore1 = (Integer) dataStore1
+    Integer totalBucketsInDataStore1 = dataStore1
         .invoke(() -> PRColocationDUnitTest.validateDataStore(CustomerPartitionedRegionName,
             OrderPartitionedRegionName, ShipmentPartitionedRegionName));
 
     // for VM1 DataStore check the number of buckets created and the size of
     // bucket for all partitionedRegion
-    Integer totalBucketsInDataStore2 = (Integer) dataStore2
+    Integer totalBucketsInDataStore2 = dataStore2
         .invoke(() -> PRColocationDUnitTest.validateDataStore(CustomerPartitionedRegionName,
             OrderPartitionedRegionName, ShipmentPartitionedRegionName));
 
     // for VM3 Datastore check the number of buckets created and the size of
     // bucket for all partitionedRegion
-    Integer totalBucketsInDataStore3 = (Integer) dataStore3
+    Integer totalBucketsInDataStore3 = dataStore3
         .invoke(() -> PRColocationDUnitTest.validateDataStore(CustomerPartitionedRegionName,
             OrderPartitionedRegionName, ShipmentPartitionedRegionName));
 
@@ -1388,19 +1388,19 @@ public class PRColocationDUnitTest extends JUnit4CacheTestCase {
 
     // for VM0 DataStore check the number of buckets created and the size of
     // bucket for all partitionedRegion
-    Integer totalBucketsInDataStore1 = (Integer) dataStore1
+    Integer totalBucketsInDataStore1 = dataStore1
         .invoke(() -> PRColocationDUnitTest.validateDataStore(CustomerPartitionedRegionName,
             OrderPartitionedRegionName, ShipmentPartitionedRegionName));
 
     // for VM1 DataStore check the number of buckets created and the size of
     // bucket for all partitionedRegion
-    Integer totalBucketsInDataStore2 = (Integer) dataStore2
+    Integer totalBucketsInDataStore2 = dataStore2
         .invoke(() -> PRColocationDUnitTest.validateDataStore(CustomerPartitionedRegionName,
             OrderPartitionedRegionName, ShipmentPartitionedRegionName));
 
     // for VM3 Datastore check the number of buckets created and the size of
     // bucket for all partitionedRegion
-    Integer totalBucketsInDataStore3 = (Integer) dataStore3
+    Integer totalBucketsInDataStore3 = dataStore3
         .invoke(() -> PRColocationDUnitTest.validateDataStore(CustomerPartitionedRegionName,
             OrderPartitionedRegionName, ShipmentPartitionedRegionName));
 

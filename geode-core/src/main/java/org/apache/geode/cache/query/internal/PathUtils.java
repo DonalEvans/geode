@@ -221,7 +221,7 @@ public class PathUtils {
           break;
         case CompiledValue.PATH:
           retList.add(expr);
-          expr = ((CompiledPath) expr).getReceiver();
+          expr = expr.getReceiver();
           break;
         case OQLLexerTokenTypes.ITERATOR_DEF:
           retList.add(expr);
@@ -229,7 +229,7 @@ public class PathUtils {
           break;
         case OQLLexerTokenTypes.TOK_LBRACK:
           retList.add(expr);
-          expr = ((CompiledIndexOperation) expr).getReceiver();
+          expr = expr.getReceiver();
           break;
         case OQLLexerTokenTypes.Identifier:
           CompiledID cid = (CompiledID) expr;

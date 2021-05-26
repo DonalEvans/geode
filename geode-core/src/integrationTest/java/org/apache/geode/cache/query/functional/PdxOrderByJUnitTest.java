@@ -271,8 +271,8 @@ public class PdxOrderByJUnitTest {
 
     }
     if (ok) {
-      set2 = (((SelectResults) r[1]).asSet());
-      set1 = (((SelectResults) r[0]).asSet());
+      set2 = (r[1].asSet());
+      set1 = (r[0].asSet());
       boolean pass = true;
       itert1 = set1.iterator();
       while (itert1.hasNext()) {

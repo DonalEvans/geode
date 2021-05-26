@@ -657,7 +657,7 @@ public class NestedObjectSeralizerIntegrationTest extends LuceneIntegrationTest 
       String out = "SimplePortfolioPdx [ID=" + ID + " status=" + status + "\n ";
       Iterator iter = positions.iterator();
       while (iter.hasNext()) {
-        out += (SimplePositionPdx) (iter.next()) + ", ";
+        out += iter.next() + ", ";
       }
       out += "\n P1:" + position1;
       return out + "\n]";

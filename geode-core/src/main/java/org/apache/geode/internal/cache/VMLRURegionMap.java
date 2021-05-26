@@ -82,9 +82,9 @@ public class VMLRURegionMap extends AbstractRegionMap {
   protected void initialize(EvictableRegion evictableRegion, Attributes attr,
       InternalRegionArguments internalRegionArgs) {
     if (evictableRegion instanceof InternalRegion) {
-      initialize((InternalRegion) evictableRegion, attr, internalRegionArgs, true);
+      initialize(evictableRegion, attr, internalRegionArgs, true);
     } else {
-      initialize((PlaceHolderDiskRegion) evictableRegion, attr, internalRegionArgs, true);
+      initialize(evictableRegion, attr, internalRegionArgs, true);
     }
   }
 
@@ -393,7 +393,7 @@ public class VMLRURegionMap extends AbstractRegionMap {
             long bytesEvicted = 0;
             long totalBytesEvicted = 0;
             List<BucketRegion> regions =
-                ((BucketRegion) _getOwner()).getPartitionedRegion().getSortedBuckets();
+                _getOwner().getPartitionedRegion().getSortedBuckets();
             Iterator<BucketRegion> iter = regions.iterator();
             while (iter.hasNext()) {
               BucketRegion region = iter.next();
@@ -467,7 +467,7 @@ public class VMLRURegionMap extends AbstractRegionMap {
         // to fix bug 48285 do no evict if bytesToEvict <= 0.
         while (bytesToEvict > 0
             && getEvictionController().mustEvict(stats, _getOwner(), bytesToEvict)) {
-          EvictableEntry removalEntry = (EvictableEntry) getEvictionList().getEvictableEntry();
+          EvictableEntry removalEntry = getEvictionList().getEvictableEntry();
           if (removalEntry != null) {
             if (evictEntry(removalEntry, stats) != 0) {
               if (isDebugEnabled_LRU) {

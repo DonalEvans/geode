@@ -81,7 +81,7 @@ public class SnapshotResultMessage extends PooledDistributionMessage implements 
   public void fromData(DataInput in,
       DeserializationContext context) throws IOException, ClassNotFoundException {
     super.fromData(in, context);
-    this.results = (CacheSnapshot) DataSerializer.readObject(in);
+    this.results = DataSerializer.readObject(in);
     this.snapshotId = in.readInt();
   }
 

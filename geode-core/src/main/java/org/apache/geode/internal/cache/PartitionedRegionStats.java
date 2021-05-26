@@ -950,7 +950,7 @@ public class PartitionedRegionStats {
 
   /** Remove stat start time from holding map to complete a clock stat */
   public long removeStartTime(Object key) {
-    Long startTime = (Long) this.startTimeMap.remove(key);
+    Long startTime = this.startTimeMap.remove(key);
     return startTime == null ? 0 : startTime;
   }
 

@@ -41,7 +41,6 @@ import org.apache.geode.internal.cache.execute.FunctionStreamingResultCollector;
 import org.apache.geode.internal.cache.execute.InternalFunctionException;
 import org.apache.geode.internal.cache.execute.InternalFunctionInvocationTargetException;
 import org.apache.geode.internal.cache.execute.LocalResultCollectorImpl;
-import org.apache.geode.internal.cache.execute.PartitionedRegionFunctionExecutor;
 import org.apache.geode.internal.cache.execute.PartitionedRegionFunctionResultWaiter;
 import org.apache.geode.internal.cache.execute.ResultCollectorHolder;
 import org.apache.geode.logging.internal.log4j.api.LogService;
@@ -410,7 +409,7 @@ public class PRFunctionStreamingResultCollector extends FunctionStreamingResultC
      * this.fite.
      */
     if (ex.getCause() instanceof CacheClosedException) {
-      ((PartitionedRegionFunctionExecutor) this.execution).addFailedNode(msg.getSender().getId());
+      this.execution.addFailedNode(msg.getSender().getId());
       this.exception = ex;
     } else if (ex.getCause() instanceof BucketMovedException) {
       this.exception = ex;

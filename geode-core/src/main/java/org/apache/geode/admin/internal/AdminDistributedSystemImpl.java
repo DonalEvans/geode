@@ -798,8 +798,8 @@ public class AdminDistributedSystemImpl implements org.apache.geode.admin.AdminD
       }
 
       if (this.config instanceof DistributedSystemConfigImpl) {
-        ((DistributedSystemConfigImpl) this.config).validate();
-        ((DistributedSystemConfigImpl) this.config).setDistributedSystem(this);
+        this.config.validate();
+        this.config.setDistributedSystem(this);
       }
 
       // LOG: passes the AdminDistributedSystemImpl LogWriterLogger into GfManagerAgentConfig for
@@ -955,7 +955,7 @@ public class AdminDistributedSystemImpl implements org.apache.geode.admin.AdminD
         }
         this.gfManagerAgent = null;
         if (this.config instanceof DistributedSystemConfigImpl) {
-          ((DistributedSystemConfigImpl) this.config).setDistributedSystem(null);
+          this.config.setDistributedSystem(null);
         }
       } finally {
         loggingSession.shutdown();
@@ -1808,7 +1808,7 @@ public class AdminDistributedSystemImpl implements org.apache.geode.admin.AdminD
         if (cacheVms != null) {
           for (CacheVm cacheVm : cacheVms) {
             if (cacheVm.getId().equals(memberId) && cacheVm instanceof CacheVm) {
-              found = (SystemMember) cacheVm;
+              found = cacheVm;
               foundSender = true;
               break;
             }
@@ -1820,7 +1820,7 @@ public class AdminDistributedSystemImpl implements org.apache.geode.admin.AdminD
 
           for (SystemMember appVm : appVms) {
             if (appVm.getId().equals(memberId) && appVm instanceof SystemMember) {
-              found = (SystemMember) appVm;
+              found = appVm;
               foundSender = true;
               break;
             }
@@ -2209,7 +2209,7 @@ public class AdminDistributedSystemImpl implements org.apache.geode.admin.AdminD
   }
 
   private void connectAdminDS() {
-    connect((InternalLogWriter) this.logWriter);
+    connect(this.logWriter);
     try {
       thisAdminDS.waitToBeConnected(3000);
     } catch (InterruptedException ie) {

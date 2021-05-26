@@ -444,7 +444,7 @@ public abstract class CommonTests extends SessionCookieConfigServletTestCaseAdap
   public void testCookieSecure() {
 
     boolean secure = true;
-    ((MyMockServletContext) getWebMockObjectFactory().getMockServletContext())
+    getWebMockObjectFactory().getMockServletContext()
         .getSessionCookieConfig().setSecure(secure);
 
     doFilter();
@@ -460,7 +460,7 @@ public abstract class CommonTests extends SessionCookieConfigServletTestCaseAdap
   public void testCookieHttpOnly() {
 
     boolean httpOnly = true;
-    ((MyMockServletContext) getWebMockObjectFactory().getMockServletContext())
+    getWebMockObjectFactory().getMockServletContext()
         .getSessionCookieConfig().setHttpOnly(httpOnly);
 
     doFilter();

@@ -395,7 +395,7 @@ public class FetchKeysMessage extends PartitionMessage {
           }
 
           // Write "end of chunk" entry to indicate end of chunk
-          DataSerializer.writeObject((Object) null, mos);
+          DataSerializer.writeObject(null, mos);
 
           // send 1 for last message if no more data
           int lastMsg = it.hasNext() ? 0 : 1;

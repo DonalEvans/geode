@@ -138,7 +138,7 @@ public class ResultsBag extends Bag implements DataSerializableFixedID {
   @Override
   public void fromData(DataInput in,
       DeserializationContext context) throws IOException, ClassNotFoundException {
-    this.elementType = (ObjectType) context.getDeserializer().readObject(in);
+    this.elementType = context.getDeserializer().readObject(in);
     this.size = in.readInt();
     assert this.size >= 0 : this.size;
     this.map = createMapForFromData();

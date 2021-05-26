@@ -534,7 +534,7 @@ public class DefaultQueryService implements InternalQueryService {
       throws QueryInvalidException, CqException {
     ClientCQ cq = null;
     try {
-      cq = (ClientCQ) getCqService().newCq(null, queryString, cqAttributes, this.pool, false);
+      cq = getCqService().newCq(null, queryString, cqAttributes, this.pool, false);
     } catch (CqExistsException cqe) {
       // Should not throw in here.
       if (logger.isDebugEnabled()) {
@@ -566,7 +566,7 @@ public class DefaultQueryService implements InternalQueryService {
       throws QueryInvalidException, CqException {
     ClientCQ cq = null;
     try {
-      cq = (ClientCQ) getCqService().newCq(null, queryString, cqAttributes, this.pool, isDurable);
+      cq = getCqService().newCq(null, queryString, cqAttributes, this.pool, isDurable);
     } catch (CqExistsException cqe) {
       // Should not throw in here.
       if (logger.isDebugEnabled()) {
@@ -604,7 +604,7 @@ public class DefaultQueryService implements InternalQueryService {
           "cqName must not be null");
     }
     ClientCQ cq =
-        (ClientCQ) getCqService().newCq(cqName, queryString, cqAttributes, this.pool, false);
+        getCqService().newCq(cqName, queryString, cqAttributes, this.pool, false);
     return cq;
   }
 
@@ -636,7 +636,7 @@ public class DefaultQueryService implements InternalQueryService {
           "cqName must not be null");
     }
     ClientCQ cq =
-        (ClientCQ) getCqService().newCq(cqName, queryString, cqAttributes, this.pool, isDurable);
+        getCqService().newCq(cqName, queryString, cqAttributes, this.pool, isDurable);
     return cq;
   }
 
@@ -665,7 +665,7 @@ public class DefaultQueryService implements InternalQueryService {
   public CqQuery getCq(String cqName) {
     CqQuery cq = null;
     try {
-      cq = (CqQuery) getCqService().getCq(cqName);
+      cq = getCqService().getCq(cqName);
     } catch (CqException cqe) {
       if (logger.isDebugEnabled()) {
         logger.debug("Unable to getCq. Error :{}", cqe.getMessage(), cqe);
@@ -937,7 +937,7 @@ public class DefaultQueryService implements InternalQueryService {
   private boolean createDefinedIndexesForPR(HashSet<Index> indexes, PartitionedRegion region,
       HashSet<IndexCreationData> icds, HashMap<String, Exception> exceptionsMap) {
     try {
-      indexes.addAll(((PartitionedRegion) region).createIndexes(false, icds));
+      indexes.addAll(region.createIndexes(false, icds));
     } catch (IndexCreationException e1) {
       logger.info("Exception while creating index on pr default query processor.",
           e1);

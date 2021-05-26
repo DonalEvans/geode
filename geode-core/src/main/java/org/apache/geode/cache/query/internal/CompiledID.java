@@ -49,7 +49,7 @@ public class CompiledID extends AbstractCompiledValue {
     CompiledValue val = context.resolve(getId());
     if (val == itr)
       return new ArrayList(); // empty path
-    if (val.getType() == PATH && ((CompiledPath) val).getReceiver() == itr) {
+    if (val.getType() == PATH && val.getReceiver() == itr) {
       List list = new ArrayList();
       list.add(_id);
       return list;

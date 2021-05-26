@@ -48,7 +48,7 @@ public class ASTAggregateFunc extends GemFireAST {
     super.compile(compiler);
     Object expr = compiler.pop();
     if (expr instanceof String) {
-      if (((String) expr).equals("*")) {
+      if (expr.equals("*")) {
         expr = null;
       } else {
         throw new QueryInvalidException("invalid parameter to aggregate function");

@@ -547,10 +547,10 @@ class FunctionalIndexCreationHelper extends IndexCreationHelper {
             cv = ((CompiledOperation) cv).getReceiver(this.context);
           } else if (cv instanceof CompiledPath) {
             reconstruct.add(0, ((CompiledPath) cv).getTailID());
-            cv = ((CompiledPath) cv).getReceiver();
+            cv = cv.getReceiver();
           } else if (cv instanceof CompiledIndexOperation) {
             reconstruct.add(0, ((CompiledIndexOperation) cv).getExpression());
-            cv = ((CompiledIndexOperation) cv).getReceiver();
+            cv = cv.getReceiver();
           } else {
             throw new IndexInvalidException(
                 "FunctionalIndexCreationHelper::prepareFromClause:From clause is neither a CompiledPath nor CompiledOperation");

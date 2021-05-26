@@ -85,7 +85,7 @@ public class DestroyEntryMessage extends RegionAdminMessage {
   public void fromData(DataInput in,
       DeserializationContext context) throws IOException, ClassNotFoundException {
     super.fromData(in, context);
-    this.action = (ExpirationAction) DataSerializer.readObject(in);
+    this.action = DataSerializer.readObject(in);
     this.key = DataSerializer.readObject(in);
   }
 

@@ -79,7 +79,7 @@ public abstract class AbstractStoredObject implements StoredObject {
     if (isSerialized()) {
       out.write(getSerializedValue());
     } else {
-      Object objToSend = (byte[]) getDeserializedForReading(); // deserialized as a byte[]
+      Object objToSend = getDeserializedForReading(); // deserialized as a byte[]
       DataSerializer.writeObject(objToSend, out);
     }
   }

@@ -325,11 +325,11 @@ public class PartitionAttributesImpl implements PartitionAttributes, Cloneable, 
   public PartitionListener[] getPartitionListeners() {
     ArrayList<PartitionListener> listeners = this.partitionListeners;
     if (listeners == null) {
-      return (PartitionListener[]) EMPTY_PARTITION_LISTENERS;
+      return EMPTY_PARTITION_LISTENERS;
     } else {
       synchronized (listeners) {
         if (listeners.size() == 0) {
-          return (PartitionListener[]) EMPTY_PARTITION_LISTENERS;
+          return EMPTY_PARTITION_LISTENERS;
         } else {
           PartitionListener[] result = new PartitionListener[listeners.size()];
           listeners.toArray(result);
@@ -401,8 +401,8 @@ public class PartitionAttributesImpl implements PartitionAttributes, Cloneable, 
     this.localMaxMemory = in.readInt();
     this.totalNumBuckets = in.readInt();
     this.colocatedRegionName = DataSerializer.readString(in);
-    this.localProperties = (Properties) DataSerializer.readObject(in);
-    this.globalProperties = (Properties) DataSerializer.readObject(in);
+    this.localProperties = DataSerializer.readObject(in);
+    this.globalProperties = DataSerializer.readObject(in);
     this.recoveryDelay = in.readLong();
     this.startupRecoveryDelay = in.readLong();
     this.fixedPAttrs = DataSerializer.readObject(in);

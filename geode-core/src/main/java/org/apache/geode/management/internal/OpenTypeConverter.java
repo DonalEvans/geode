@@ -369,7 +369,7 @@ public abstract class OpenTypeConverter {
     if (rawType instanceof Class) {
       Class c = (Class<?>) rawType;
       if (c == List.class || c == Set.class || c == SortedSet.class) {
-        Type[] actuals = ((ParameterizedType) objType).getActualTypeArguments();
+        Type[] actuals = objType.getActualTypeArguments();
         assert (actuals.length == 1);
         if (c == SortedSet.class)
           mustBeComparable(c, actuals[0]);
@@ -377,7 +377,7 @@ public abstract class OpenTypeConverter {
       } else {
         boolean sortedMap = (c == SortedMap.class);
         if (c == Map.class || sortedMap) {
-          Type[] actuals = ((ParameterizedType) objType).getActualTypeArguments();
+          Type[] actuals = objType.getActualTypeArguments();
           assert (actuals.length == 2);
           if (sortedMap)
             mustBeComparable(c, actuals[0]);

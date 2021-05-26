@@ -425,8 +425,8 @@ public abstract class Handshake {
 
     String authInitMethod = this.system.getProperties().getProperty(SECURITY_CLIENT_AUTH_INIT);
     return getCredentials(authInitMethod, this.system.getSecurityProperties(), member, false,
-        (InternalLogWriter) this.system.getLogWriter(),
-        (InternalLogWriter) this.system.getSecurityLogWriter());
+        this.system.getLogWriter(),
+        this.system.getSecurityLogWriter());
   }
 
   /**

@@ -34,7 +34,6 @@ import org.apache.geode.cache.Region;
 import org.apache.geode.cache.RegionFactory;
 import org.apache.geode.cache.RegionShortcut;
 import org.apache.geode.internal.cache.DiskStoreImpl;
-import org.apache.geode.internal.cache.GemFireCacheImpl;
 import org.apache.geode.internal.cache.InternalCache;
 import org.apache.geode.internal.util.BlobHelper;
 import org.apache.geode.pdx.PdxInstance;
@@ -166,7 +165,7 @@ public class PdxDeleteFieldJUnitTest {
         } finally {
           cache.setPdxReadSerializedOverride(false);
         }
-        TypeRegistry tr = ((GemFireCacheImpl) cache).getPdxRegistry();
+        TypeRegistry tr = cache.getPdxRegistry();
         // Clear the local registry so we will regenerate a type for the same class
         tr.testClearLocalTypeRegistry();
         {

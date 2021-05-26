@@ -40,7 +40,6 @@ import org.apache.geode.cache.TimeoutException;
 import org.apache.geode.distributed.internal.ClusterDistributionManager;
 import org.apache.geode.distributed.internal.DistributionAdvisor;
 import org.apache.geode.distributed.internal.ReplyException;
-import org.apache.geode.distributed.internal.membership.InternalDistributedMember;
 import org.apache.geode.internal.Assert;
 import org.apache.geode.internal.cache.LocalRegion.InitializationLevel;
 import org.apache.geode.internal.cache.partitioned.PRLocallyDestroyedException;
@@ -109,7 +108,7 @@ public class DestroyRegionOperation extends DistributedCacheOperation {
     if (this.event instanceof ClientRegionEventImpl) {
       mssg = new DestroyRegionWithContextMessage();
       ((DestroyRegionWithContextMessage) mssg).context =
-          ((ClientRegionEventImpl) this.event).getContext();
+          this.event.getContext();
     } else {
       mssg = new DestroyRegionMessage();
     }
@@ -147,7 +146,7 @@ public class DestroyRegionOperation extends DistributedCacheOperation {
       RegionEventImpl event = createRegionEvent(rgn);
       if (this.filterRouting != null) {
         event.setLocalFilterInfo(
-            this.filterRouting.getFilterInfo((InternalDistributedMember) rgn.getMyId()));
+            this.filterRouting.getFilterInfo(rgn.getMyId()));
       }
       event.setEventID(this.eventID);
       return event;
@@ -445,7 +444,7 @@ public class DestroyRegionOperation extends DistributedCacheOperation {
     public void fromData(DataInput in,
         DeserializationContext context) throws IOException, ClassNotFoundException {
       super.fromData(in, context);
-      this.eventID = (EventID) DataSerializer.readObject(in);
+      this.eventID = DataSerializer.readObject(in);
       this.serialNum = DataSerializer.readPrimitiveInt(in);
       this.notifyOfRegionDeparture = DataSerializer.readPrimitiveBoolean(in);
       this.subregionSerialNumbers = DataSerializer.readHashMap(in);

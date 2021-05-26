@@ -223,7 +223,7 @@ public class RemoteRemoveAllMessage extends RemoteOperationMessageWithDirectRepl
   public void fromData(DataInput in,
       DeserializationContext context) throws IOException, ClassNotFoundException {
     super.fromData(in, context);
-    this.eventId = (EventID) DataSerializer.readObject(in);
+    this.eventId = DataSerializer.readObject(in);
     this.callbackArg = DataSerializer.readObject(in);
     this.posDup = (flags & POS_DUP) != 0;
     if ((flags & HAS_BRIDGE_CONTEXT) != 0) {
@@ -476,7 +476,7 @@ public class RemoteRemoveAllMessage extends RemoteOperationMessageWithDirectRepl
     public void fromData(DataInput in,
         DeserializationContext context) throws IOException, ClassNotFoundException {
       super.fromData(in, context);
-      this.versions = (VersionedObjectList) DataSerializer.readObject(in);
+      this.versions = DataSerializer.readObject(in);
     }
 
     @Override

@@ -270,7 +270,7 @@ public class StartupResponseMessage extends DistributionMessage
       instantiatorIds[i] = in.readInt();
     } // for
 
-    interfaces = (Set) DataSerializer.readObject(in);
+    interfaces = DataSerializer.readObject(in);
     distributedSystemId = in.readInt();
     redundancyZone = DataSerializer.readString(in);
   }

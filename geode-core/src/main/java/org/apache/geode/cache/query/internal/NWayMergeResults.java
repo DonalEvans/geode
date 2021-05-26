@@ -440,7 +440,7 @@ public class NWayMergeResults<E> implements SelectResults<E>, Ordered, DataSeria
   @Override
   public void fromData(DataInput in,
       DeserializationContext context) throws IOException, ClassNotFoundException {
-    ObjectType elementType = (ObjectType) context.getDeserializer().readObject(in);
+    ObjectType elementType = context.getDeserializer().readObject(in);
     this.collectionType = new CollectionTypeImpl(NWayMergeResults.class, elementType);
     boolean isStruct = elementType.isStructType();
     this.isDistinct = DataSerializer.readPrimitiveBoolean(in);

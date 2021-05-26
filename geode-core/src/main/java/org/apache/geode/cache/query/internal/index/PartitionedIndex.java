@@ -237,7 +237,7 @@ public class PartitionedIndex extends AbstractIndex {
     }
     PartitionedRegionDataStore prds = pr.getDataStore();
     BucketRegion bukRegion;
-    bukRegion = (BucketRegion) prds.getLocalBucketById(bId);
+    bukRegion = prds.getLocalBucketById(bId);
     if (bukRegion == null) {
       throw new BucketMovedException("Bucket not found for the id :" + bId);
     }
@@ -265,7 +265,7 @@ public class PartitionedIndex extends AbstractIndex {
 
     for (Object bId : buckets) {
       // create index
-      BucketRegion bukRegion = (BucketRegion) prds.getLocalBucketById((Integer) bId);
+      BucketRegion bukRegion = prds.getLocalBucketById((Integer) bId);
       if (bukRegion == null) {
         throw new QueryInvocationTargetException("Bucket not found for the id :" + bId);
       }

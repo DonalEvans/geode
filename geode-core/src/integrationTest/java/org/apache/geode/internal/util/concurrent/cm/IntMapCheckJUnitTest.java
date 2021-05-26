@@ -413,7 +413,7 @@ public class IntMapCheckJUnitTest extends JSR166TestCase { // TODO: reformat
     timer.start("Put (putAll)           ", size * 2);
     Map s2 = null;
     try {
-      s2 = (Map) (s.getClass().newInstance());
+      s2 = s.getClass().newInstance();
       s2.putAll(s);
     } catch (Exception e) {
       e.printStackTrace();

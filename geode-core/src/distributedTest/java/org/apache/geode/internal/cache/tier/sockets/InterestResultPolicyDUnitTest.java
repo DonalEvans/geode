@@ -83,7 +83,7 @@ public class InterestResultPolicyDUnitTest extends JUnit4DistributedTestCase {
     vm0 = host.getVM(0);
     vm1 = host.getVM(1);
     PORT =
-        ((Integer) vm0.invoke(() -> InterestResultPolicyDUnitTest.createServerCache())).intValue();
+        vm0.invoke(() -> InterestResultPolicyDUnitTest.createServerCache()).intValue();
     vm0.invoke(() -> InterestResultPolicyDUnitTest.populateServerCache());
   }
 

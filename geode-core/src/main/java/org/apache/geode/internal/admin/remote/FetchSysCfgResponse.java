@@ -71,7 +71,7 @@ public class FetchSysCfgResponse extends AdminResponse {
   public void fromData(DataInput in,
       DeserializationContext context) throws IOException, ClassNotFoundException {
     super.fromData(in, context);
-    this.sc = (Config) DataSerializer.readObject(in);
+    this.sc = DataSerializer.readObject(in);
   }
 
   @Override

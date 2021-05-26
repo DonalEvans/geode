@@ -17,7 +17,6 @@ package org.apache.geode.internal.cache;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -338,8 +337,8 @@ public class DistributedRegionFunctionStreamingMessage extends DistributionMessa
       this.functionObject = (Function) object;
       this.isFnSerializationReqd = true;
     }
-    this.args = (Serializable) DataSerializer.readObject(in);
-    this.filter = (HashSet) DataSerializer.readHashSet(in);
+    this.args = DataSerializer.readObject(in);
+    this.filter = DataSerializer.readHashSet(in);
     this.regionPath = DataSerializer.readString(in);
     this.isReExecute = (flags & IS_REEXECUTE) != 0;
   }

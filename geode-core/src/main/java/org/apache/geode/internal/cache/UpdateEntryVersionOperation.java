@@ -148,7 +148,7 @@ public class UpdateEntryVersionOperation extends DistributedCacheOperation {
     public void fromData(DataInput in,
         DeserializationContext context) throws IOException, ClassNotFoundException {
       super.fromData(in, context);
-      this.eventId = (EventID) DataSerializer.readObject(in);
+      this.eventId = DataSerializer.readObject(in);
       this.key = DataSerializer.readObject(in);
       Boolean hasTailKey = DataSerializer.readBoolean(in);
       if (hasTailKey.booleanValue()) {
@@ -172,7 +172,7 @@ public class UpdateEntryVersionOperation extends DistributedCacheOperation {
         } else {
           DataSerializer.writeBoolean(Boolean.FALSE, out);
         }
-      } else if (((LocalRegion) region).isUsedForSerialGatewaySenderQueue()) {
+      } else if (region.isUsedForSerialGatewaySenderQueue()) {
         DataSerializer.writeBoolean(Boolean.TRUE, out);
         DataSerializer.writeLong(this.event.getTailKey(), out);
       } else {

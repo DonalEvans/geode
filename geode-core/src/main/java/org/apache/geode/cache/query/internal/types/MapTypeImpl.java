@@ -95,7 +95,7 @@ public class MapTypeImpl extends CollectionTypeImpl implements MapType {
   public void fromData(DataInput in,
       DeserializationContext context) throws IOException, ClassNotFoundException {
     super.fromData(in, context);
-    this.keyType = (ObjectType) DataSerializer.readObject(in);
+    this.keyType = DataSerializer.readObject(in);
   }
 
   @Override

@@ -119,7 +119,7 @@ public class JsonWriter {
 
     // introspect the Map and write its value into desired format
     generator.writeStartArray();
-    Iterator iter = (Iterator) map.entrySet().iterator();
+    Iterator iter = map.entrySet().iterator();
     while (iter.hasNext()) {
 
       Map.Entry entry = (Map.Entry) iter.next();
@@ -438,7 +438,7 @@ public class JsonWriter {
 
     generator.writeStartObject();
 
-    Iterator iter = (Iterator) map.entrySet().iterator();
+    Iterator iter = map.entrySet().iterator();
     while (iter.hasNext()) {
       Map.Entry entry = (Map.Entry) iter.next();
 

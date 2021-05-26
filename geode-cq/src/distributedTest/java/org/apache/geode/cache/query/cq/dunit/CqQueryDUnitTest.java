@@ -388,23 +388,23 @@ public class CqQueryDUnitTest extends JUnit4CacheTestCase {
         ClientServerTestCase.configureConnectionPoolWithNameAndFactory(regionFactory0, serverHost,
             serverPorts1, true,
             Integer.parseInt(redundancyLevel),
-            -1, (String) null, "testPoolA", PoolManager.createFactory(), -1, -1, -2,
+            -1, null, "testPoolA", PoolManager.createFactory(), -1, -1, -2,
             -1);
         ClientServerTestCase.configureConnectionPoolWithNameAndFactory(regionFactory1, serverHost,
             serverPorts2, true,
             Integer.parseInt(redundancyLevel),
-            -1, (String) null, "testPoolB", PoolManager.createFactory(), -1, -1, -2,
+            -1, null, "testPoolB", PoolManager.createFactory(), -1, -1, -2,
             -1);
       } else {
         ClientServerTestCase.configureConnectionPoolWithNameAndFactory(regionFactory0, serverHost,
             serverPorts1, true,
             -1,
-            -1, (String) null, "testPoolA", PoolManager.createFactory(), -1, -1, -2,
+            -1, null, "testPoolA", PoolManager.createFactory(), -1, -1, -2,
             -1);
         ClientServerTestCase.configureConnectionPoolWithNameAndFactory(regionFactory1, serverHost,
             serverPorts2, true,
             -1,
-            -1, (String) null, "testPoolB", PoolManager.createFactory(), -1, -1, -2,
+            -1, null, "testPoolB", PoolManager.createFactory(), -1, -1, -2,
             -1);
       }
       createRegion(regions[0], regionFactory0.create());

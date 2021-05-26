@@ -627,9 +627,9 @@ public class ClientServerTransactionDUnitTest extends RemoteTransactionDUnitTest
     doTxOps(r, pr);
 
     final DistributedMember myId = cCache.getDistributedSystem().getDistributedMember();
-    final DistributedMember accessorId = (DistributedMember) accessor
+    final DistributedMember accessorId = accessor
         .invoke(() -> ClientServerTransactionDUnitTest.getVMDistributedMember());
-    final DistributedMember accessor2Id = (DistributedMember) accessor2
+    final DistributedMember accessor2Id = accessor2
         .invoke(() -> ClientServerTransactionDUnitTest.getVMDistributedMember());
 
     SerializableCallable verifyExists =
@@ -4180,7 +4180,7 @@ public class ClientServerTransactionDUnitTest extends RemoteTransactionDUnitTest
     server2.invoke(() -> {
       BucketRegion br =
           ((PartitionedRegion) getCache().getRegion(regionName)).getBucketRegion("KEY-1");
-      AbstractRegionMap arm = (AbstractRegionMap) ((LocalRegion) br).entries;
+      AbstractRegionMap arm = (AbstractRegionMap) br.entries;
       arm.setARMLockTestHook(new ARMLockTestHookAdapter() {
         @Override
         public void beforeLock(InternalRegion owner, CacheEvent event) {

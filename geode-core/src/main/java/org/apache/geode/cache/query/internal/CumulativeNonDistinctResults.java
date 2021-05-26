@@ -216,7 +216,7 @@ public class CumulativeNonDistinctResults<E> implements SelectResults<E>, DataSe
         Iterator<? extends Collection<E>> listIter = results.iterator();
         int index = 0;
         while (listIter.hasNext()) {
-          Iterator<E> temp = (Iterator<E>) listIter.next().iterator();
+          Iterator<E> temp = listIter.next().iterator();
           this.iterators[index++] = temp;
         }
         this.isStruct = collectionType.getElementType().isStructType();
@@ -280,7 +280,7 @@ public class CumulativeNonDistinctResults<E> implements SelectResults<E>, DataSe
   @Override
   public void fromData(DataInput in,
       DeserializationContext context) throws IOException, ClassNotFoundException {
-    ObjectType elementType = (ObjectType) context.getDeserializer().readObject(in);
+    ObjectType elementType = context.getDeserializer().readObject(in);
     this.collectionType = new CollectionTypeImpl(CumulativeNonDistinctResults.class, elementType);
     boolean isStruct = elementType.isStructType();
 

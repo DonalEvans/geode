@@ -276,7 +276,7 @@ public class FilterProfile implements DataSerializableFixedID {
           break;
         case InterestType.REGULAR_EXPRESSION:
           opType = operationType.REGISTER_PATTERN;
-          if (((String) interest).equals(".*")) {
+          if (interest.equals(".*")) {
             Set akc = updatesAsInvalidates ? getAllKeyClientsInv() : getAllKeyClients();
             if (akc.add(clientID)) {
               keysRegistered.add(interest);
@@ -435,7 +435,7 @@ public class FilterProfile implements DataSerializableFixedID {
   }
 
   private void unregisterClientPattern(Object interest, Long clientID, Set keysUnregistered) {
-    if (interest instanceof String && ((String) interest).equals(".*")) { // ALL_KEYS
+    if (interest instanceof String && interest.equals(".*")) { // ALL_KEYS
       unregisterAllKeys(interest, clientID, keysUnregistered);
       return;
     }
@@ -792,7 +792,7 @@ public class FilterProfile implements DataSerializableFixedID {
   }
 
   public ServerCQ getCq(String cqName) {
-    return (ServerCQ) this.cqs.get(cqName);
+    return this.cqs.get(cqName);
   }
 
   public void registerCq(ServerCQ cq) {
@@ -843,7 +843,7 @@ public class FilterProfile implements DataSerializableFixedID {
           + ", Error : Cache has been closed.");
       return;
     }
-    ServerCQ cq = (ServerCQ) ServerCQ;
+    ServerCQ cq = ServerCQ;
     try {
       CqService cqService = cache.getCqService();
       cqService.start();
@@ -875,7 +875,7 @@ public class FilterProfile implements DataSerializableFixedID {
   }
 
   public void processCloseCq(String serverCqName) {
-    ServerCQ cq = (ServerCQ) this.cqs.get(serverCqName);
+    ServerCQ cq = this.cqs.get(serverCqName);
     if (cq != null) {
       try {
         cq.close(false);
@@ -892,7 +892,7 @@ public class FilterProfile implements DataSerializableFixedID {
   }
 
   public void processSetCqState(String serverCqName, ServerCQ ServerCQ) {
-    ServerCQ cq = (ServerCQ) this.cqs.get(serverCqName);
+    ServerCQ cq = this.cqs.get(serverCqName);
     if (cq != null) {
       CqStateImpl cqState = (CqStateImpl) ServerCQ.getState();
       cq.setCqState(cqState.getState());
@@ -900,7 +900,7 @@ public class FilterProfile implements DataSerializableFixedID {
   }
 
   public void processStopCq(String serverCqName) {
-    ServerCQ cq = (ServerCQ) this.cqs.get(serverCqName);
+    ServerCQ cq = this.cqs.get(serverCqName);
     if (cq != null) {
       try {
         cq.stop();
@@ -1994,9 +1994,9 @@ public class FilterProfile implements DataSerializableFixedID {
       if (isCqOp(this.opType)) {
         // For CQ info.
         // Write Server CQ Name.
-        out.writeUTF(((ServerCQ) this.cq).getServerCqName());
+        out.writeUTF(this.cq.getServerCqName());
         if (this.opType == operationType.REGISTER_CQ || this.opType == operationType.SET_CQ_STATE) {
-          InternalDataSerializer.invokeToData((ServerCQ) this.cq, out);
+          InternalDataSerializer.invokeToData(this.cq, out);
         }
       } else {
         // For interest list.

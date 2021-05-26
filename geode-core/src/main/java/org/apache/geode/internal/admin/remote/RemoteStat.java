@@ -122,7 +122,7 @@ public class RemoteStat implements Stat, DataSerializable {
     this.id = in.readInt();
     this.units = DataSerializer.readString(in);
     this.desc = DataSerializer.readString(in);
-    this.value = (Number) DataSerializer.readObject(in);
+    this.value = DataSerializer.readObject(in);
     this.isCounter = in.readBoolean();
   }
 

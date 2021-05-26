@@ -155,7 +155,7 @@ public class HAInterestPart2DUnitTest extends HAInterestTestCase {
   public void testRefreshEntriesFromPrimaryWhenDSMDetectsServerLive() throws Exception {
     addIgnoredException(ServerConnectivityException.class.getName());
 
-    PORT1 = ((Integer) server1.invoke(() -> createServerCache())).intValue();
+    PORT1 = server1.invoke(() -> createServerCache()).intValue();
     server1.invoke(() -> createEntriesK1andK2());
     createClientPoolCacheConnectionToSingleServer(this.getName(),
         getServerHostName(server1.getHost()));
@@ -231,11 +231,11 @@ public class HAInterestPart2DUnitTest extends HAInterestTestCase {
     server2.invoke(() -> HAInterestTestCase.closeCache());
     server3.invoke(() -> HAInterestTestCase.closeCache());
 
-    PORT1 = ((Integer) server1.invoke(() -> HAInterestTestCase.createServerCacheWithLocalRegion()))
+    PORT1 = server1.invoke(() -> HAInterestTestCase.createServerCacheWithLocalRegion())
         .intValue();
-    PORT2 = ((Integer) server2.invoke(() -> HAInterestTestCase.createServerCacheWithLocalRegion()))
+    PORT2 = server2.invoke(() -> HAInterestTestCase.createServerCacheWithLocalRegion())
         .intValue();
-    PORT3 = ((Integer) server3.invoke(() -> HAInterestTestCase.createServerCacheWithLocalRegion()))
+    PORT3 = server3.invoke(() -> HAInterestTestCase.createServerCacheWithLocalRegion())
         .intValue();
 
     server1.invoke(() -> HAInterestTestCase.createEntriesK1andK2());
@@ -264,7 +264,7 @@ public class HAInterestPart2DUnitTest extends HAInterestTestCase {
    */
   @Test
   public void testBug35945() throws Exception {
-    PORT1 = ((Integer) server1.invoke(() -> createServerCache())).intValue();
+    PORT1 = server1.invoke(() -> createServerCache()).intValue();
     server1.invoke(() -> createEntriesK1andK2());
     createClientPoolCacheConnectionToSingleServer(this.getName(),
         getServerHostName(server1.getHost()));
@@ -334,9 +334,9 @@ public class HAInterestPart2DUnitTest extends HAInterestTestCase {
   public void testInterestRecoveryFailure() throws Exception {
     addIgnoredException("Server unreachable");
 
-    PORT1 = ((Integer) server1.invoke(() -> createServerCache())).intValue();
+    PORT1 = server1.invoke(() -> createServerCache()).intValue();
     server1.invoke(() -> createEntriesK1andK2());
-    PORT2 = ((Integer) server2.invoke(() -> createServerCache())).intValue();
+    PORT2 = server2.invoke(() -> createServerCache()).intValue();
     server2.invoke(() -> createEntriesK1andK2());
     createClientPoolCacheWithSmallRetryInterval(this.getName(),
         getServerHostName(server1.getHost()));

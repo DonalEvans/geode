@@ -732,7 +732,7 @@ public class InstantiatorPropagationDUnitTest extends JUnit4DistributedTestCase 
 
     Wait.pause(10000);
 
-    Boolean pass = (Boolean) client2.invoke(() -> InstantiatorPropagationDUnitTest.verifyResult());
+    Boolean pass = client2.invoke(() -> InstantiatorPropagationDUnitTest.verifyResult());
     assertTrue("EventId found Different", pass.booleanValue());
 
     PoolImpl.IS_INSTANTIATOR_CALLBACK = false;

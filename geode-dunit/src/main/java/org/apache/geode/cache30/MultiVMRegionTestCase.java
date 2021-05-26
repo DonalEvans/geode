@@ -5927,7 +5927,7 @@ public abstract class MultiVMRegionTestCase extends RegionTestCase {
   private RegionVersionVector<VersionSource<?>> getVersionVector(VM vm) throws Exception {
     byte[] serializedForm = vm.invoke(MultiVMRegionTestCase::getCCRegionVersionVector);
     DataInputStream dis = new DataInputStream(new ByteArrayInputStream(serializedForm));
-    return (RegionVersionVector<VersionSource<?>>) DataSerializer.readObject(dis);
+    return DataSerializer.readObject(dis);
   }
 
   private AsyncInvocation performOps4ClearWithConcurrentEvents(VM vm) {

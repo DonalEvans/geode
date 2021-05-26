@@ -410,7 +410,7 @@ public class SampleCollector {
     }
     ResourceType resourceType = null;
     try {
-      resourceType = (ResourceType) this.resourceTypeMap.get(type);
+      resourceType = this.resourceTypeMap.get(type);
     } catch (NullPointerException ex) {
       // bug 30716
       if (isDebugEnabled_STATISTICS) {
@@ -473,10 +473,10 @@ public class SampleCollector {
 
     while (it.hasNext() && resourcesToDelete > 0) {
       Map.Entry<Statistics, ResourceInstance> e = it.next();
-      Statistics key = (Statistics) e.getKey();
+      Statistics key = e.getKey();
       if (!resourceList.contains(key)) {
         key.close();
-        ResourceInstance inst = (ResourceInstance) e.getValue();
+        ResourceInstance inst = e.getValue();
         resourcesRemoved.add(inst);
         resourcesToDelete--;
         it.remove();

@@ -57,7 +57,6 @@ import org.apache.geode.cache.query.internal.StructImpl;
 import org.apache.geode.cache.query.internal.Support;
 import org.apache.geode.cache.query.internal.index.IndexManager.TestHook;
 import org.apache.geode.cache.query.internal.index.IndexStore.IndexStoreEntry;
-import org.apache.geode.cache.query.internal.index.MemoryIndexStore.MemoryIndexStoreEntry;
 import org.apache.geode.cache.query.internal.parse.OQLLexerTokenTypes;
 import org.apache.geode.cache.query.internal.types.StructTypeImpl;
 import org.apache.geode.cache.query.internal.types.TypeUtils;
@@ -304,7 +303,7 @@ public class CompactRangeIndex extends AbstractIndex {
     CompactRangeIndex index = (CompactRangeIndex) indexInfo._getIndex();
     RuntimeIterator runtimeItr = index.getRuntimeIteratorForThisIndex(context, indexInfo);
     if (runtimeItr != null) {
-      runtimeItr.setCurrent(((MemoryIndexStoreEntry) entry).getDeserializedValue());
+      runtimeItr.setCurrent(entry.getDeserializedValue());
     }
     return evaluateEntry(indexInfo, context, keyVal);
   }
@@ -832,7 +831,7 @@ public class CompactRangeIndex extends AbstractIndex {
               runtimeItr.setCurrent(value);
               // Verify index key in region entry value.
 
-              ok = evaluateEntry((IndexInfo) indexInfo, context, null);
+              ok = evaluateEntry(indexInfo, context, null);
             }
             if (runtimeItr != null) {
               runtimeItr.setCurrent(value);
@@ -889,9 +888,9 @@ public class CompactRangeIndex extends AbstractIndex {
   protected boolean evaluateEntry(IndexInfo indexInfo, ExecutionContext context, Object keyVal)
       throws FunctionDomainException, TypeMismatchException, NameResolutionException,
       QueryInvocationTargetException {
-    CompiledValue path = ((IndexInfo) indexInfo)._path();
+    CompiledValue path = indexInfo._path();
     Object left = path.evaluate(context);
-    CompiledValue key = ((IndexInfo) indexInfo)._key();
+    CompiledValue key = indexInfo._key();
     Object right = null;
 
     // For CompiledUndefined indexInfo has null key.
@@ -1157,7 +1156,7 @@ public class CompactRangeIndex extends AbstractIndex {
       this.cache = helper.getCache();
       this.fromIterators = helper.getIterators();
       this.indexedExpr = helper.getCompiledIndexedExpression();
-      this.canonicalIterNames = ((FunctionalIndexCreationHelper) helper).canonicalizedIteratorNames;
+      this.canonicalIterNames = helper.canonicalizedIteratorNames;
       this.rgn = helper.getRegion();
 
       // The modified iterators for optmizing Index cxreation

@@ -488,7 +488,7 @@ public class AsyncEventQueueTestBase extends JUnit4DistributedTestCase {
 
     ((AsyncEventQueueImpl) theChannel).getSender().pause();
 
-    ((AbstractGatewaySender) ((AsyncEventQueueImpl) theChannel).getSender()).getEventProcessor()
+    ((AsyncEventQueueImpl) theChannel).getSender().getEventProcessor()
         .waitForDispatcherToPause();
   }
 

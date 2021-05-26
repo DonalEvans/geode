@@ -85,7 +85,7 @@ public class TestClientsDUnitTest extends ManagementTestBase {
     final String host0 = NetworkUtils.getServerHostName(server.getHost());
     cqDUnitTest.createClient(client, port, host0);
     Integer numOfClients =
-        (Integer) managingNode.invoke(() -> TestClientsDUnitTest.getNumOfClients());
+        managingNode.invoke(() -> TestClientsDUnitTest.getNumOfClients());
     LogWriterUtils.getLogWriter().info("testNumOfClients numOfClients = " + numOfClients);
     cqDUnitTest.closeClient(client);
     cqDUnitTest.closeServer(server);

@@ -153,7 +153,7 @@ public class Position implements Declarable, Serializable, Comparable {
     } else {
       if (o instanceof Position) {
         return Integer.valueOf(this.hashCode())
-            .compareTo(Integer.valueOf(((Position) o).hashCode()));
+            .compareTo(Integer.valueOf(o.hashCode()));
       } else {
         return -1;
       }

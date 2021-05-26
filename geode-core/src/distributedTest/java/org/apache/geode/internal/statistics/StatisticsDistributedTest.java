@@ -388,7 +388,7 @@ public class StatisticsDistributedTest extends JUnit4CacheTestCase {
         }
 
         // assert that sum of mostRecent values for all puts equals totalPuts
-        assertEquals((double) totalPuts, combinedPuts, 0);
+        assertEquals(totalPuts, combinedPuts, 0);
         puts.getAndAdd(totalPuts);
       });
     }
@@ -458,7 +458,7 @@ public class StatisticsDistributedTest extends JUnit4CacheTestCase {
           }
         }
       }
-      assertEquals((double) totalUpdateEvents, combinedUpdateEvents, 0);
+      assertEquals(totalUpdateEvents, combinedUpdateEvents, 0);
     });
 
     int updateEvents =

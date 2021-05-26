@@ -161,9 +161,9 @@ public class FetchHostResponse extends AdminResponse {
       DeserializationContext context) throws IOException, ClassNotFoundException {
     super.fromData(in, context);
     this.name = DataSerializer.readString(in);
-    this.host = (InetAddress) DataSerializer.readObject(in);
-    this.geodeHomeDir = (File) DataSerializer.readObject(in);
-    this.workingDir = (File) DataSerializer.readObject(in);
+    this.host = DataSerializer.readObject(in);
+    this.geodeHomeDir = DataSerializer.readObject(in);
+    this.workingDir = DataSerializer.readObject(in);
     this.birthDate = in.readLong();
     this.isDedicatedCacheServer = in.readBoolean();
   }

@@ -310,7 +310,7 @@ public class PutOp {
 
     void checkForDeltaConflictAndSetVersionTag(VersionTag versionTag, Connection connection)
         throws Exception {
-      RegionEntry regionEntry = ((EntryEventImpl) event).getRegionEntry();
+      RegionEntry regionEntry = event.getRegionEntry();
       if (regionEntry == null) {
         event.setVersionTag(versionTag);
         return;

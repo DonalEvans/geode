@@ -78,7 +78,7 @@ public class ProxyDUnitTest extends JUnit4CacheTestCase {
         getCache();
       }
     });
-    this.otherId = (DistributedMember) vm.invoke(() -> getSystem().getDistributedMember());
+    this.otherId = vm.invoke(() -> getSystem().getDistributedMember());
   }
 
   private void doCreateOtherVm() {

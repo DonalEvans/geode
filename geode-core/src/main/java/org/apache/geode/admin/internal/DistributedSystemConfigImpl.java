@@ -825,7 +825,7 @@ public class DistributedSystemConfigImpl implements DistributedSystemConfig {
 
   @Override
   public CacheVmConfig createCacheVmConfig() {
-    return (CacheVmConfig) createCacheServerConfig();
+    return createCacheServerConfig();
   }
 
   /**
@@ -855,7 +855,7 @@ public class DistributedSystemConfigImpl implements DistributedSystemConfig {
    */
   @Override
   public void removeCacheServerConfig(CacheServerConfig managerConfig) {
-    removeCacheVmConfig((CacheVmConfig) managerConfig);
+    removeCacheVmConfig(managerConfig);
   }
 
   @Override

@@ -19,7 +19,6 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import org.apache.geode.cache.CacheTransactionManager;
 import org.apache.geode.cache.TransactionEvent;
 import org.apache.geode.cache.TransactionWriter;
 import org.apache.geode.cache.TransactionWriterException;
@@ -37,7 +36,7 @@ public class TXWriterOOMEJUnitTest extends TXWriterTestCase {
     installCacheListenerAndWriter();
 
     // install TransactionWriter
-    ((CacheTransactionManager) this.txMgr).setWriter(new TransactionWriter() {
+    this.txMgr.setWriter(new TransactionWriter() {
       @Override
       public void beforeCommit(TransactionEvent event) throws TransactionWriterException {
         throw new OutOfMemoryError("this is expected!");

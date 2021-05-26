@@ -1651,7 +1651,7 @@ public class HARegionQueue implements RegionQueue {
       // dispatchedMessagesMap.put(this.regionName, this.threadIdToSeqId);
       Map tempDispatchedMessagesMap = dispatchedMessagesMap;
       if (tempDispatchedMessagesMap != null) {
-        Object old = ((ConcurrentMap) tempDispatchedMessagesMap).putIfAbsent(this.regionName,
+        Object old = tempDispatchedMessagesMap.putIfAbsent(this.regionName,
             this.threadIdToSeqId);
         if (isUsedByTest) {
           testMarkerMessageReceived = true;
@@ -1828,7 +1828,7 @@ public class HARegionQueue implements RegionQueue {
           if (hw.getClientUpdateMessage() != null) {
             event = hw.getClientUpdateMessage();
           } else {
-            event = (Conflatable) this.haContainer.get(event);
+            event = this.haContainer.get(event);
           }
 
 
@@ -2164,7 +2164,7 @@ public class HARegionQueue implements RegionQueue {
             continue;
           }
           synchronized (entryHaEventWrapper) {
-            if (entryHaEventWrapper == (HAEventWrapper) haContainer.getKey(entryHaEventWrapper)) {
+            if (entryHaEventWrapper == haContainer.getKey(entryHaEventWrapper)) {
               entryHaEventWrapper.incAndGetReferenceCount();
               addClientCQsAndInterestList(entryMessage, inputHaEventWrapper, haContainer,
                   regionName);
@@ -3520,7 +3520,7 @@ public class HARegionQueue implements RegionQueue {
 
     while (haContainerKey == null) {
       ClientUpdateMessageImpl haContainerEntry =
-          (ClientUpdateMessageImpl) ((HAContainerWrapper) this.haContainer)
+          (ClientUpdateMessageImpl) this.haContainer
               .putIfAbsent(inputHaEventWrapper, inputHaEventWrapper.getClientUpdateMessage());
 
       if (haContainerEntry != null) {
@@ -3733,7 +3733,7 @@ public class HARegionQueue implements RegionQueue {
       }
 
       synchronized (haContainerKey) {
-        if (haContainerKey == (HAEventWrapper) ((HAContainerWrapper) haContainer).getKey(wrapper)) {
+        if (haContainerKey == ((HAContainerWrapper) haContainer).getKey(wrapper)) {
           if (logger.isDebugEnabled()) {
             logger.debug(caller + " decremented Event ID hash code: " + haContainerKey.hashCode()
                 + "; System ID hash code: " + System.identityHashCode(haContainerKey)

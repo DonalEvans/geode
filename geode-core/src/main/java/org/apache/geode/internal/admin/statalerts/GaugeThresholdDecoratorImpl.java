@@ -135,8 +135,8 @@ public class GaugeThresholdDecoratorImpl extends BaseDecoratorImpl
   public void fromData(DataInput in,
       DeserializationContext context) throws IOException, ClassNotFoundException {
     super.fromData(in);
-    this.lowerLimit = (Number) context.getDeserializer().readObject(in);
-    this.upperLimit = (Number) context.getDeserializer().readObject(in);
+    this.lowerLimit = context.getDeserializer().readObject(in);
+    this.upperLimit = context.getDeserializer().readObject(in);
   }
 
   public static final String ID = "GaugeThreshold";

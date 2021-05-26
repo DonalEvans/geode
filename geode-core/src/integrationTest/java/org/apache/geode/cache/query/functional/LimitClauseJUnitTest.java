@@ -237,7 +237,7 @@ public class LimitClauseJUnitTest {
       assertEquals(5, num[0]);
       assertTrue(result instanceof SelectResults);
       assertEquals(5, result.size());
-      SelectResults wrapper = (SelectResults) result;
+      SelectResults wrapper = result;
       assertEquals(5, wrapper.asSet().size());
     } catch (Exception e) {
       CacheUtils.getLogger().error(e);
@@ -276,7 +276,7 @@ public class LimitClauseJUnitTest {
       assertEquals(5, num[0]);
       assertTrue(result instanceof SelectResults);
       assertEquals(5, result.size());
-      SelectResults wrapper = (SelectResults) result;
+      SelectResults wrapper = result;
       assertEquals(5, wrapper.asSet().size());
     } catch (Exception e) {
       CacheUtils.getLogger().error(e);
@@ -338,7 +338,7 @@ public class LimitClauseJUnitTest {
       assertEquals((5 + numRepeat[0]), num[0]);
       assertTrue(result instanceof SelectResults);
       assertEquals(5, result.size());
-      SelectResults wrapper = (SelectResults) result;
+      SelectResults wrapper = result;
       assertEquals(5, wrapper.asSet().size());
 
     } catch (Exception e) {
@@ -398,7 +398,7 @@ public class LimitClauseJUnitTest {
       assertEquals((5 + numRepeat[0]), num[0]);
       assertTrue(result instanceof SelectResults);
       assertEquals(5, result.size());
-      SelectResults wrapper = (SelectResults) result;
+      SelectResults wrapper = result;
       assertEquals(5, wrapper.asSet().size());
 
     } catch (Exception e) {
@@ -438,7 +438,7 @@ public class LimitClauseJUnitTest {
       assertEquals(5, num[0]);
       assertTrue(result instanceof SelectResults);
       assertEquals(5, result.size());
-      SelectResults wrapper = (SelectResults) result;
+      SelectResults wrapper = result;
       assertEquals(5, wrapper.asSet().size());
       assertTrue(wrapper.getCollectionType().getElementType() instanceof StructType);
     } catch (Exception e) {
@@ -476,7 +476,7 @@ public class LimitClauseJUnitTest {
       assertEquals(5, num[0]);
       assertTrue(result instanceof SelectResults);
       assertEquals(5, result.size());
-      SelectResults wrapper = (SelectResults) result;
+      SelectResults wrapper = result;
       assertEquals(5, wrapper.asSet().size());
     } catch (Exception e) {
       CacheUtils.getLogger().error(e);
@@ -574,7 +574,7 @@ public class LimitClauseJUnitTest {
       assertEquals((5 + numRepeat[0]), num[0]);
       assertTrue(result instanceof SelectResults);
       assertEquals(5, result.size());
-      SelectResults wrapper = (SelectResults) result;
+      SelectResults wrapper = result;
       assertEquals(5, wrapper.asSet().size());
 
     } catch (Exception e) {
@@ -634,7 +634,7 @@ public class LimitClauseJUnitTest {
       assertEquals((20 + 4 * numRepeat[0]), num[0]);
       assertTrue(result instanceof SelectResults);
       assertEquals(20, result.size());
-      SelectResults wrapper = (SelectResults) result;
+      SelectResults wrapper = result;
       assertEquals(20, wrapper.asSet().size());
 
     } catch (Exception e) {
@@ -670,7 +670,7 @@ public class LimitClauseJUnitTest {
       result = (SelectResults) query.execute();
       assertTrue(result instanceof SelectResults);
       assertEquals(5, result.size());
-      SelectResults wrapper = (SelectResults) result;
+      SelectResults wrapper = result;
       assertEquals(5, wrapper.asSet().size());
       assertTrue(observer.limitAppliedAtIndex);
     } catch (Exception e) {
@@ -707,7 +707,7 @@ public class LimitClauseJUnitTest {
       result = (SelectResults) query.execute();
       assertTrue(result instanceof SelectResults);
       assertEquals(5, result.size());
-      SelectResults wrapper = (SelectResults) result;
+      SelectResults wrapper = result;
       assertEquals(5, wrapper.asSet().size());
       assertTrue(observer.limitAppliedAtIndex);
     } catch (Exception e) {
@@ -751,7 +751,7 @@ public class LimitClauseJUnitTest {
       result = (SelectResults) query.execute();
       assertTrue(result instanceof SelectResults);
       assertEquals(5, result.size());
-      SelectResults wrapper = (SelectResults) result;
+      SelectResults wrapper = result;
       assertEquals(5, wrapper.asSet().size());
       assertTrue(observer.limitAppliedAtIndex);
     } catch (Exception e) {
@@ -796,7 +796,7 @@ public class LimitClauseJUnitTest {
       result = (SelectResults) query.execute();
       assertTrue(result instanceof SelectResults);
       assertEquals(5, result.size());
-      SelectResults wrapper = (SelectResults) result;
+      SelectResults wrapper = result;
       assertEquals(5, wrapper.asSet().size());
       assertTrue(observer.limitAppliedAtIndex);
     } catch (Exception e) {
@@ -833,7 +833,7 @@ public class LimitClauseJUnitTest {
       result = (SelectResults) query.execute();
       assertTrue(result instanceof SelectResults);
       assertEquals(5, result.size());
-      SelectResults wrapper = (SelectResults) result;
+      SelectResults wrapper = result;
       assertEquals(5, wrapper.asSet().size());
       assertTrue(wrapper.getCollectionType().getElementType() instanceof StructType);
       assertTrue(observer.limitAppliedAtIndex);
@@ -870,7 +870,7 @@ public class LimitClauseJUnitTest {
       result = (SelectResults) query.execute();
       assertTrue(result instanceof SelectResults);
       assertEquals(5, result.size());
-      SelectResults wrapper = (SelectResults) result;
+      SelectResults wrapper = result;
       assertEquals(5, wrapper.asSet().size());
       // currently this is false because we disabled limit application at the range index level
       assertFalse(observer.limitAppliedAtIndex);
@@ -916,7 +916,7 @@ public class LimitClauseJUnitTest {
       result = (SelectResults) query.execute();
       assertTrue(result instanceof SelectResults);
       assertEquals(5, result.size());
-      SelectResults wrapper = (SelectResults) result;
+      SelectResults wrapper = result;
       assertEquals(5, wrapper.asSet().size());
       assertTrue(observer.limitAppliedAtIndex);
     } catch (Exception e) {
@@ -964,7 +964,7 @@ public class LimitClauseJUnitTest {
       result = (SelectResults) query.execute();
       assertTrue(result instanceof SelectResults);
       assertEquals(20, result.size());
-      SelectResults wrapper = (SelectResults) result;
+      SelectResults wrapper = result;
       assertEquals(20, wrapper.asSet().size());
       // currently this is false because we disabled limit application at the range index level
       assertFalse(observer.limitAppliedAtIndex);
@@ -1007,7 +1007,7 @@ public class LimitClauseJUnitTest {
       result = (SelectResults) query.execute();
       assertTrue(result instanceof SelectResults);
       assertEquals(10, result.size());
-      SelectResults wrapper = (SelectResults) result;
+      SelectResults wrapper = result;
       assertEquals(10, wrapper.asSet().size());
     } catch (Exception e) {
       CacheUtils.getLogger().error(e);
@@ -1045,7 +1045,7 @@ public class LimitClauseJUnitTest {
       result = (SelectResults) query.execute();
       assertTrue(result instanceof SelectResults);
       assertEquals(10, result.size());
-      SelectResults wrapper = (SelectResults) result;
+      SelectResults wrapper = result;
       assertEquals(10, wrapper.asSet().size());
       assertFalse(observer.limitAppliedAtIndex && observer.indexName.equals("idIndex"));
       assertTrue(observer.limitAppliedAtIndex && observer.indexName.equals("statusIndex"));

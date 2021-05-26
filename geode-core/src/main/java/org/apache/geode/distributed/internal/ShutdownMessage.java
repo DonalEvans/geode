@@ -94,7 +94,7 @@ public class ShutdownMessage extends HighPriorityDistributionMessage
 
     super.fromData(in, context);
     processorId = in.readInt();
-    this.id = (InternalDistributedMember) DataSerializer.readObject(in);
+    this.id = DataSerializer.readObject(in);
   }
 
   @Override

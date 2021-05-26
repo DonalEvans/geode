@@ -458,7 +458,7 @@ public class TXStateProxyImpl implements TXStateProxy {
       boolean checkResources, Object expectedOldValue) {
     try {
       this.operationCount++;
-      boolean retVal = getRealDeal(event.getKeyInfo(), (LocalRegion) event.getRegion())
+      boolean retVal = getRealDeal(event.getKeyInfo(), event.getRegion())
           .txPutEntry(event, ifNew, requireOldValue, checkResources, expectedOldValue);
       trackBucketForTx(event.getKeyInfo());
       return retVal;

@@ -98,9 +98,9 @@ public class HAStartupAndFailoverDUnitTest extends JUnit4DistributedTestCase {
     IgnoredException.addIgnoredException("SocketException");
 
     // start servers first
-    PORT1 = ((Integer) server1.invoke(() -> HAStartupAndFailoverDUnitTest.createServerCache()));
-    PORT2 = ((Integer) server2.invoke(() -> HAStartupAndFailoverDUnitTest.createServerCache()));
-    PORT3 = ((Integer) server3.invoke(() -> HAStartupAndFailoverDUnitTest.createServerCache()));
+    PORT1 = server1.invoke(() -> HAStartupAndFailoverDUnitTest.createServerCache());
+    PORT2 = server2.invoke(() -> HAStartupAndFailoverDUnitTest.createServerCache());
+    PORT3 = server3.invoke(() -> HAStartupAndFailoverDUnitTest.createServerCache());
     CacheServerTestUtil.disableShufflingOfEndpoints();
   }
 

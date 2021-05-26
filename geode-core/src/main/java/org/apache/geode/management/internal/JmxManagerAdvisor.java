@@ -220,7 +220,7 @@ public class JmxManagerAdvisor extends DistributionAdvisor {
         DeserializationContext context) throws IOException, ClassNotFoundException {
       super.fromData(in, context);
       this.processorId = in.readInt();
-      this.profile = (JmxManagerProfile) DataSerializer.readObject(in);
+      this.profile = DataSerializer.readObject(in);
     }
 
     @Override

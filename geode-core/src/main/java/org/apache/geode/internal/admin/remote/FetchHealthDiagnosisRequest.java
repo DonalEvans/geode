@@ -76,7 +76,7 @@ public class FetchHealthDiagnosisRequest extends AdminRequest {
       DeserializationContext context) throws IOException, ClassNotFoundException {
     super.fromData(in, context);
     int i = in.readInt();
-    GemFireHealth.Health oHC = (GemFireHealth.Health) DataSerializer.readObject(in);
+    GemFireHealth.Health oHC = DataSerializer.readObject(in);
     init_(i, oHC);
   }
 

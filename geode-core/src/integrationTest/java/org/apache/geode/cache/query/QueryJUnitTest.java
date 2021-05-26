@@ -54,7 +54,6 @@ import org.apache.geode.cache.query.data.Portfolio;
 import org.apache.geode.cache.query.data.Position;
 import org.apache.geode.cache.query.internal.DefaultQuery;
 import org.apache.geode.cache.query.internal.ExecutionContext;
-import org.apache.geode.cache.query.internal.index.IndexProtocol;
 import org.apache.geode.test.junit.categories.OQLQueryTest;
 
 @FixMethodOrder(NAME_ASCENDING)
@@ -361,14 +360,14 @@ public class QueryJUnitTest {
     }
     QueryService qs = CacheUtils.getQueryService();
 
-    Index regionAUserCodeIndex = (IndexProtocol) qs.createIndex("regionAUserCodeIndex",
+    Index regionAUserCodeIndex = qs.createIndex("regionAUserCodeIndex",
         IndexType.FUNCTIONAL, "userId", SEPARATOR + "regionA ");
-    Index regionBUserCodeIndex = (IndexProtocol) qs.createIndex("regionAUserCodeIndex",
+    Index regionBUserCodeIndex = qs.createIndex("regionAUserCodeIndex",
         IndexType.FUNCTIONAL, "userId", SEPARATOR + "regionB ");
 
-    Index regionAUserNameIndex = (IndexProtocol) qs.createIndex("regionAUserNameIndex",
+    Index regionAUserNameIndex = qs.createIndex("regionAUserNameIndex",
         IndexType.FUNCTIONAL, "userName", SEPARATOR + "regionA ");
-    Index regionBUserNameIndex = (IndexProtocol) qs.createIndex("regionBUserNameIndex",
+    Index regionBUserNameIndex = qs.createIndex("regionBUserNameIndex",
         IndexType.FUNCTIONAL, "userName", SEPARATOR + "regionB ");
 
     Query query = qs.newQuery(

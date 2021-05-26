@@ -91,7 +91,7 @@ public class ConflationDUnitTest extends JUnit4DistributedTestCase {
     final Host host = Host.getHost(0);
     vm0 = host.getVM(0);
     vm2 = host.getVM(2);
-    PORT = ((Integer) vm0.invoke(() -> ConflationDUnitTest.createServerCache())).intValue();
+    PORT = vm0.invoke(() -> ConflationDUnitTest.createServerCache()).intValue();
   }
 
   private Cache createCache(Properties props) throws Exception {

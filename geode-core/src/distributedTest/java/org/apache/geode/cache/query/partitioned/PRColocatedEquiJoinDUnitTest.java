@@ -1041,7 +1041,7 @@ public class PRColocatedEquiJoinDUnitTest extends CacheTestCase {
       try {
         Query query = queryService.newQuery(qstr);
         context.getResultSender().sendResult(
-            (ArrayList) ((SelectResults) query.execute((RegionFunctionContext) context)).asList());
+            ((SelectResults) query.execute((RegionFunctionContext) context)).asList());
         context.getResultSender().lastResult(null);
       } catch (Exception e) {
         throw new FunctionException(e);

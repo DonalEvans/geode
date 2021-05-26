@@ -316,7 +316,7 @@ public class PdxSerializableJUnitTest {
     System.out.println("\n");
 
     DataInput in = new DataInputStream(new ByteArrayInputStream(actual));
-    SimpleClass actualVal = (SimpleClass) DataSerializer.readObject(in);
+    SimpleClass actualVal = DataSerializer.readObject(in);
     // System.out.println("actualVal..."+actualVal);
     assertTrue(
         "Mismatch in write and read value: Value Write..." + object + " Value Read..." + actualVal,
@@ -427,7 +427,7 @@ public class PdxSerializableJUnitTest {
     System.out.println("\n");
 
     DataInput in = new DataInputStream(new ByteArrayInputStream(actual));
-    SimpleClass1 actualVal = (SimpleClass1) DataSerializer.readObject(in);
+    SimpleClass1 actualVal = DataSerializer.readObject(in);
     // System.out.println("actualVal..."+actualVal);
     assertTrue(
         "Mismatch in write and read value: Value Write..." + pdx + " Value Read..." + actualVal,
@@ -436,7 +436,7 @@ public class PdxSerializableJUnitTest {
     cache.setReadSerializedForTest(true);
     try {
       in = new DataInputStream(new ByteArrayInputStream(actual));
-      PdxInstance pi = (PdxInstance) DataSerializer.readObject(in);
+      PdxInstance pi = DataSerializer.readObject(in);
       actualVal = (SimpleClass1) pi.getObject();
       assertTrue(
           "Mismatch in write and read value: Value Write..." + pdx + " Value Read..." + actualVal,
@@ -654,7 +654,7 @@ public class PdxSerializableJUnitTest {
     System.out.println("\n");
 
     DataInput in = new DataInputStream(new ByteArrayInputStream(actual));
-    SimpleClass1 actualVal = (SimpleClass1) DataSerializer.readObject(in);
+    SimpleClass1 actualVal = DataSerializer.readObject(in);
     // System.out.println("actualVal..."+actualVal);
     assertTrue(
         "Mismatch in write and read value: Value Write..." + pdx + " Value Read..." + actualVal,
@@ -662,7 +662,7 @@ public class PdxSerializableJUnitTest {
     cache.setReadSerializedForTest(true);
     try {
       in = new DataInputStream(new ByteArrayInputStream(actual));
-      PdxInstance pi = (PdxInstance) DataSerializer.readObject(in);
+      PdxInstance pi = DataSerializer.readObject(in);
       actualVal = (SimpleClass1) pi.getObject();
       assertTrue(
           "Mismatch in write and read value: Value Write..." + pdx + " Value Read..." + actualVal,
@@ -850,7 +850,7 @@ public class PdxSerializableJUnitTest {
     }
     System.out.println("\n");
     DataInput in = new DataInputStream(new ByteArrayInputStream(actual));
-    NestedPdx actualVal = (NestedPdx) DataSerializer.readObject(in);
+    NestedPdx actualVal = DataSerializer.readObject(in);
     // System.out.println("actualVal..."+actualVal);
     assertTrue(
         "Mismatch in write and read value: Value Write..." + pdx + " Value Read..." + actualVal,
@@ -957,7 +957,7 @@ public class PdxSerializableJUnitTest {
     System.out.println("\n");
 
     DataInput in = new DataInputStream(new ByteArrayInputStream(actual));
-    DSInsidePdx actualVal = (DSInsidePdx) DataSerializer.readObject(in);
+    DSInsidePdx actualVal = DataSerializer.readObject(in);
     // System.out.println("actualVal..."+actualVal);
     assertTrue(
         "Mismatch in write and read value: Value Write..." + pdx + " Value Read..." + actualVal,
@@ -1030,7 +1030,7 @@ public class PdxSerializableJUnitTest {
     checkBytes(expected, actual);
 
     DataInput in = new DataInputStream(new ByteArrayInputStream(actual));
-    PdxInsideDS actualVal = (PdxInsideDS) DataSerializer.readObject(in);
+    PdxInsideDS actualVal = DataSerializer.readObject(in);
     // System.out.println("actualVal..."+actualVal);
     assertTrue(
         "Mismatch in write and read value: Value Write..." + ds + " Value Read..." + actualVal,
@@ -2047,7 +2047,7 @@ public class PdxSerializableJUnitTest {
   }
 
   private <T> T deblob(byte[] blob) throws IOException, ClassNotFoundException {
-    return (T) DataSerializer.readObject(new DataInputStream(new ByteArrayInputStream(blob)));
+    return DataSerializer.readObject(new DataInputStream(new ByteArrayInputStream(blob)));
   }
 
   /**

@@ -203,7 +203,7 @@ public class DistributedTombstoneOperation extends DistributedCacheOperation {
         }
         this.regionGCVersions.put(mbr, Long.valueOf(in.readLong()));
       }
-      this.eventID = (EventID) DataSerializer.readObject(in);
+      this.eventID = DataSerializer.readObject(in);
     }
 
     @Override
@@ -228,12 +228,12 @@ public class DistributedTombstoneOperation extends DistributedCacheOperation {
           if (!persistent) {
             throw new InternalGemFireException(msg);
           }
-          InternalDataSerializer.invokeToData((DiskStoreID) member, out);
+          InternalDataSerializer.invokeToData(member, out);
         } else {
           if (persistent) {
             throw new InternalGemFireException(msg);
           }
-          ((InternalDistributedMember) member).writeEssentialData(out);
+          member.writeEssentialData(out);
         }
         out.writeLong(entry.getValue());
       }

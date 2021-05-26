@@ -190,7 +190,7 @@ public class CompressionRegionOperationsDUnitTest extends JUnit4CacheTestCase {
       @Override
       public void run() {
         Region<String, String> region = getCache().getRegion(REGION_NAME);
-        String oldValue = (String) region.put(KEY_1, VALUE_1);
+        String oldValue = region.put(KEY_1, VALUE_1);
         assertNull(oldValue);
 
         oldValue = region.get(KEY_1);

@@ -121,7 +121,7 @@ public class RemoteDLockInfo implements DLockInfo, DataSerializable {
     this.lockName = DataSerializer.readString(in);
     this.acquired = in.readBoolean();
     this.recursion = in.readInt();
-    this.owner = (InternalDistributedMember) DataSerializer.readObject(in);
+    this.owner = DataSerializer.readObject(in);
     this.startTime = in.readLong();
     this.leaseExpiration = in.readLong();
   }

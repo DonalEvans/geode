@@ -216,7 +216,7 @@ public class PrimaryKeyIndex extends AbstractIndex {
 
       case OQLLexerTokenTypes.TOK_NE_ALT:
       case OQLLexerTokenTypes.TOK_NE: { // add all btree values
-        Set entries = (Set) getRegion().entrySet();
+        Set entries = getRegion().entrySet();
         Iterator itr = entries.iterator();
         while (itr.hasNext()) {
           Map.Entry entry = (Map.Entry) itr.next();

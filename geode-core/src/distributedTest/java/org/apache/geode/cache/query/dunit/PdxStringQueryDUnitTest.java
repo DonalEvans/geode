@@ -1947,8 +1947,8 @@ public class PdxStringQueryDUnitTest extends JUnit4CacheTestCase {
         ok = false;
         break;
       }
-      set2 = (((SelectResults) r[j][1]).asSet());
-      set1 = (((SelectResults) r[j][0]).asSet());
+      set2 = (r[j][1].asSet());
+      set1 = (r[j][0].asSet());
       boolean pass = true;
       itert1 = set1.iterator();
       while (itert1.hasNext()) {
@@ -2119,7 +2119,7 @@ public class PdxStringQueryDUnitTest extends JUnit4CacheTestCase {
    * Stops the cache server that serves up the given cache.
    */
   protected void stopBridgeServer(Cache cache) {
-    CacheServer server = (CacheServer) cache.getCacheServers().iterator().next();
+    CacheServer server = cache.getCacheServers().iterator().next();
     server.stop();
     assertFalse(server.isRunning());
   }

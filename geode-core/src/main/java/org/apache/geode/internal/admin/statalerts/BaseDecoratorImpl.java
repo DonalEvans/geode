@@ -218,6 +218,6 @@ public abstract class BaseDecoratorImpl implements StatAlertDefinition {
 
   @Override
   public void fromData(DataInput in) throws IOException, ClassNotFoundException {
-    this._def = (StatAlertDefinition) DataSerializer.readObject(in);
+    this._def = DataSerializer.readObject(in);
   }
 }

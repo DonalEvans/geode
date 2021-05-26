@@ -68,7 +68,7 @@ public class ByteArrayDataInputTest {
 
     assertThat(result).isEmpty();
     assertThat(dataRemaining(input)).isEqualTo(1);
-    assertThat(input.readUnsignedByte()).isEqualTo((int) 'a');
+    assertThat(input.readUnsignedByte()).isEqualTo('a');
   }
 
   @Test
@@ -93,7 +93,7 @@ public class ByteArrayDataInputTest {
 
     assertThat(result).isEmpty();
     assertThat(dataRemaining(input)).isEqualTo(1);
-    assertThat(input.readUnsignedByte()).isEqualTo((int) 'a');
+    assertThat(input.readUnsignedByte()).isEqualTo('a');
   }
 
   @Test
@@ -118,7 +118,7 @@ public class ByteArrayDataInputTest {
 
     assertThat(result).isEmpty();
     assertThat(dataRemaining(input)).isEqualTo(1);
-    assertThat(input.readUnsignedByte()).isEqualTo((int) 'a');
+    assertThat(input.readUnsignedByte()).isEqualTo('a');
   }
 
   @Test
@@ -141,7 +141,7 @@ public class ByteArrayDataInputTest {
 
     assertThat(result).isEqualTo("abc");
     assertThat(dataRemaining(input)).isEqualTo(1);
-    assertThat(input.readUnsignedByte()).isEqualTo((int) '2');
+    assertThat(input.readUnsignedByte()).isEqualTo('2');
   }
 
   @Test
@@ -154,7 +154,7 @@ public class ByteArrayDataInputTest {
 
     assertThat(result).isEqualTo("abc");
     assertThat(dataRemaining(input)).isEqualTo(1);
-    assertThat(input.readUnsignedByte()).isEqualTo((int) '2');
+    assertThat(input.readUnsignedByte()).isEqualTo('2');
   }
 
   @Test
@@ -167,7 +167,7 @@ public class ByteArrayDataInputTest {
 
     assertThat(result).isEqualTo("abc");
     assertThat(dataRemaining(input)).isEqualTo(1);
-    assertThat(input.readUnsignedByte()).isEqualTo((int) '2');
+    assertThat(input.readUnsignedByte()).isEqualTo('2');
   }
 
   @Test

@@ -547,7 +547,7 @@ public class ResultsCollectionWrapper implements SelectResults, DataSerializable
     boolean isBagSetView = this.base instanceof Bag.SetView;
     out.writeBoolean(isBagSetView);
     if (isBagSetView) {
-      InternalDataSerializer.writeSet((Set) this.base, out);
+      InternalDataSerializer.writeSet(this.base, out);
     } else {
       context.getSerializer().writeObject(this.base, out);
     }
@@ -566,11 +566,11 @@ public class ResultsCollectionWrapper implements SelectResults, DataSerializable
       DeserializationContext context) throws IOException, ClassNotFoundException {
     boolean isBagSetView = in.readBoolean();
     if (isBagSetView) {
-      this.base = (Set) InternalDataSerializer.readSet(in);
+      this.base = InternalDataSerializer.readSet(in);
     } else {
-      this.base = (Collection) context.getDeserializer().readObject(in);
+      this.base = context.getDeserializer().readObject(in);
     }
-    this.collectionType = (CollectionType) context.getDeserializer().readObject(in);
+    this.collectionType = context.getDeserializer().readObject(in);
     this.modifiable = in.readBoolean();
   }
 

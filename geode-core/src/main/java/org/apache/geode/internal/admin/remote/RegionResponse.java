@@ -143,7 +143,7 @@ public class RegionResponse extends AdminResponse {
     super.fromData(in, context);
     this.name = DataSerializer.readString(in);
     this.userAttribute = DataSerializer.readString(in);
-    this.exception = (Exception) DataSerializer.readObject(in);
+    this.exception = DataSerializer.readObject(in);
   }
 
   @Override

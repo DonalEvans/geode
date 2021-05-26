@@ -727,7 +727,7 @@ public class RangeJunction extends AbstractGroupOrRangeJunction {
         }
         if (useLinkedDataStructure) {
           set = context.isDistinct() ? new LinkedStructSet((StructTypeImpl) resultType)
-              : new SortedResultsBag<Struct>((StructTypeImpl) resultType, nullValuesAtStart);
+              : new SortedResultsBag<Struct>(resultType, nullValuesAtStart);
         } else {
           set = QueryUtils.createStructCollection(context, (StructTypeImpl) resultType);
         }
@@ -921,7 +921,7 @@ public class RangeJunction extends AbstractGroupOrRangeJunction {
         }
         if (useLinkedDataStructure) {
           set = context.isDistinct() ? new LinkedStructSet((StructTypeImpl) resultType)
-              : new SortedResultsBag<Struct>((StructTypeImpl) resultType, nullValuesAtStart);
+              : new SortedResultsBag<Struct>(resultType, nullValuesAtStart);
         } else {
           set = QueryUtils.createStructCollection(context, (StructTypeImpl) resultType);
         }
@@ -1059,7 +1059,7 @@ public class RangeJunction extends AbstractGroupOrRangeJunction {
         }
         if (useLinkedDataStructure) {
           set = context.isDistinct() ? new LinkedStructSet((StructTypeImpl) resultType)
-              : new SortedResultsBag<Struct>((StructTypeImpl) resultType, nullValuesAtStart);
+              : new SortedResultsBag<Struct>(resultType, nullValuesAtStart);
         } else {
           set = QueryUtils.createStructCollection(context, (StructTypeImpl) resultType);
         }

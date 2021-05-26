@@ -246,10 +246,10 @@ public class Portfolio implements Serializable, DataSerializable {
     }
     this.pkid = DataSerializer.readString(in);
 
-    this.position1 = (Position) DataSerializer.readObject(in);
-    this.position2 = (Position) DataSerializer.readObject(in);
-    this.positions = (HashMap) DataSerializer.readObject(in);
-    this.collectionHolderMap = (HashMap) DataSerializer.readObject(in);
+    this.position1 = DataSerializer.readObject(in);
+    this.position2 = DataSerializer.readObject(in);
+    this.positions = DataSerializer.readObject(in);
+    this.collectionHolderMap = DataSerializer.readObject(in);
     this.type = DataSerializer.readString(in);
     this.status = DataSerializer.readString(in);
     this.names = DataSerializer.readStringArray(in);
@@ -261,7 +261,7 @@ public class Portfolio implements Serializable, DataSerializable {
     if (position3Size != 0) {
       this.position3 = new Position[position3Size];
       for (int i = 0; i < position3Size; i++) {
-        this.position3[i] = (Position) DataSerializer.readObject(in);
+        this.position3[i] = DataSerializer.readObject(in);
 
       }
     }

@@ -41,7 +41,6 @@ import org.apache.geode.cache.Region;
 import org.apache.geode.cache.RegionFactory;
 import org.apache.geode.cache.RegionShortcut;
 import org.apache.geode.cache.asyncqueue.internal.AsyncEventQueueImpl;
-import org.apache.geode.internal.cache.GemFireCacheImpl;
 import org.apache.geode.internal.cache.LocalRegion;
 import org.apache.geode.internal.cache.PartitionedRegion;
 import org.apache.geode.internal.cache.wan.AbstractGatewaySender;
@@ -68,7 +67,7 @@ public class AsyncEventQueueEvictionAndExpirationJUnitTest {
       // ignore
     }
     if (null == cache) {
-      cache = (GemFireCacheImpl) new CacheFactory().set(MCAST_PORT, "0").create();
+      cache = new CacheFactory().set(MCAST_PORT, "0").create();
     }
     aeqId = name.getMethodName();
   }

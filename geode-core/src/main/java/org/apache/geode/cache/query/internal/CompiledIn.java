@@ -116,9 +116,9 @@ public class CompiledIn extends AbstractCompiledValue implements Indexable {
         Object evalObj = evalElm;
         Object collnObj = iterator.next();
         if (evalElm instanceof PdxString && collnObj instanceof String) {
-          evalObj = ((PdxString) evalElm).toString();
+          evalObj = evalElm.toString();
         } else if (collnObj instanceof PdxString && evalElm instanceof String) {
-          collnObj = ((PdxString) collnObj).toString();
+          collnObj = collnObj.toString();
         }
         if (TypeUtils.compare(evalObj, collnObj, OQLLexerTokenTypes.TOK_EQ).equals(Boolean.TRUE)) {
           return Boolean.TRUE;
@@ -258,7 +258,7 @@ public class CompiledIn extends AbstractCompiledValue implements Indexable {
       if (id.equals("key") || id.equals("getKey")) {
         resolution = context.resolve(id);
         if (resolution instanceof CompiledPath) {
-          resolution = ((CompiledPath) resolution).getReceiver();
+          resolution = resolution.getReceiver();
         }
       }
     } else if (this.elm instanceof CompiledPath) {
@@ -453,7 +453,7 @@ public class CompiledIn extends AbstractCompiledValue implements Indexable {
               .fine("StructType resultType.class=" + resultType.getClass().getName());
           if (useLinkedDataStructure) {
             results = context.isDistinct() ? new LinkedStructSet((StructTypeImpl) resultType)
-                : new SortedResultsBag<Struct>((StructTypeImpl) resultType, nullValuesAtStart);
+                : new SortedResultsBag<Struct>(resultType, nullValuesAtStart);
           } else {
             results = QueryUtils.createStructCollection(context, (StructTypeImpl) resultType);
           }
@@ -478,7 +478,7 @@ public class CompiledIn extends AbstractCompiledValue implements Indexable {
                 .fine("StructType resultType.class=" + resultType.getClass().getName());
             if (useLinkedDataStructure) {
               results = context.isDistinct() ? new LinkedStructSet((StructTypeImpl) resultType)
-                  : new SortedResultsBag<Struct>((StructTypeImpl) resultType, nullValuesAtStart);
+                  : new SortedResultsBag<Struct>(resultType, nullValuesAtStart);
             } else {
               results = QueryUtils.createStructCollection(context, (StructTypeImpl) resultType);
             }
@@ -503,7 +503,7 @@ public class CompiledIn extends AbstractCompiledValue implements Indexable {
             .fine("StructType resultType.class=" + resultType.getClass().getName());
         if (useLinkedDataStructure) {
           results = context.isDistinct() ? new LinkedStructSet((StructTypeImpl) resultType)
-              : new SortedResultsBag<Struct>((StructTypeImpl) resultType, nullValuesAtStart);
+              : new SortedResultsBag<Struct>(resultType, nullValuesAtStart);
         } else {
           results = QueryUtils.createStructCollection(context, (StructTypeImpl) resultType);
         }

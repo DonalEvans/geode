@@ -78,7 +78,7 @@ public class CompiledClass implements Comparable {
   public CompiledClass(DataInputStream source) throws IOException {
     int idx;
 
-    magic = (long) source.readInt();
+    magic = source.readInt();
     minor_version = source.readUnsignedShort();
     major_version = source.readUnsignedShort();
     // the first constant-pool slot is reserved by Java and is not in the classes file

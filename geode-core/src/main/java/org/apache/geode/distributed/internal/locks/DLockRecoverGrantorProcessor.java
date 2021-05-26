@@ -285,7 +285,7 @@ public class DLockRecoverGrantorProcessor extends ReplyProcessor21 {
       this.processorId = in.readInt();
       this.grantorSerialNumber = in.readInt();
       this.grantorVersion = in.readLong();
-      this.elder = (InternalDistributedMember) DataSerializer.readObject(in);
+      this.elder = DataSerializer.readObject(in);
     }
 
     @Override

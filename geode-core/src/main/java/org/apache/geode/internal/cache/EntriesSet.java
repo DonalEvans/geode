@@ -242,7 +242,7 @@ public class EntriesSet extends AbstractSet implements LogWithToString {
 
   @Override
   public Object[] toArray() {
-    return toArray((Object[]) null);
+    return toArray(null);
   }
 
   @Override

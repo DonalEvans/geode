@@ -96,8 +96,8 @@ public class SubRegionResponse extends AdminResponse {
   public void fromData(DataInput in,
       DeserializationContext context) throws IOException, ClassNotFoundException {
     super.fromData(in, context);
-    this.subRegionNames = (String[]) DataSerializer.readObject(in);
-    this.userAttributes = (String[]) DataSerializer.readObject(in);
+    this.subRegionNames = DataSerializer.readObject(in);
+    this.userAttributes = DataSerializer.readObject(in);
   }
 
   @Override

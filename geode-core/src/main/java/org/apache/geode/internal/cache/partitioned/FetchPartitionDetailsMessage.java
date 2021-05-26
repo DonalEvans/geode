@@ -138,7 +138,7 @@ public class FetchPartitionDetailsMessage extends PartitionMessage {
     super.fromData(in, context);
     this.internal = in.readBoolean();
     this.fetchOfflineMembers = in.readBoolean();
-    this.loadProbe = (LoadProbe) DataSerializer.readObject(in);
+    this.loadProbe = DataSerializer.readObject(in);
   }
 
   @Override

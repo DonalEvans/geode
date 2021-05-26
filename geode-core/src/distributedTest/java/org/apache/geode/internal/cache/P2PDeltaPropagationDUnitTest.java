@@ -354,7 +354,7 @@ public class P2PDeltaPropagationDUnitTest extends JUnit4DistributedTestCase {
 
   public static void getOnDeltaEnabledWithDestroy() throws Exception {
     Region r1 = cache.getRegion(SEPARATOR + REGION_NAME);
-    assertNull(((DeltaTestImpl) r1.getEntry("KEY")));
+    assertNull(r1.getEntry("KEY"));
   }
 
   public static void getOnDeltaEnabledServer() throws Exception {
@@ -375,7 +375,7 @@ public class P2PDeltaPropagationDUnitTest extends JUnit4DistributedTestCase {
 
   public static void checkForNoFullObjectResend() throws Exception {
     Region r1 = cache.getRegion(SEPARATOR + REGION_NAME);
-    assertNull(((DeltaTestImpl) r1.getEntry("KEY").getValue()));
+    assertNull(r1.getEntry("KEY").getValue());
   }
 
   public static void checkForFlag() throws Exception {
@@ -451,7 +451,7 @@ public class P2PDeltaPropagationDUnitTest extends JUnit4DistributedTestCase {
           if (((EntryEventImpl) event).getDeltaBytes() != null) {
             cache.getLogger().fine("delta bytes received. " + hasDeltaBytes);
             assertTrue("No full value received for event " + event,
-                ((EntryEventImpl) event).getNewValue() != null);
+                event.getNewValue() != null);
             hasDeltaBytes++;
           } else {
             cache.getLogger().fine("delta bytes not received.");

@@ -499,7 +499,7 @@ public abstract class CacheXml66DUnitTest extends CacheXmlTestCase {
     testXml(cache);
     Cache c = getCache();
     assertNotNull(c);
-    CacheServer server = (CacheServer) cache.getCacheServers().iterator().next();
+    CacheServer server = cache.getCacheServers().iterator().next();
     assertNotNull(server);
     ClientSubscriptionConfig chaqf = server.getClientSubscriptionConfig();
     assertEquals("entry", chaqf.getEvictionPolicy());
@@ -527,7 +527,7 @@ public abstract class CacheXml66DUnitTest extends CacheXmlTestCase {
     testXml(cache);
     Cache c = getCache();
     assertNotNull(c);
-    CacheServer server = (CacheServer) cache.getCacheServers().iterator().next();
+    CacheServer server = cache.getCacheServers().iterator().next();
     assertNotNull(server);
     ClientSubscriptionConfig chaqf = server.getClientSubscriptionConfig();
     assertEquals("entry", chaqf.getEvictionPolicy());
@@ -2266,7 +2266,7 @@ public abstract class CacheXml66DUnitTest extends CacheXmlTestCase {
     testXml(cache);
     Cache c = getCache();
     assertNotNull(c);
-    CacheServer server = (CacheServer) cache.getCacheServers().iterator().next();
+    CacheServer server = cache.getCacheServers().iterator().next();
     assertNotNull(server);
     assertEquals(CacheServer.DEFAULT_GROUPS, server.getGroups());
   }
@@ -2281,7 +2281,7 @@ public abstract class CacheXml66DUnitTest extends CacheXmlTestCase {
     testXml(cache);
     Cache c = getCache();
     assertNotNull(c);
-    CacheServer server = (CacheServer) cache.getCacheServers().iterator().next();
+    CacheServer server = cache.getCacheServers().iterator().next();
     assertNotNull(server);
     assertEquals(Arrays.asList(groups), Arrays.asList(server.getGroups()));
   }
@@ -2296,7 +2296,7 @@ public abstract class CacheXml66DUnitTest extends CacheXmlTestCase {
     testXml(cache);
     Cache c = getCache();
     assertNotNull(c);
-    CacheServer server = (CacheServer) cache.getCacheServers().iterator().next();
+    CacheServer server = cache.getCacheServers().iterator().next();
     assertNotNull(server);
     assertEquals(Arrays.asList(groups), Arrays.asList(server.getGroups()));
   }
@@ -2309,7 +2309,7 @@ public abstract class CacheXml66DUnitTest extends CacheXmlTestCase {
     testXml(cache);
     Cache c = getCache();
     assertNotNull(c);
-    CacheServer server = (CacheServer) cache.getCacheServers().iterator().next();
+    CacheServer server = cache.getCacheServers().iterator().next();
     assertNotNull(server);
     assertEquals(CacheServer.DEFAULT_BIND_ADDRESS, server.getBindAddress());
   }
@@ -2324,7 +2324,7 @@ public abstract class CacheXml66DUnitTest extends CacheXmlTestCase {
     testXml(cache);
     Cache c = getCache();
     assertNotNull(c);
-    CacheServer server = (CacheServer) cache.getCacheServers().iterator().next();
+    CacheServer server = cache.getCacheServers().iterator().next();
     assertNotNull(server);
     assertEquals(BA, server.getBindAddress());
   }
@@ -2340,7 +2340,7 @@ public abstract class CacheXml66DUnitTest extends CacheXmlTestCase {
     testXml(cache);
     Cache c = getCache();
     assertNotNull(c);
-    CacheServer server = (CacheServer) cache.getCacheServers().iterator().next();
+    CacheServer server = cache.getCacheServers().iterator().next();
     assertNotNull(server);
     assertEquals(BA, server.getBindAddress());
     assertEquals("clientHostName", server.getHostnameForClients());
@@ -2493,7 +2493,7 @@ public abstract class CacheXml66DUnitTest extends CacheXmlTestCase {
     testXml(cache);
     Cache c = getCache();
     assertNotNull(c);
-    CacheServer server = (CacheServer) cache.getCacheServers().iterator().next();
+    CacheServer server = cache.getCacheServers().iterator().next();
     assertNotNull(server);
     ClientSubscriptionConfig chaqf = server.getClientSubscriptionConfig();
     assertEquals("entry", chaqf.getEvictionPolicy());
@@ -2836,7 +2836,7 @@ public abstract class CacheXml66DUnitTest extends CacheXmlTestCase {
     testXml(cache);
     Cache c = getCache();
     assertNotNull(c);
-    CacheServer server = (CacheServer) cache.getCacheServers().iterator().next();
+    CacheServer server = cache.getCacheServers().iterator().next();
     assertNotNull(server);
     assertEquals(12345, server.getMaximumMessageCount());
     assertEquals(56789, server.getMessageTimeToLive());
@@ -3740,7 +3740,7 @@ public abstract class CacheXml66DUnitTest extends CacheXmlTestCase {
   public void testDynamicRegionFactoryNonDefault() throws Exception {
     CacheCreation cache = new CacheCreation();
     cache.setDynamicRegionFactoryConfig(
-        new DynamicRegionFactory.Config((File) null, null, false, false));
+        new DynamicRegionFactory.Config(null, null, false, false));
     RegionAttributesCreation attrs = new RegionAttributesCreation(cache);
     cache.createRegion("root", attrs);
     // note that testXml can't check if they are same because enabling

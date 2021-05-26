@@ -136,7 +136,7 @@ public class RemoteCacheInfo implements CacheInfo, DataSerializable {
     this.searchTimeout = in.readInt();
     this.upTime = in.readInt();
     this.rootRegionNames = DataSerializer.readStringArray(in);
-    this.perfStats = (RemoteStatResource) DataSerializer.readObject(in);
+    this.perfStats = DataSerializer.readObject(in);
     this.bridgeServerIds = DataSerializer.readIntArray(in);
     this.isServer = in.readBoolean();
   }

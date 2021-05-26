@@ -138,7 +138,7 @@ public class MoveBucketMessage extends PartitionMessage {
       DeserializationContext context) throws IOException, ClassNotFoundException {
     super.fromData(in, context);
     this.bucketId = in.readInt();
-    this.source = (InternalDistributedMember) DataSerializer.readObject(in);
+    this.source = DataSerializer.readObject(in);
   }
 
   @Override

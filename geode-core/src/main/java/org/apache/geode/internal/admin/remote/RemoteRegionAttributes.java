@@ -457,16 +457,16 @@ public class RemoteRegionAttributes implements RegionAttributes, DataSerializabl
     this.cacheWriterDesc = DataSerializer.readString(in);
     this.cacheListenerDescs = DataSerializer.readStringArray(in);
     this.capacityControllerDesc = DataSerializer.readString(in);
-    this.keyConstraint = (Class) DataSerializer.readObject(in);
-    this.valueConstraint = (Class) DataSerializer.readObject(in);
-    this.rTtl = (ExpirationAttributes) DataSerializer.readObject(in);
-    this.rIdleTimeout = (ExpirationAttributes) DataSerializer.readObject(in);
-    this.eTtl = (ExpirationAttributes) DataSerializer.readObject(in);
+    this.keyConstraint = DataSerializer.readObject(in);
+    this.valueConstraint = DataSerializer.readObject(in);
+    this.rTtl = DataSerializer.readObject(in);
+    this.rIdleTimeout = DataSerializer.readObject(in);
+    this.eTtl = DataSerializer.readObject(in);
     this.customEttlDesc = DataSerializer.readString(in);
-    this.eIdleTimeout = (ExpirationAttributes) DataSerializer.readObject(in);
+    this.eIdleTimeout = DataSerializer.readObject(in);
     this.customEIdleDesc = DataSerializer.readString(in);
-    this.dataPolicy = (DataPolicy) DataSerializer.readObject(in);
-    this.scope = (Scope) DataSerializer.readObject(in);
+    this.dataPolicy = DataSerializer.readObject(in);
+    this.scope = DataSerializer.readObject(in);
     this.statsEnabled = in.readBoolean();
     this.ignoreJTA = in.readBoolean();
     this.concurrencyLevel = in.readInt();
@@ -478,14 +478,14 @@ public class RemoteRegionAttributes implements RegionAttributes, DataSerializabl
     this.publisher = in.readBoolean();
     this.enableAsyncConflation = in.readBoolean();
 
-    this.diskWriteAttributes = (DiskWriteAttributes) DataSerializer.readObject(in);
-    this.diskDirs = (File[]) DataSerializer.readObject(in);
-    this.diskSizes = (int[]) DataSerializer.readObject(in);
+    this.diskWriteAttributes = DataSerializer.readObject(in);
+    this.diskDirs = DataSerializer.readObject(in);
+    this.diskSizes = DataSerializer.readObject(in);
     this.indexMaintenanceSynchronous = in.readBoolean();
-    this.partitionAttributes = (PartitionAttributes) DataSerializer.readObject(in);
-    this.membershipAttributes = (MembershipAttributes) DataSerializer.readObject(in);
-    this.subscriptionAttributes = (SubscriptionAttributes) DataSerializer.readObject(in);
-    this.evictionAttributes = (EvictionAttributesImpl) DataSerializer.readObject(in);
+    this.partitionAttributes = DataSerializer.readObject(in);
+    this.membershipAttributes = DataSerializer.readObject(in);
+    this.subscriptionAttributes = DataSerializer.readObject(in);
+    this.evictionAttributes = DataSerializer.readObject(in);
     this.cloningEnable = in.readBoolean();
     this.diskStoreName = DataSerializer.readString(in);
     this.isDiskSynchronous = in.readBoolean();
@@ -513,7 +513,7 @@ public class RemoteRegionAttributes implements RegionAttributes, DataSerializabl
     if (o == null) {
       return "";
     } else if (o instanceof RemoteCacheCallback) {
-      return ((RemoteCacheCallback) o).toString();
+      return o.toString();
     } else {
       return o.getClass().getName();
     }

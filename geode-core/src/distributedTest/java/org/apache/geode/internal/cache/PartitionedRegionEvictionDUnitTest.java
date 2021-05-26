@@ -146,7 +146,7 @@ public class PartitionedRegionEvictionDUnitTest extends JUnit4CacheTestCase {
               final PartitionedRegion pr = (PartitionedRegion) getRootRegion(name);
               assertNotNull(pr);
               for (final Iterator i =
-                  ((PartitionedRegion) pr).getDataStore().getAllLocalBuckets().iterator(); i
+                  pr.getDataStore().getAllLocalBuckets().iterator(); i
                       .hasNext();) {
                 final Entry entry = (Entry) i.next();
                 final BucketRegion bucketRegion = (BucketRegion) entry.getValue();
@@ -200,19 +200,19 @@ public class PartitionedRegionEvictionDUnitTest extends JUnit4CacheTestCase {
   }
 
   protected void raiseFakeNotification() {
-    ((GemFireCacheImpl) getCache()).getHeapEvictor().setTestAbortAfterLoopCount(1);
+    getCache().getHeapEvictor().setTestAbortAfterLoopCount(1);
     HeapMemoryMonitor.setTestDisableMemoryUpdates(true);
 
     setEvictionPercentage(85);
     HeapMemoryMonitor hmm =
-        ((GemFireCacheImpl) getCache()).getInternalResourceManager().getHeapMonitor();
+        getCache().getInternalResourceManager().getHeapMonitor();
     hmm.setTestMaxMemoryBytes(100);
 
     hmm.updateStateAndSendEvent(90, "test");
   }
 
   protected void cleanUpAfterFakeNotification() {
-    ((GemFireCacheImpl) getCache()).getHeapEvictor().setTestAbortAfterLoopCount(Integer.MAX_VALUE);
+    getCache().getHeapEvictor().setTestAbortAfterLoopCount(Integer.MAX_VALUE);
     HeapMemoryMonitor.setTestDisableMemoryUpdates(false);
   }
 

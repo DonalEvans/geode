@@ -82,7 +82,7 @@ public class DestroyRegionMessage extends RegionAdminMessage {
   public void fromData(DataInput in,
       DeserializationContext context) throws IOException, ClassNotFoundException {
     super.fromData(in, context);
-    this.action = (ExpirationAction) DataSerializer.readObject(in);
+    this.action = DataSerializer.readObject(in);
   }
 
   @Override

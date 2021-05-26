@@ -33,7 +33,6 @@ import org.apache.geode.internal.cache.tier.sockets.Handshake;
 import org.apache.geode.internal.cache.tier.sockets.Message;
 import org.apache.geode.internal.cache.tier.sockets.Part;
 import org.apache.geode.internal.cache.tier.sockets.command.PutUserCredentials;
-import org.apache.geode.internal.logging.InternalLogWriter;
 import org.apache.geode.internal.serialization.ByteArrayDataInput;
 import org.apache.geode.internal.serialization.KnownVersion;
 import org.apache.geode.security.AuthenticationFailedException;
@@ -103,8 +102,8 @@ public class AuthenticateUserOp {
 
       // LOG: following passes the DS API LogWriters into the security API
       Properties credentials = Handshake.getCredentials(authInitMethod, tmpSecurityProperties,
-          server, false, (InternalLogWriter) sys.getLogWriter(),
-          (InternalLogWriter) sys.getSecurityLogWriter());
+          server, false, sys.getLogWriter(),
+          sys.getSecurityLogWriter());
 
       getMessage().setMessageHasSecurePartFlag();
       try (HeapDataOutputStream heapdos = new HeapDataOutputStream(KnownVersion.CURRENT)) {
@@ -141,8 +140,8 @@ public class AuthenticateUserOp {
         String authInitMethod = sys.getProperties().getProperty(SECURITY_CLIENT_AUTH_INIT);
 
         Properties credentials = Handshake.getCredentials(authInitMethod, securityProperties,
-            server, false, (InternalLogWriter) sys.getLogWriter(),
-            (InternalLogWriter) sys.getSecurityLogWriter());
+            server, false, sys.getLogWriter(),
+            sys.getSecurityLogWriter());
         byte[] credentialBytes;
         try (HeapDataOutputStream heapdos = new HeapDataOutputStream(KnownVersion.CURRENT)) {
           DataSerializer.writeProperties(credentials, heapdos);

@@ -207,7 +207,7 @@ public class MX4JModelMBean implements ModelMBean, MBeanRegistration, Notificati
     } else {
       MBeanAttributeInfo[] ai = m_modelMBeanInfo.getAttributes();
       for (int i = 0; i < ai.length; i++) {
-        Descriptor d = ((ModelMBeanAttributeInfo) ai[i]).getDescriptor();
+        Descriptor d = ai[i].getDescriptor();
         filter.enableAttribute((String) d.getFieldValue("name"));
       }
     }
@@ -254,7 +254,7 @@ public class MX4JModelMBean implements ModelMBean, MBeanRegistration, Notificati
     } else {
       MBeanAttributeInfo[] ai = m_modelMBeanInfo.getAttributes();
       for (int i = 0; i < ai.length; i++) {
-        Descriptor d = ((ModelMBeanAttributeInfo) ai[i]).getDescriptor();
+        Descriptor d = ai[i].getDescriptor();
         filter.enableAttribute((String) d.getFieldValue("name"));
       }
     }

@@ -354,7 +354,7 @@ public class SortedStructSet extends TreeSet
 
     @Override
     public Object next() {
-      return new StructImpl((StructTypeImpl) SortedStructSet.this.structType,
+      return new StructImpl(SortedStructSet.this.structType,
           (Object[]) this.itr.next());
     }
 
@@ -374,7 +374,7 @@ public class SortedStructSet extends TreeSet
       DeserializationContext context) throws IOException, ClassNotFoundException {
     this.modifiable = in.readBoolean();
     int size = in.readInt();
-    this.structType = (StructTypeImpl) context.getDeserializer().readObject(in);
+    this.structType = context.getDeserializer().readObject(in);
     for (int j = size; j > 0; j--) {
       Object[] fieldValues = context.getDeserializer().readObject(in);
       this.addFieldValues(fieldValues);

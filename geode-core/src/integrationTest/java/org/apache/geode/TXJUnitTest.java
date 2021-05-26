@@ -6755,10 +6755,10 @@ public class TXJUnitTest {
       assertEquals(3, aIindex0.getStatistics().getNumberOfKeys());
       assertEquals(3, aIindex0.getStatistics().getNumberOfValues());
       q = qs.newQuery("ELEMENT(" + qstr + " where value.length > 6)");
-      assertEquals(val2, (String) q.execute());
+      assertEquals(val2, q.execute());
       assertEquals(1, index0.getStatistics().getTotalUses());
       aIq1 = qs.newQuery("ELEMENT(" + aIqstr + " where value.length > 6)");
-      assertEquals(val2, (String) aIq1.execute());
+      assertEquals(val2, aIq1.execute());
 
       this.region.destroy("qkey2");
       waitForKeys(index0, 2);

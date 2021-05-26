@@ -318,7 +318,7 @@ public class DataSourceFactory {
      * Test hook for replacing URL
      */
     if (TEST_CONNECTION_URL != null) {
-      configs.setURL((String) TEST_CONNECTION_URL);
+      configs.setURL(TEST_CONNECTION_URL);
     }
     return configs;
   }

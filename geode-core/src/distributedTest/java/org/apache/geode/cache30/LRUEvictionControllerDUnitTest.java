@@ -45,7 +45,6 @@ import org.apache.geode.cache.Scope;
 import org.apache.geode.cache.SubscriptionAttributes;
 import org.apache.geode.cache.util.CacheListenerAdapter;
 import org.apache.geode.distributed.DistributedSystem;
-import org.apache.geode.internal.cache.GemFireCacheImpl;
 import org.apache.geode.internal.cache.LocalRegion;
 import org.apache.geode.internal.cache.control.InternalResourceManager.ResourceType;
 import org.apache.geode.internal.cache.eviction.EvictionCounters;
@@ -437,7 +436,7 @@ public class LRUEvictionControllerDUnitTest extends JUnit4CacheTestCase {
   }
 
   protected HeapEvictor getEvictor() {
-    return ((GemFireCacheImpl) getCache()).getHeapEvictor();
+    return getCache().getHeapEvictor();
   }
 
   protected ResourceType getResourceType() {

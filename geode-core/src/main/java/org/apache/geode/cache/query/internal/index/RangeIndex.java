@@ -712,7 +712,7 @@ public class RangeIndex extends AbstractIndex {
               if (x < 0) {
                 x = 0;
               }
-              size = (int) x;
+              size = x;
             } else {
               // not attempting to differentiate between LT & LE
               size = this.valueToEntriesMap.containsKey(key) ? 1 : 0;

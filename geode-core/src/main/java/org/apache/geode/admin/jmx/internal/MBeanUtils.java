@@ -329,7 +329,7 @@ public class MBeanUtils {
       // get the notifications for the specified client...
       Map<RefreshNotificationType, Integer> notifications = null;
       synchronized (refreshClients) {
-        notifications = (Map<RefreshNotificationType, Integer>) refreshClients.get(client);
+        notifications = refreshClients.get(client);
       }
 
       if (notifications == null) {
@@ -361,7 +361,7 @@ public class MBeanUtils {
       // TODO: change to manipulating timer indirectly thru mserver...
 
       // check for pre-existing refresh notification entry...
-      Integer timerNotificationId = (Integer) notifications.get(type);
+      Integer timerNotificationId = notifications.get(type);
       if (timerNotificationId != null) {
         try {
           // found one, so let's remove it...
@@ -423,7 +423,7 @@ public class MBeanUtils {
     // get the notifications for the specified client...
     Map<RefreshNotificationType, Integer> notifications = null;
     synchronized (refreshClients) {
-      notifications = (Map<RefreshNotificationType, Integer>) refreshClients.get(client);
+      notifications = refreshClients.get(client);
     }
 
     // never registered before if null ...
@@ -626,7 +626,7 @@ public class MBeanUtils {
     // get the notifications for the specified client...
     Map<RefreshNotificationType, Integer> notifications = null;
     synchronized (refreshClients) {
-      notifications = (Map<RefreshNotificationType, Integer>) refreshClients.remove(resource);
+      notifications = refreshClients.remove(resource);
     }
 
     // never registered before if null ...

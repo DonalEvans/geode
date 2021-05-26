@@ -133,8 +133,8 @@ public class PutAllDUnitTest extends JUnit4DistributedTestCase {
 
   /** function to create a 2 servers and 3 client (1 client will be in the unit controller VM) **/
   private void createClientServerConfiguration() {
-    PORT1 = ((Integer) server1.invoke(() -> PutAllDUnitTest.createServerCache())).intValue();
-    PORT2 = ((Integer) server2.invoke(() -> PutAllDUnitTest.createServerCache())).intValue();
+    PORT1 = server1.invoke(() -> PutAllDUnitTest.createServerCache()).intValue();
+    PORT2 = server2.invoke(() -> PutAllDUnitTest.createServerCache()).intValue();
     client1.invoke(() -> PutAllDUnitTest
         .createClientCache1(NetworkUtils.getServerHostName(server1.getHost()), new Integer(PORT1)));
     client2.invoke(() -> PutAllDUnitTest

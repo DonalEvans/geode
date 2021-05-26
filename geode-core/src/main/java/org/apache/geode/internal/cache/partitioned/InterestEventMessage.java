@@ -109,7 +109,7 @@ public class InterestEventMessage extends PartitionMessage {
   public void fromData(DataInput in,
       DeserializationContext context) throws IOException, ClassNotFoundException {
     super.fromData(in, context);
-    this.event = (InterestRegistrationEvent) DataSerializer.readObject(in);
+    this.event = DataSerializer.readObject(in);
   }
 
   @Override

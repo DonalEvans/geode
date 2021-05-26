@@ -221,7 +221,7 @@ public class InterestListEndpointDUnitTest extends JUnit4DistributedTestCase {
 
 
   public boolean isVm0Primary() throws Exception {
-    int port = ((Integer) client1.invoke(() -> impl.getPrimaryPort())).intValue();
+    int port = client1.invoke(() -> impl.getPrimaryPort()).intValue();
     return port == PORT1;
   }
 

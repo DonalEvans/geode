@@ -291,7 +291,7 @@ public abstract class PdxQueryCQTestBase extends JUnit4CacheTestCase {
    * Stops the cache server that serves up the given cache.
    */
   protected void stopBridgeServer(Cache cache) {
-    CacheServer bridge = (CacheServer) cache.getCacheServers().iterator().next();
+    CacheServer bridge = cache.getCacheServers().iterator().next();
     bridge.stop();
     assertFalse(bridge.isRunning());
   }

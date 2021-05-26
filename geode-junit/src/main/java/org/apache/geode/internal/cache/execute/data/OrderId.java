@@ -38,7 +38,7 @@ public class OrderId implements DataSerializable {
   @Override
   public void fromData(DataInput in) throws IOException, ClassNotFoundException {
     this.orderId = DataSerializer.readInteger(in);
-    this.custId = (CustId) DataSerializer.readObject(in);
+    this.custId = DataSerializer.readObject(in);
 
   }
 

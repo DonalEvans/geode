@@ -859,9 +859,9 @@ public class CqDataUsingPoolDUnitTest extends JUnit4CacheTestCase {
     VM client2 = host.getVM(2);
 
     // Start server 1
-    final int server1Port = ((Integer) server
-        .invoke(() -> CacheServerTestUtil.createCacheServer(regionName, new Boolean(true))))
-            .intValue();
+    final int server1Port = server
+        .invoke(() -> CacheServerTestUtil.createCacheServer(regionName, new Boolean(true)))
+        .intValue();
 
     // Start a client
     client.invoke(() -> CacheServerTestUtil.createCacheClient(
@@ -1117,9 +1117,9 @@ public class CqDataUsingPoolDUnitTest extends JUnit4CacheTestCase {
     VM client2 = host.getVM(2);
 
     // Start server 1
-    final int server1Port = ((Integer) server
-        .invoke(() -> CacheServerTestUtil.createCacheServer(regionName, new Boolean(true))))
-            .intValue();
+    final int server1Port = server
+        .invoke(() -> CacheServerTestUtil.createCacheServer(regionName, new Boolean(true)))
+        .intValue();
 
     // Start client 1
     client1.invoke(() -> CacheServerTestUtil.createClientCache(
@@ -1182,9 +1182,9 @@ public class CqDataUsingPoolDUnitTest extends JUnit4CacheTestCase {
     VM client2 = host.getVM(2);
     int timeout = 60000;
     // Start server 1
-    final int server1Port = ((Integer) server
-        .invoke(() -> CacheServerTestUtil.createCacheServer(regionName, new Boolean(true))))
-            .intValue();
+    final int server1Port = server
+        .invoke(() -> CacheServerTestUtil.createCacheServer(regionName, new Boolean(true)))
+        .intValue();
 
     // Start client 1
     client1.invoke(() -> CacheServerTestUtil.createClientCache(
@@ -1250,9 +1250,9 @@ public class CqDataUsingPoolDUnitTest extends JUnit4CacheTestCase {
     VM client2 = host.getVM(2);
     int timeout = 60000;
     // Start server 1
-    final int server1Port = ((Integer) server
-        .invoke(() -> CacheServerTestUtil.createCacheServer(regionName, new Boolean(true))))
-            .intValue();
+    final int server1Port = server
+        .invoke(() -> CacheServerTestUtil.createCacheServer(regionName, new Boolean(true)))
+        .intValue();
 
     // Start client 1
     client1.invoke(() -> CacheServerTestUtil.createClientCache(

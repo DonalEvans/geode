@@ -146,7 +146,7 @@ public class RegionRequest extends AdminRequest {
     this.cacheId = in.readInt();
     this.path = DataSerializer.readString(in);
     this.newRegionName = DataSerializer.readString(in);
-    this.newRegionAttributes = (RegionAttributes) DataSerializer.readObject(in);
+    this.newRegionAttributes = DataSerializer.readObject(in);
     RegionRequest.setFriendlyName(this);
   }
 

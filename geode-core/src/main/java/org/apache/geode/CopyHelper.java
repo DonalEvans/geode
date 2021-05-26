@@ -239,7 +239,7 @@ public final class CopyHelper {
     try {
       HeapDataOutputStream hdos = new HeapDataOutputStream(KnownVersion.CURRENT);
       DataSerializer.writeObject(o, hdos);
-      return (T) DataSerializer.readObject(new DataInputStream(hdos.getInputStream()));
+      return DataSerializer.readObject(new DataInputStream(hdos.getInputStream()));
     } catch (ClassNotFoundException ex) {
       throw new CopyException(
           String.format("Copy failed on instance of %s", o.getClass()),

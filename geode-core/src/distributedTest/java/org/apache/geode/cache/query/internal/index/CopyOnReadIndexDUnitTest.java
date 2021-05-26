@@ -666,7 +666,7 @@ public class CopyOnReadIndexDUnitTest extends JUnit4CacheTestCase {
         ccf.addPoolServer(NetworkUtils.getServerHostName(server.getHost()), port);
         ccf.setPoolSubscriptionEnabled(true);
 
-        ClientCache cache = (ClientCache) getClientCache(ccf);
+        ClientCache cache = getClientCache(ccf);
       }
     });
   }

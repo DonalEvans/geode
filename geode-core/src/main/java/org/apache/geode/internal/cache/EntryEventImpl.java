@@ -49,7 +49,6 @@ import org.apache.geode.distributed.DistributedMember;
 import org.apache.geode.distributed.DistributedSystem;
 import org.apache.geode.distributed.internal.DistributionMessage;
 import org.apache.geode.distributed.internal.InternalDistributedSystem;
-import org.apache.geode.distributed.internal.membership.InternalDistributedMember;
 import org.apache.geode.internal.Assert;
 import org.apache.geode.internal.DSFIDFactory;
 import org.apache.geode.internal.HeapDataOutputStream;
@@ -198,14 +197,14 @@ public class EntryEventImpl implements InternalEntryEvent, InternalCacheEvent,
   @Override
   public void fromData(DataInput in,
       DeserializationContext context) throws IOException, ClassNotFoundException {
-    this.eventID = (EventID) context.getDeserializer().readObject(in);
+    this.eventID = context.getDeserializer().readObject(in);
     Object key = context.getDeserializer().readObject(in);
     Object value = context.getDeserializer().readObject(in);
     this.keyInfo = new KeyInfo(key, value, null);
     this.op = Operation.fromOrdinal(in.readByte());
     this.eventFlags = in.readShort();
     this.keyInfo.setCallbackArg(context.getDeserializer().readObject(in));
-    this.txId = (TXId) context.getDeserializer().readObject(in);
+    this.txId = context.getDeserializer().readObject(in);
 
     if (in.readBoolean()) { // isDelta
       assert false : "isDelta should never be true";
@@ -2296,7 +2295,7 @@ public class EntryEventImpl implements InternalEntryEvent, InternalCacheEvent,
         context.getSerializer().writeObject(ov, out);
       }
     }
-    InternalDataSerializer.invokeToData((InternalDistributedMember) this.distributedMember, out);
+    InternalDataSerializer.invokeToData(this.distributedMember, out);
     context.getSerializer().writeObject(getContext(), out);
     DataSerializer.writeLong(tailKey, out);
   }

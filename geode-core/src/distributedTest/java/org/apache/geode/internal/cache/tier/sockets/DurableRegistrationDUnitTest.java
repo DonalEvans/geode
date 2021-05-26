@@ -117,12 +117,12 @@ public class DurableRegistrationDUnitTest extends JUnit4DistributedTestCase {
   public void testSimpleDurableClient() {
 
     // Step 1: Starting the servers
-    PORT1 = ((Integer) this.server1VM
-        .invoke(() -> CacheServerTestUtil.createCacheServer(regionName, new Boolean(true))))
-            .intValue();
-    PORT2 = ((Integer) this.server2VM
-        .invoke(() -> CacheServerTestUtil.createCacheServer(regionName, new Boolean(true))))
-            .intValue();
+    PORT1 = this.server1VM
+        .invoke(() -> CacheServerTestUtil.createCacheServer(regionName, new Boolean(true)))
+        .intValue();
+    PORT2 = this.server2VM
+        .invoke(() -> CacheServerTestUtil.createCacheServer(regionName, new Boolean(true)))
+        .intValue();
 
     // Step 2: Bring Up the Client
     // Start a durable client that is not kept alive on the server when it
@@ -249,12 +249,12 @@ public class DurableRegistrationDUnitTest extends JUnit4DistributedTestCase {
   @Test
   public void testSimpleDurableClientWithRegistration() {
     // Step 1: Starting the servers
-    PORT1 = ((Integer) this.server1VM
-        .invoke(() -> CacheServerTestUtil.createCacheServer(regionName, new Boolean(true))))
-            .intValue();
-    PORT2 = ((Integer) this.server2VM
-        .invoke(() -> CacheServerTestUtil.createCacheServer(regionName, new Boolean(true))))
-            .intValue();
+    PORT1 = this.server1VM
+        .invoke(() -> CacheServerTestUtil.createCacheServer(regionName, new Boolean(true)))
+        .intValue();
+    PORT2 = this.server2VM
+        .invoke(() -> CacheServerTestUtil.createCacheServer(regionName, new Boolean(true)))
+        .intValue();
 
     // Step 2: Bring Up the Client
     // Start a durable client that is not kept alive on the server when it
@@ -415,9 +415,9 @@ public class DurableRegistrationDUnitTest extends JUnit4DistributedTestCase {
     // Step 1: Start server1
     PORT2 = getRandomAvailableTCPPort();
 
-    PORT1 = ((Integer) this.server1VM
-        .invoke(() -> CacheServerTestUtil.createCacheServer(regionName, new Boolean(true))))
-            .intValue();
+    PORT1 = this.server1VM
+        .invoke(() -> CacheServerTestUtil.createCacheServer(regionName, new Boolean(true)))
+        .intValue();
 
 
     // Step 2: Bring Up the Client
@@ -516,9 +516,9 @@ public class DurableRegistrationDUnitTest extends JUnit4DistributedTestCase {
     // Step 1: Start server1
     PORT2 = getRandomAvailableTCPPort();
 
-    PORT1 = ((Integer) this.server1VM
-        .invoke(() -> CacheServerTestUtil.createCacheServer(regionName, new Boolean(true))))
-            .intValue();
+    PORT1 = this.server1VM
+        .invoke(() -> CacheServerTestUtil.createCacheServer(regionName, new Boolean(true)))
+        .intValue();
 
 
     // Step 2: Bring Up the Client

@@ -98,7 +98,7 @@ public class ObjectNamesResponse extends AdminResponse implements Cancellable {
   public void fromData(DataInput in,
       DeserializationContext context) throws IOException, ClassNotFoundException {
     super.fromData(in, context);
-    this.objectNames = (HashSet) DataSerializer.readObject(in);
+    this.objectNames = DataSerializer.readObject(in);
   }
 
   @Override

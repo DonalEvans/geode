@@ -427,7 +427,7 @@ public class ParallelGatewaySenderQueue implements RegionQueue {
        * method of ParallelGatewaySender
        */
       if ((this.index == this.nDispatcher - 1) && this.sender.isRunning()) {
-        ((AbstractGatewaySender) sender).enqueueTempEvents();
+        sender.enqueueTempEvents();
       }
     } finally {
       if (prQ != null) {
@@ -591,7 +591,7 @@ public class ParallelGatewaySenderQueue implements RegionQueue {
        * method of ParallelGatewaySender
        */
       if ((this.index == this.nDispatcher - 1) && this.sender.isRunning()) {
-        ((AbstractGatewaySender) sender).enqueueTempEvents();
+        sender.enqueueTempEvents();
       }
       afterRegionAdd(userPR);
       this.sender.getLifeCycleLock().writeLock().unlock();
@@ -1075,7 +1075,7 @@ public class ParallelGatewaySenderQueue implements RegionQueue {
         } else {
           String regionPath = event.getRegionPath();
           InternalCache cache = this.sender.getCache();
-          Region region = (PartitionedRegion) cache.getRegion(regionPath);
+          Region region = cache.getRegion(regionPath);
           if (region != null && !region.isDestroyed()) {
             // TODO: We have to get colocated parent region for this region
             if (region instanceof DistributedRegion) {
@@ -2018,9 +2018,9 @@ public class ParallelGatewaySenderQueue implements RegionQueue {
           new InternalRegionArguments().setDestroyLockFlag(true).setRecreateFlag(false)
               .setSnapshotInputStream(null).setImageTarget(null)
               .setIsUsedForParallelGatewaySenderQueue(true)
-              .setParallelGatewaySender((AbstractGatewaySender) pgSender),
+              .setParallelGatewaySender(pgSender),
           statisticsClock, ColocationLoggerFactory.create());
-      this.sender = (AbstractGatewaySender) pgSender;
+      this.sender = pgSender;
 
     }
 

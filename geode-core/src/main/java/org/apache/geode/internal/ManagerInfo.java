@@ -216,7 +216,7 @@ public class ManagerInfo implements DataSerializable {
             null);
       }
       DataInputStream dis = new DataInputStream(fis);
-      ManagerInfo result = (ManagerInfo) DataSerializer.readObject(dis);
+      ManagerInfo result = DataSerializer.readObject(dis);
       fis.close();
       return result;
     } catch (IOException io) {

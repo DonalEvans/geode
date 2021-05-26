@@ -122,7 +122,7 @@ public class ObjectDetailsResponse extends AdminResponse implements Cancellable 
     super.fromData(in, context);
     this.objectValue = DataSerializer.readObject(in);
     this.userAttribute = DataSerializer.readObject(in);
-    this.stats = (RemoteCacheStatistics) DataSerializer.readObject(in);
+    this.stats = DataSerializer.readObject(in);
   }
 
   @Override

@@ -223,7 +223,7 @@ public class TXRemoteCommitMessage extends TXMessage {
     public void fromData(DataInput in,
         DeserializationContext context) throws IOException, ClassNotFoundException {
       super.fromData(in, context);
-      this.commitMessage = (TXCommitMessage) DataSerializer.readObject(in);
+      this.commitMessage = DataSerializer.readObject(in);
     }
 
     @Override

@@ -319,9 +319,9 @@ public class ReliableMessagingDUnitTest extends JUnit4DistributedTestCase {
     server2 = host.getVM(1);
 
     PORT1 =
-        ((Integer) server1.invoke(() -> ReliableMessagingDUnitTest.createServerCache())).intValue();
+        server1.invoke(() -> ReliableMessagingDUnitTest.createServerCache()).intValue();
     PORT2 =
-        ((Integer) server2.invoke(() -> ReliableMessagingDUnitTest.createServerCache())).intValue();
+        server2.invoke(() -> ReliableMessagingDUnitTest.createServerCache()).intValue();
 
     CacheServerTestUtil.disableShufflingOfEndpoints();
     createClientCache(PORT1, PORT2);

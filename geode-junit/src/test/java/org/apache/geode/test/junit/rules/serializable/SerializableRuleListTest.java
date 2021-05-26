@@ -40,7 +40,7 @@ public class SerializableRuleListTest {
     FakeSerializableTestRule fakeRule = new FakeSerializableTestRule().value(value);
     SerializableRuleList instance = new SerializableRuleList().add(fakeRule);
 
-    SerializableRuleList cloned = (SerializableRuleList) SerializationUtils.clone(instance);
+    SerializableRuleList cloned = SerializationUtils.clone(instance);
 
     assertThat(cloned.rules().size()).isEqualTo(1);
     assertThat(cloned.rules().get(0)).isInstanceOf(FakeSerializableTestRule.class)

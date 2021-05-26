@@ -23,7 +23,6 @@ import org.apache.logging.log4j.Logger;
 
 import org.apache.geode.CancelException;
 import org.apache.geode.cache.persistence.RevokeFailedException;
-import org.apache.geode.distributed.internal.ClusterDistributionManager;
 import org.apache.geode.distributed.internal.DistributionManager;
 import org.apache.geode.distributed.internal.ReplyException;
 import org.apache.geode.internal.InternalDataSerializer;
@@ -87,7 +86,7 @@ public class PrepareRevokePersistentIDRequest extends CliLegacyMessage {
       logger.warn(e);
     }
     request.setSender(dm.getId());
-    request.createResponse((ClusterDistributionManager) dm);
+    request.createResponse(dm);
   }
 
   @Override

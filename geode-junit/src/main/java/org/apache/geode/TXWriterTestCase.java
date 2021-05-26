@@ -95,8 +95,8 @@ public class TXWriterTestCase {
   public void tearDown() {
     try {
       if (this.txMgr != null) {
-        ((CacheTransactionManager) this.txMgr).setWriter(null);
-        ((CacheTransactionManager) this.txMgr).setListener(null);
+        this.txMgr.setWriter(null);
+        this.txMgr.setListener(null);
       }
     } finally {
       closeCache();

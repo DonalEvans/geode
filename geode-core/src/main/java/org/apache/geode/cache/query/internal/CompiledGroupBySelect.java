@@ -203,7 +203,7 @@ public class CompiledGroupBySelect extends CompiledSelect {
     // If it is bucket nodes query, we need to return ordered data
     if (isStruct) {
       if (createOrderedResults) {
-        newResults = new SortedResultsBag((StructTypeImpl) elementType, true);
+        newResults = new SortedResultsBag(elementType, true);
       } else {
         if (this.originalOrderByClause != null) {
           Comparator comparator =

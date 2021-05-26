@@ -126,7 +126,7 @@ public class AlterAsyncEventQueueCommand extends SingleGfshCommand implements
   CacheConfig.AsyncEventQueue findAEQ(String aeqId) {
     CacheConfig.AsyncEventQueue queue = null;
     InternalConfigurationPersistenceService ccService =
-        (InternalConfigurationPersistenceService) this.getConfigurationPersistenceService();
+        this.getConfigurationPersistenceService();
     if (ccService == null) {
       return null;
     }

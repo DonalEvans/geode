@@ -196,7 +196,7 @@ public abstract class OffHeapRegionBase {
       final long offHeapSize = ma.getFreeMemory();
       assertEquals(0, ma.getUsedMemory());
       byte[] data = new byte[] {1, 2, 3, 4, 5, 6, 7, 8};
-      StoredObject mc1 = (StoredObject) ma.allocateAndInitialize(data, false, false);
+      StoredObject mc1 = ma.allocateAndInitialize(data, false, false);
       assertEquals(data.length + perObjectOverhead(), ma.getUsedMemory());
       assertEquals(offHeapSize - (data.length + perObjectOverhead()), ma.getFreeMemory());
       byte[] data2 = new byte[data.length];
@@ -587,10 +587,10 @@ public abstract class OffHeapRegionBase {
     @Override
     public void close() {
       if (this.ohOldValue instanceof OffHeapStoredObject) {
-        ((OffHeapStoredObject) this.ohOldValue).release();
+        this.ohOldValue.release();
       }
       if (this.ohNewValue instanceof OffHeapStoredObject) {
-        ((OffHeapStoredObject) this.ohNewValue).release();
+        this.ohNewValue.release();
       }
     }
   }

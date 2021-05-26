@@ -521,7 +521,7 @@ public abstract class StreamingOperation {
       Boolean initialPdxReadSerialized = false;
       try {
         cache =
-            (InternalCache) GemFireCacheImpl.getForPdx("fromData invocation in StreamingOperation");
+            GemFireCacheImpl.getForPdx("fromData invocation in StreamingOperation");
         initialPdxReadSerialized = cache.getPdxReadSerializedOverride();
       } catch (CacheClosedException e) {
         logger.debug("Cache is closed. PdxReadSerializedOverride set to false");

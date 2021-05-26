@@ -184,7 +184,7 @@ public class ConcurrentLeaveDuringGIIDUnitTest extends JUnit4CacheTestCase {
         if (!r.getVersionVector().contains(Xid, 1)) {
           getLogWriter()
               .info("r's version vector is " + r.getVersionVector().fullToString());
-          ((LocalRegion) r).dumpBackingMap();
+          r.dumpBackingMap();
         }
         assertTrue(r.containsKey("keyFromX"));
         // if the test fails here then the op received from X was not correctly

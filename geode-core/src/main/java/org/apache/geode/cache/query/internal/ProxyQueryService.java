@@ -255,7 +255,7 @@ public class ProxyQueryService implements QueryService {
       cqs = ((DefaultQueryService) realQueryService).getCqService().getAllCqs(regionName);
       for (InternalCqQuery cq : cqs) {
         if (this.cqNames.contains(cq.getName())) {
-          cqList.add((CqQuery) cq);
+          cqList.add(cq);
         }
       }
       ClientCQ[] results = new ClientCQ[cqList.size()];
@@ -427,7 +427,7 @@ public class ProxyQueryService implements QueryService {
   public List<String> getAllDurableCqsFromServer() throws CqException {
     preOp();
     try {
-      ((DefaultQueryService) realQueryService).getAllDurableCqsFromServer();
+      realQueryService.getAllDurableCqsFromServer();
     } catch (CqException cqe) {
       if (logger.isDebugEnabled()) {
         logger.debug("Unable to get all durablec client cqs on the specified region. Error: {}",

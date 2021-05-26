@@ -156,7 +156,7 @@ public class BucketProfileUpdateMessage extends DistributionMessage implements M
     this.prId = in.readInt();
     this.bucketId = in.readInt();
     this.processorId = in.readInt();
-    this.profile = (BucketAdvisor.BucketProfile) DataSerializer.readObject(in);
+    this.profile = DataSerializer.readObject(in);
   }
 
   @Override

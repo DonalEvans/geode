@@ -228,7 +228,7 @@ public class FindVersionTagOperation {
     public void fromData(DataInput in,
         DeserializationContext context) throws IOException, ClassNotFoundException {
       super.fromData(in, context);
-      this.versionTag = (VersionTag) DataSerializer.readObject(in);
+      this.versionTag = DataSerializer.readObject(in);
     }
 
     @Override

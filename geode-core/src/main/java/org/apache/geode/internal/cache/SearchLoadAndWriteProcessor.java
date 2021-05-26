@@ -174,7 +174,7 @@ public class SearchLoadAndWriteProcessor implements MembershipListener {
     this.requestInProgress = true;
     RegionAttributes attrs = region.getAttributes();
     Scope scope = attrs.getScope();
-    CacheLoader loader = ((AbstractRegion) region).basicGetLoader();
+    CacheLoader loader = region.basicGetLoader();
     if (scope.isLocal()) {
       Object obj = doLocalLoad(loader, false, preferCD);
       event.setNewValue(obj);
@@ -477,7 +477,7 @@ public class SearchLoadAndWriteProcessor implements MembershipListener {
     Object obj = null;
     if (!scope.isGlobal()) {
       // copy into local var to prevent race condition
-      CacheLoader loader = ((AbstractRegion) region).basicGetLoader();
+      CacheLoader loader = region.basicGetLoader();
       if (loader != null) {
         obj = doLocalLoad(loader, true, preferCD);
         Assert.assertTrue(obj != Token.INVALID && obj != Token.LOCAL_INVALID);
@@ -570,7 +570,7 @@ public class SearchLoadAndWriteProcessor implements MembershipListener {
       }
 
       boolean useMulticast = region.getMulticastEnabled() && (region instanceof DistributedRegion)
-          && ((DistributedRegion) region).getSystem().getConfig().getMcastPort() != 0;
+          && region.getSystem().getConfig().getMcastPort() != 0;
 
       // moved outside the sync to fix bug 39458
       QueryMessage.sendMessage(this, this.regionName, this.key, useMulticast, sendSet,
@@ -607,7 +607,7 @@ public class SearchLoadAndWriteProcessor implements MembershipListener {
     Object obj = null;
     RegionAttributes attrs = this.region.getAttributes();
     Scope scope = attrs.getScope();
-    CacheLoader loader = ((AbstractRegion) region).basicGetLoader();
+    CacheLoader loader = region.basicGetLoader();
     Assert.assertTrue(scope.isDistributed());
 
     if ((loader != null) && (!scope.isGlobal())) {
@@ -1723,7 +1723,7 @@ public class SearchLoadAndWriteProcessor implements MembershipListener {
       this.isPresent = in.readBoolean();
       this.isSerialized = in.readBoolean();
       this.requestorTimedOut = in.readBoolean();
-      this.versionTag = (VersionTag) DataSerializer.readObject(in);
+      this.versionTag = DataSerializer.readObject(in);
     }
 
     @Override
@@ -2245,7 +2245,7 @@ public class SearchLoadAndWriteProcessor implements MembershipListener {
         LocalRegion region = (LocalRegion) gfc.getRegion(this.regionName);
         if (region != null && region.isInitialized()
             && (dm.cacheTimeMillis() - startTime < timeoutMs)) {
-          CacheLoader loader = ((AbstractRegion) region).basicGetLoader();
+          CacheLoader loader = region.basicGetLoader();
           if (loader != null) {
             LoaderHelper loaderHelper = region.loaderHelperFactory.createLoaderHelper(this.key,
                 this.aCallbackArgument, false, false, null);
@@ -2403,7 +2403,7 @@ public class SearchLoadAndWriteProcessor implements MembershipListener {
       this.processorId = in.readInt();
       this.result = DataSerializer.readByteArray(in);
       this.aCallbackArgument = DataSerializer.readObject(in);
-      this.e = (Exception) DataSerializer.readObject(in);
+      this.e = DataSerializer.readObject(in);
       this.isSerialized = in.readBoolean();
       this.requestorTimedOut = in.readBoolean();
 
@@ -2487,7 +2487,7 @@ public class SearchLoadAndWriteProcessor implements MembershipListener {
       this.processorId = in.readInt();
       this.regionName = in.readUTF();
       this.timeoutMs = in.readInt();
-      this.event = (CacheEvent) DataSerializer.readObject(in);
+      this.event = DataSerializer.readObject(in);
       this.action = in.readInt();
     }
 
@@ -2701,7 +2701,7 @@ public class SearchLoadAndWriteProcessor implements MembershipListener {
       super.fromData(in, context);
       this.processorId = in.readInt();
       this.netWriteSucceeded = in.readBoolean();
-      this.e = (Exception) DataSerializer.readObject(in);
+      this.e = DataSerializer.readObject(in);
       this.cacheWriterException = in.readBoolean();
     }
 

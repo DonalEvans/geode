@@ -130,7 +130,7 @@ public class PartitionedTXRegionStub extends AbstractPeerTXRegionStub {
   // of the underlying PR or its colocated PRs touched by the transaction.
   private boolean isKeyInNonColocatedBucket(KeyInfo keyInfo) {
     Map<Region<?, ?>, TXRegionStub> regionStubs = this.state.getRegionStubs();
-    Collection<PartitionedRegion> colcatedRegions = (Collection<PartitionedRegion>) ColocationHelper
+    Collection<PartitionedRegion> colcatedRegions = ColocationHelper
         .getAllColocationRegions(this.region).values();
     // get all colocated region buckets touched in the transaction
     for (PartitionedRegion colcatedRegion : colcatedRegions) {

@@ -355,7 +355,7 @@ public class DistributedPutAllOperation extends AbstractUpdateOperation {
       this.op = Operation.fromOrdinal(in.readByte());
       this.flags = in.readByte();
       if ((this.flags & FILTER_ROUTING) != 0) {
-        this.filterRouting = (FilterRoutingInfo) context.getDeserializer().readObject(in);
+        this.filterRouting = context.getDeserializer().readObject(in);
       }
       if ((this.flags & VERSION_TAG) != 0) {
         boolean persistentTag = (this.flags & PERSISTENT_TAG) != 0;
@@ -797,7 +797,7 @@ public class DistributedPutAllOperation extends AbstractUpdateOperation {
     if (region instanceof PartitionedRegion) {
       advisor = ((PartitionedRegion) region).getCacheDistributionAdvisor();
     } else if (region.isUsedForPartitionedRegionBucket()) {
-      advisor = ((BucketRegion) region).getPartitionedRegion().getCacheDistributionAdvisor();
+      advisor = region.getPartitionedRegion().getCacheDistributionAdvisor();
     } else {
       advisor = ((DistributedRegion) region).getCacheDistributionAdvisor();
     }
@@ -1226,7 +1226,7 @@ public class DistributedPutAllOperation extends AbstractUpdateOperation {
         DeserializationContext context) throws IOException, ClassNotFoundException {
 
       super.fromData(in, context);
-      this.eventId = (EventID) context.getDeserializer().readObject(in);
+      this.eventId = context.getDeserializer().readObject(in);
       this.putAllDataSize = (int) InternalDataSerializer.readUnsignedVL(in);
       this.putAllData = new PutAllEntryData[this.putAllDataSize];
       if (this.putAllDataSize > 0) {

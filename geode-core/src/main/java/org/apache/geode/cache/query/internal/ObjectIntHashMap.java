@@ -1054,8 +1054,8 @@ public class ObjectIntHashMap implements Cloneable, Serializable {
 
     // Read the keys and values, and put the mappings in the IntHashMap
     for (int i = 0; i < size; i++) {
-      Object key = (Object) s.readObject();
-      int value = (int) s.readInt();
+      Object key = s.readObject();
+      int value = s.readInt();
       putForCreate(key, value);
     }
   }

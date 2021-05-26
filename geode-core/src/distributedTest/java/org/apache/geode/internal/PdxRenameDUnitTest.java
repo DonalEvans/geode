@@ -44,7 +44,6 @@ import org.apache.geode.pdx.PdxReader;
 import org.apache.geode.pdx.PdxSerializable;
 import org.apache.geode.pdx.PdxWriter;
 import org.apache.geode.pdx.internal.EnumInfo;
-import org.apache.geode.pdx.internal.PdxInstanceImpl;
 import org.apache.geode.pdx.internal.PdxType;
 import org.apache.geode.test.dunit.Host;
 import org.apache.geode.test.dunit.LogWriterUtils;
@@ -185,7 +184,7 @@ public class PdxRenameDUnitTest extends JUnit4CacheTestCase {
         PdxInstance v = (PdxInstance) region1.get("key1");
         assertNotNull(v);
         assertEquals("org.pivotal.geode.internal.PdxRenameDUnitTest$PdxValue",
-            ((PdxInstanceImpl) v).getClassName());
+            v.getClassName());
         cache.close();
         return null;
       }

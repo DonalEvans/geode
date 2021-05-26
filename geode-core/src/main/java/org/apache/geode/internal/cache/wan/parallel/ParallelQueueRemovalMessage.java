@@ -112,7 +112,7 @@ public class ParallelQueueRemovalMessage extends PooledDistributionMessage {
                     bucketFullPath, brq);
               }
 
-              List dispatchedKeys = (List) bucketIdToDispatchedKeys.get((Integer) bId);
+              List dispatchedKeys = (List) bucketIdToDispatchedKeys.get(bId);
               if (dispatchedKeys != null) {
                 for (Object key : dispatchedKeys) {
                   // First, clear the Event from tempQueueEvents at AbstractGatewaySender level, if

@@ -241,7 +241,7 @@ public class CqPerfUsingPoolDUnitTest extends JUnit4CacheTestCase {
         for (InternalCqQuery cq : cqs) {
           ServerCQImpl cqQuery = (ServerCQImpl) cq;
 
-          String serverCqName = (String) cqQuery.getServerCqName();
+          String serverCqName = cqQuery.getServerCqName();
           if (serverCqName.startsWith("testKeyMaintainance_0")) {
             assertEquals("The number of keys cached for cq testKeyMaintainance_0 is wrong.", 1,
                 cqQuery.getCqResultKeysSize());
@@ -273,7 +273,7 @@ public class CqPerfUsingPoolDUnitTest extends JUnit4CacheTestCase {
         for (InternalCqQuery cq : cqs) {
           ServerCQImpl cqQuery = (ServerCQImpl) cq;
 
-          String serverCqName = (String) cqQuery.getServerCqName();
+          String serverCqName = cqQuery.getServerCqName();
           if (serverCqName.startsWith("testKeyMaintainance_0")) {
             assertEquals("The number of keys cached for cq testKeyMaintainance_0 is wrong.", 10,
                 cqQuery.getCqResultKeysSize());
@@ -306,7 +306,7 @@ public class CqPerfUsingPoolDUnitTest extends JUnit4CacheTestCase {
         for (InternalCqQuery cq : cqs) {
           ServerCQImpl cqQuery = (ServerCQImpl) cq;
 
-          String serverCqName = (String) cqQuery.getServerCqName();
+          String serverCqName = cqQuery.getServerCqName();
           if (serverCqName.startsWith("testKeyMaintainance_0")) {
             assertEquals("The number of keys cached for cq testKeyMaintainance_0 is wrong.", 12,
                 cqQuery.getCqResultKeysSize());
@@ -339,7 +339,7 @@ public class CqPerfUsingPoolDUnitTest extends JUnit4CacheTestCase {
         for (InternalCqQuery cq : cqs) {
           ServerCQImpl cqQuery = (ServerCQImpl) cq;
 
-          String serverCqName = (String) cqQuery.getServerCqName();
+          String serverCqName = cqQuery.getServerCqName();
           if (serverCqName.startsWith("testKeyMaintainance_0")) {
             assertEquals("The number of keys cached for cq testKeyMaintainance_0 is wrong.", 6,
                 cqQuery.getCqResultKeysSize());
@@ -369,7 +369,7 @@ public class CqPerfUsingPoolDUnitTest extends JUnit4CacheTestCase {
         Collection<? extends InternalCqQuery> cqs = cqService.getAllCqs();
         for (InternalCqQuery cq : cqs) {
           ServerCQImpl cqQuery = (ServerCQImpl) cq;
-          String serverCqName = (String) cqQuery.getServerCqName();
+          String serverCqName = cqQuery.getServerCqName();
           if (serverCqName.startsWith("testKeyMaintainance_0")) {
             assertEquals("The number of keys cached for cq testKeyMaintainance_0 is wrong.", 12,
                 cqQuery.getCqResultKeysSize());
@@ -400,7 +400,7 @@ public class CqPerfUsingPoolDUnitTest extends JUnit4CacheTestCase {
         Collection<? extends InternalCqQuery> cqs = cqService.getAllCqs();
         for (InternalCqQuery cq : cqs) {
           ServerCQImpl cqQuery = (ServerCQImpl) cq;
-          String serverCqName = (String) cqQuery.getServerCqName();
+          String serverCqName = cqQuery.getServerCqName();
           if (serverCqName.startsWith("testKeyMaintainance_0")) {
             assertEquals("The number of keys cached for cq testKeyMaintainance_0 is wrong.", 12,
                 cqQuery.getCqResultKeysSize());

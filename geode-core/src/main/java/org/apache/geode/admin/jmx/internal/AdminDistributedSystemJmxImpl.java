@@ -164,7 +164,7 @@ public class AdminDistributedSystemJmxImpl extends AdminDistributedSystemImpl
 
   private void initStateSaveFile(AgentConfigImpl agentConfig) {
     // Init file name for StatAlertDefns
-    AgentConfigImpl impl = (AgentConfigImpl) agentConfig;
+    AgentConfigImpl impl = agentConfig;
     File propFile = impl.getPropertyFile();
 
     if (propFile != null) {

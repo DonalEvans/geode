@@ -186,7 +186,7 @@ public class GMSMembershipJUnitTest {
     manager.getGMSManager().started();
     MemberIdentifier myGMSMemberId = myMemberId;
     List<MemberIdentifier> gmsMembers =
-        members.stream().map(x -> ((MemberIdentifier) x)).collect(Collectors.toList());
+        members.stream().map(x -> x).collect(Collectors.toList());
     manager.getGMSManager().installView(new GMSMembershipView<>(myGMSMemberId, 1, gmsMembers));
     MemberIdentifier[] destinations = new MemberIdentifier[] {mockMembers[0]};
     Set<MemberIdentifier> failures =
